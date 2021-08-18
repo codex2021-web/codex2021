@@ -30,7 +30,7 @@ public class SheetsQuickstart {
     private static final String CREDENTIALS_FILE_PATH = "/Users/srikanth.jandhyala/Downloads/client_secret.json";
 
     /**
-     * Creates an authorized Credential object.
+     * Creates an authorized Credential an object.
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
