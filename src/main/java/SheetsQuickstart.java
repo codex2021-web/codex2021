@@ -28,6 +28,7 @@ public class SheetsQuickstart {
      */
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final List<String> SCOPES1 = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
+    private static final List<String> SCOPES2 = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/Users/srikanth.jandhyala/Downloads/client_secret.json";
 
     /**
