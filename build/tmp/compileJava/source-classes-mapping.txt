@@ -237,8 +237,6 @@ cloud/thoughtspotstaging/champagne/http/client/RetryInterceptor.java
  cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor
  cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor$1
  cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor$RequestState
-com/codex/modelsheet/controller/SpreadsheetSnippets.java
- com.codex.modelsheet.controller.SpreadsheetSnippets
 com/codex/modelsheet/model/NumberFormat.java
  com.codex.modelsheet.model.NumberFormat
  com.codex.modelsheet.model.NumberFormat$1

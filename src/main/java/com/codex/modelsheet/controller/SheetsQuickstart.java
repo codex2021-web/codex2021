@@ -26,7 +26,7 @@ public class SheetsQuickstart {
      * Prints the names and majors of students in a sample spreadsheet:
      * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
      */
-    public Sheets getService(String spreadsheetId) throws IOException, GeneralSecurityException {
+    public Sheets getService() throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         //final String spreadsheetId = "1yfcgRdGqc540HLdwO26Zar83aLXjatkBeCUhCyDBFqY";
