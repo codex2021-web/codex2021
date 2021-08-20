@@ -15,11 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExcelPojoToExcel {
-    public void dataWritingInToExcel(String spreadsheetId) throws GeneralSecurityException, IOException {
+    public void dataWritingInToExcel(ModelSheet modelSheet) throws GeneralSecurityException, IOException {
         ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
         SheetsQuickstart sheetsQuickstart = new SheetsQuickstart();
        // String spreadsheetId = "1iztXkbN3v1nbI3GoXoIeGvznjvKlOMGzY4xG9ZM0RXE";
-        ModelSheet modelSheet = excelToExcelPojo.getModelSheet(spreadsheetId);
+       // ModelSheet modelSheet = excelToExcelPojo.getModelSheet(spreadsheetId);
 
         List<Sheet> sheetsNew = new ArrayList<>();
         Sheet tableSheet = new Sheet();
