@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1m29.79s</div>
+<div class="counter">19.296s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,55 +61,13 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
+<a href="#tab0">Tests</a>
 </li>
 <li>
-<a href="#tab1">Tests</a>
-</li>
-<li>
-<a href="#tab2">Standard output</a>
+<a href="#tab1">Standard output</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="exportWorksheet"></a>
-<h3 class="failures">exportWorksheet</h3>
-<span class="code">
-<pre>org.junit.runners.model.TestTimedOutException: test timed out after 30 seconds
-	at com.codex.modelsheet.model.EDoc$LogicalTableEDocProto.internalGetFieldAccessorTable(EDoc.java)
-	at com.google.protobuf.GeneratedMessageV3.getField(GeneratedMessageV3.java:273)
-	at com.google.protobuf.GeneratedMessageV3.getAllFieldsMutable(GeneratedMessageV3.java:199)
-	at com.google.protobuf.GeneratedMessageV3.getAllFields(GeneratedMessageV3.java:238)
-	at com.google.protobuf.TextFormat$Printer.printMessage(TextFormat.java:704)
-	at com.google.protobuf.TextFormat$Printer.print(TextFormat.java:353)
-	at com.google.protobuf.TextFormat$Printer.printFieldValue(TextFormat.java:597)
-	at com.google.protobuf.TextFormat$Printer.printSingleField(TextFormat.java:743)
-	at com.google.protobuf.TextFormat$Printer.printField(TextFormat.java:443)
-	at com.google.protobuf.TextFormat$Printer.printMessage(TextFormat.java:705)
-	at com.google.protobuf.TextFormat$Printer.print(TextFormat.java:353)
-	at com.google.protobuf.TextFormat$Printer.print(TextFormat.java:339)
-	at com.google.protobuf.TextFormat$Printer.printToString(TextFormat.java:606)
-	at com.google.protobuf.AbstractMessage$Builder.toString(AbstractMessage.java:471)
-	at cloud.thoughtspotstaging.champagne.controllers.TmlMarshalingTest.exportWorksheet(TmlMarshalingTest.java:110)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:288)
-	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:282)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
-	at java.lang.Thread.run(Thread.java:748)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -120,17 +78,17 @@
 </tr>
 </thead>
 <tr>
-<td class="failures">exportWorksheet</td>
-<td class="failures">1m29.79s</td>
-<td class="failures">failed</td>
+<td class="success">exportWorksheet</td>
+<td class="success">19.296s</td>
+<td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab2" class="tab">
+<div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
 <pre>http://172.19.153.245:8088/callosum/v1/tspublic/v1/session/v2/login
-JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCR1N3RoU2MxN2p0TlJwL1p5WThtR0tRPT0kcFAycUg4SGlNVldtWE1Ic252SlZzemFTZDNtWUpZNCs1ZytDL1U5S2NOTT0
+JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCRQcXNNWmdINGVxNVdoRitybjNFNWV3PT0kT3U4UDVPUzRLSjVXTDBLNzlRRkZvK25HSlUrRVphTlpkdlJWOEl0WXFFaz0
 http://172.19.153.245:8088/callosum/v1/metadata/edoc/TABLE/c1a32849-6e99-428e-abef-39f273b2cd95
 Export Worksheet Response: guid: c1a32849-6e99-428e-abef-39f273b2cd95
 table:
@@ -188,6 +146,30 @@ table {
   }
 }
 
+Object to TML: guid: c1a32849-6e99-428e-abef-39f273b2cd95
+table:
+  name: PRODUCTCATEGORY
+  db: SUPPLYCHAIN_MAIN
+  schema: PUBLIC
+  db_table: PRODUCTCATEGORY
+  connection:
+    name: SnowflakeConnection
+  columns:
+  - name: Product Category
+    db_column_name: Product Category
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: Product Group
+    db_column_name: Product Group
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+
 </pre>
 </span>
 </div>
@@ -199,7 +181,7 @@ table {
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.8</a> at 20 Aug, 2021 11:03:12 AM</p>
+<a href="http://www.gradle.org">Gradle 5.2</a> at 20 Aug, 2021 12:15:06 PM</p>
 </div>
 </div>
 </body>

@@ -1,13 +1,5 @@
 cloud/thoughtspotstaging/champagne/Configuration.java
  cloud.thoughtspotstaging.champagne.Configuration
-cloud/thoughtspotstaging/champagne/http/client/HttpRedirectInterceptor.java
- cloud.thoughtspotstaging.champagne.http.client.HttpRedirectInterceptor
-com/codex/modelsheet/model/AddressBook.java
- com.codex.modelsheet.model.AddressBook
- com.codex.modelsheet.model.AddressBook$1
- com.codex.modelsheet.model.AddressBook$Builder
-com/codex/modelsheet/controller/Util.java
- com.codex.modelsheet.controller.Util
 cloud/thoughtspotstaging/champagne/ApiHelper.java
  cloud.thoughtspotstaging.champagne.ApiHelper
  cloud.thoughtspotstaging.champagne.ApiHelper$1
@@ -15,53 +7,6 @@ cloud/thoughtspotstaging/champagne/ApiHelper.java
  cloud.thoughtspotstaging.champagne.ApiHelper$3
  cloud.thoughtspotstaging.champagne.ApiHelper$4
  cloud.thoughtspotstaging.champagne.ApiHelper$5
-cloud/thoughtspotstaging/champagne/AuthManager.java
- cloud.thoughtspotstaging.champagne.AuthManager
-cloud/thoughtspotstaging/champagne/http/client/HttpClientConfiguration.java
- cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration
- cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$1
- cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$Builder
-com/codex/modelsheet/model/Common.java
- com.codex.modelsheet.model.Common
- com.codex.modelsheet.model.Common$1
- com.codex.modelsheet.model.Common$EntityHeader
- com.codex.modelsheet.model.Common$EntityHeader$1
- com.codex.modelsheet.model.Common$EntityHeader$Builder
- com.codex.modelsheet.model.Common$EntityHeaderOrBuilder
- com.codex.modelsheet.model.Common$KeyValue
- com.codex.modelsheet.model.Common$KeyValue$1
- com.codex.modelsheet.model.Common$KeyValue$Builder
- com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue
- com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$1
- com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$Builder
- com.codex.modelsheet.model.Common$KeyValue$DeprecatedValueOrBuilder
- com.codex.modelsheet.model.Common$KeyValueList
- com.codex.modelsheet.model.Common$KeyValueList$1
- com.codex.modelsheet.model.Common$KeyValueList$Builder
- com.codex.modelsheet.model.Common$KeyValueListOrBuilder
- com.codex.modelsheet.model.Common$KeyValueOrBuilder
- com.codex.modelsheet.model.Common$KeyValueStr
- com.codex.modelsheet.model.Common$KeyValueStr$1
- com.codex.modelsheet.model.Common$KeyValueStr$Builder
- com.codex.modelsheet.model.Common$KeyValueStrOrBuilder
- com.codex.modelsheet.model.Common$MetaDataUpdateReqProto
- com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$1
- com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$Builder
- com.codex.modelsheet.model.Common$MetaDataUpdateReqProtoOrBuilder
- com.codex.modelsheet.model.Common$OnlineDistributionProto
- com.codex.modelsheet.model.Common$OnlineDistributionProto$1
- com.codex.modelsheet.model.Common$OnlineDistributionProto$Builder
- com.codex.modelsheet.model.Common$OnlineDistributionProtoOrBuilder
- com.codex.modelsheet.model.Common$UsageStatsDistributionProto
- com.codex.modelsheet.model.Common$UsageStatsDistributionProto$1
- com.codex.modelsheet.model.Common$UsageStatsDistributionProto$Builder
- com.codex.modelsheet.model.Common$UsageStatsDistributionProtoOrBuilder
- com.codex.modelsheet.model.Common$ValueProto
- com.codex.modelsheet.model.Common$ValueProto$1
- com.codex.modelsheet.model.Common$ValueProto$Builder
- com.codex.modelsheet.model.Common$ValueProto$Type
- com.codex.modelsheet.model.Common$ValueProto$Type$1
- com.codex.modelsheet.model.Common$ValueProtoOrBuilder
 cloud/thoughtspotstaging/champagne/http/client/OkClient.java
  cloud.thoughtspotstaging.champagne.http.client.OkClient
  cloud.thoughtspotstaging.champagne.http.client.OkClient$1
@@ -258,54 +203,25 @@ com/codex/modelsheet/model/EDoc.java
  com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumn$Builder
  com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumnOrBuilder
  com.codex.modelsheet.model.EDoc$WorksheetEDocProtoOrBuilder
-com/codex/modelsheet/model/AnnotationOuterClass.java
- com.codex.modelsheet.model.AnnotationOuterClass
- com.codex.modelsheet.model.AnnotationOuterClass$1
- com.codex.modelsheet.model.AnnotationOuterClass$Annotation
- com.codex.modelsheet.model.AnnotationOuterClass$Annotation$1
- com.codex.modelsheet.model.AnnotationOuterClass$Annotation$Builder
- com.codex.modelsheet.model.AnnotationOuterClass$AnnotationOrBuilder
 cloud/thoughtspotstaging/champagne/http/request/HttpRequest.java
  cloud.thoughtspotstaging.champagne.http.request.HttpRequest
 cloud/thoughtspotstaging/champagne/http/request/MultipartFileWrapper.java
  cloud.thoughtspotstaging.champagne.http.request.MultipartFileWrapper
-com/codex/modelsheet/model/Person.java
- com.codex.modelsheet.model.Person
- com.codex.modelsheet.model.Person$1
- com.codex.modelsheet.model.Person$Builder
- com.codex.modelsheet.model.Person$PhoneNumber
- com.codex.modelsheet.model.Person$PhoneNumber$1
- com.codex.modelsheet.model.Person$PhoneNumber$Builder
- com.codex.modelsheet.model.Person$PhoneNumberOrBuilder
- com.codex.modelsheet.model.Person$PhoneType
- com.codex.modelsheet.model.Person$PhoneType$1
 cloud/thoughtspotstaging/champagne/controllers/BaseController.java
  cloud.thoughtspotstaging.champagne.controllers.BaseController
  cloud.thoughtspotstaging.champagne.controllers.BaseController$RequestExecutor
  cloud.thoughtspotstaging.champagne.controllers.BaseController$RequestSupplier
  cloud.thoughtspotstaging.champagne.controllers.BaseController$ResponseHandler
-cloud/thoughtspotstaging/champagne/http/request/HttpBodyRequest.java
- cloud.thoughtspotstaging.champagne.http.request.HttpBodyRequest
-cloud/thoughtspotstaging/champagne/Environment.java
- cloud.thoughtspotstaging.champagne.Environment
-cloud/thoughtspotstaging/champagne/Server.java
- cloud.thoughtspotstaging.champagne.Server
-cloud/thoughtspotstaging/champagne/controllers/PrivilegeTypeEnum.java
- cloud.thoughtspotstaging.champagne.controllers.PrivilegeTypeEnum
+com/codex/modelsheet/model/Attribute.java
+ com.codex.modelsheet.model.Attribute
+com/codex/modelsheet/model/Tables.java
+ com.codex.modelsheet.model.Tables
 cloud/thoughtspotstaging/champagne/http/client/HttpCallback.java
  cloud.thoughtspotstaging.champagne.http.client.HttpCallback
 cloud/thoughtspotstaging/champagne/http/request/HttpMethod.java
  cloud.thoughtspotstaging.champagne.http.request.HttpMethod
 cloud/thoughtspotstaging/champagne/utilities/FileWrapper.java
  cloud.thoughtspotstaging.champagne.utilities.FileWrapper
-cloud/thoughtspotstaging/champagne/http/client/ReadonlyHttpClientConfiguration.java
- cloud.thoughtspotstaging.champagne.http.client.ReadonlyHttpClientConfiguration
-cloud/thoughtspotstaging/champagne/http/client/HttpContext.java
- cloud.thoughtspotstaging.champagne.http.client.HttpContext
-cloud/thoughtspotstaging/champagne/controllers/SessionController.java
- cloud.thoughtspotstaging.champagne.controllers.SessionController
-cloud/thoughtspotstaging/champagne/exceptions/ApiException.java
- cloud.thoughtspotstaging.champagne.exceptions.ApiException
 cloud/thoughtspotstaging/champagne/internal/OptionalNullable.java
  cloud.thoughtspotstaging.champagne.internal.OptionalNullable
  cloud.thoughtspotstaging.champagne.internal.OptionalNullable$Serializer
@@ -315,10 +231,6 @@ cloud/thoughtspotstaging/champagne/models/DynamicResponse.java
  cloud.thoughtspotstaging.champagne.models.DynamicResponse
 cloud/thoughtspotstaging/champagne/http/request/MultipartWrapper.java
  cloud.thoughtspotstaging.champagne.http.request.MultipartWrapper
-com/codex/modelsheet/controller/ProtoUtils.java
- com.codex.modelsheet.controller.ProtoUtils
-com/codex/modelsheet/controller/SheetsQuickstart.java
- com.codex.modelsheet.controller.SheetsQuickstart
 cloud/thoughtspotstaging/champagne/http/client/RetryInterceptor.java
  cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor
  cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor$1
@@ -355,23 +267,119 @@ com/codex/modelsheet/model/NumberFormat.java
  com.codex.modelsheet.model.NumberFormat$FormatConfig$Unit
  com.codex.modelsheet.model.NumberFormat$FormatConfig$Unit$1
  com.codex.modelsheet.model.NumberFormat$FormatConfigOrBuilder
+com/codex/modelsheet/model/ModelSheet.java
+ com.codex.modelsheet.model.ModelSheet
+cloud/thoughtspotstaging/champagne/http/client/HttpRedirectInterceptor.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpRedirectInterceptor
+com/codex/modelsheet/model/AddressBook.java
+ com.codex.modelsheet.model.AddressBook
+ com.codex.modelsheet.model.AddressBook$1
+ com.codex.modelsheet.model.AddressBook$Builder
+cloud/thoughtspotstaging/champagne/AuthManager.java
+ cloud.thoughtspotstaging.champagne.AuthManager
+cloud/thoughtspotstaging/champagne/http/client/HttpClientConfiguration.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$1
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$Builder
+com/codex/modelsheet/model/WorkSheet.java
+ com.codex.modelsheet.model.WorkSheet
+com/codex/modelsheet/model/Common.java
+ com.codex.modelsheet.model.Common
+ com.codex.modelsheet.model.Common$1
+ com.codex.modelsheet.model.Common$EntityHeader
+ com.codex.modelsheet.model.Common$EntityHeader$1
+ com.codex.modelsheet.model.Common$EntityHeader$Builder
+ com.codex.modelsheet.model.Common$EntityHeaderOrBuilder
+ com.codex.modelsheet.model.Common$KeyValue
+ com.codex.modelsheet.model.Common$KeyValue$1
+ com.codex.modelsheet.model.Common$KeyValue$Builder
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$1
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$Builder
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValueOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueList
+ com.codex.modelsheet.model.Common$KeyValueList$1
+ com.codex.modelsheet.model.Common$KeyValueList$Builder
+ com.codex.modelsheet.model.Common$KeyValueListOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueStr
+ com.codex.modelsheet.model.Common$KeyValueStr$1
+ com.codex.modelsheet.model.Common$KeyValueStr$Builder
+ com.codex.modelsheet.model.Common$KeyValueStrOrBuilder
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$1
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$Builder
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProtoOrBuilder
+ com.codex.modelsheet.model.Common$OnlineDistributionProto
+ com.codex.modelsheet.model.Common$OnlineDistributionProto$1
+ com.codex.modelsheet.model.Common$OnlineDistributionProto$Builder
+ com.codex.modelsheet.model.Common$OnlineDistributionProtoOrBuilder
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto$1
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto$Builder
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProtoOrBuilder
+ com.codex.modelsheet.model.Common$ValueProto
+ com.codex.modelsheet.model.Common$ValueProto$1
+ com.codex.modelsheet.model.Common$ValueProto$Builder
+ com.codex.modelsheet.model.Common$ValueProto$Type
+ com.codex.modelsheet.model.Common$ValueProto$Type$1
+ com.codex.modelsheet.model.Common$ValueProtoOrBuilder
+com/codex/modelsheet/model/AnnotationOuterClass.java
+ com.codex.modelsheet.model.AnnotationOuterClass
+ com.codex.modelsheet.model.AnnotationOuterClass$1
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation$1
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation$Builder
+ com.codex.modelsheet.model.AnnotationOuterClass$AnnotationOrBuilder
+com/codex/modelsheet/util/ProtoUtils.java
+ com.codex.modelsheet.controller.ProtoUtils
+com/codex/modelsheet/model/Person.java
+ com.codex.modelsheet.model.Person
+ com.codex.modelsheet.model.Person$1
+ com.codex.modelsheet.model.Person$Builder
+ com.codex.modelsheet.model.Person$PhoneNumber
+ com.codex.modelsheet.model.Person$PhoneNumber$1
+ com.codex.modelsheet.model.Person$PhoneNumber$Builder
+ com.codex.modelsheet.model.Person$PhoneNumberOrBuilder
+ com.codex.modelsheet.model.Person$PhoneType
+ com.codex.modelsheet.model.Person$PhoneType$1
+cloud/thoughtspotstaging/champagne/http/request/HttpBodyRequest.java
+ cloud.thoughtspotstaging.champagne.http.request.HttpBodyRequest
+com/codex/modelsheet/util/Util.java
+ com.codex.modelsheet.controller.Util
+cloud/thoughtspotstaging/champagne/Environment.java
+ cloud.thoughtspotstaging.champagne.Environment
+cloud/thoughtspotstaging/champagne/Server.java
+ cloud.thoughtspotstaging.champagne.Server
+cloud/thoughtspotstaging/champagne/controllers/PrivilegeTypeEnum.java
+ cloud.thoughtspotstaging.champagne.controllers.PrivilegeTypeEnum
+cloud/thoughtspotstaging/champagne/http/client/ReadonlyHttpClientConfiguration.java
+ cloud.thoughtspotstaging.champagne.http.client.ReadonlyHttpClientConfiguration
+cloud/thoughtspotstaging/champagne/TSClient.java
+ cloud.thoughtspotstaging.champagne.TSClient
+ cloud.thoughtspotstaging.champagne.TSClient$1
+ cloud.thoughtspotstaging.champagne.TSClient$Builder
+cloud/thoughtspotstaging/champagne/controllers/SessionController.java
+ cloud.thoughtspotstaging.champagne.controllers.SessionController
+cloud/thoughtspotstaging/champagne/exceptions/ApiException.java
+ cloud.thoughtspotstaging.champagne.exceptions.ApiException
+com/codex/modelsheet/controller/SheetsQuickstart.java
+ com.codex.modelsheet.controller.SheetsQuickstart
 cloud/thoughtspotstaging/champagne/controllers/Test.java
  cloud.thoughtspotstaging.champagne.controllers.Test
 com/codex/modelsheet/model/PersonOrBuilder.java
  com.codex.modelsheet.model.PersonOrBuilder
 com/codex/modelsheet/model/AddressBookProtos.java
  com.codex.modelsheet.model.AddressBookProtos
-com/codex/modelsheet/controller/JSONUtil.java
- com.codex.modelsheet.controller.JSONUtil
 cloud/thoughtspotstaging/champagne/http/client/HttpClient.java
  cloud.thoughtspotstaging.champagne.http.client.HttpClient
 cloud/thoughtspotstaging/champagne/http/Headers.java
  cloud.thoughtspotstaging.champagne.http.Headers
-com/codex/modelsheet/model/AddressBookOrBuilder.java
- com.codex.modelsheet.model.AddressBookOrBuilder
-cloud/thoughtspotstaging/champagne/TSClient.java
- cloud.thoughtspotstaging.champagne.TSClient
- cloud.thoughtspotstaging.champagne.TSClient$1
- cloud.thoughtspotstaging.champagne.TSClient$Builder
 cloud/thoughtspotstaging/champagne/controllers/TMLController.java
  cloud.thoughtspotstaging.champagne.controllers.TMLController
+com/codex/modelsheet/model/AddressBookOrBuilder.java
+ com.codex.modelsheet.model.AddressBookOrBuilder
+com/codex/modelsheet/util/JSONUtil.java
+ com.codex.modelsheet.controller.JSONUtil
+cloud/thoughtspotstaging/champagne/http/client/HttpContext.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpContext
