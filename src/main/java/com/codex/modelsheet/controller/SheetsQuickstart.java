@@ -18,6 +18,7 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import com.codex.modelsheet.controller.Util;
 
 public class SheetsQuickstart {
 
@@ -25,28 +26,21 @@ public class SheetsQuickstart {
      * Prints the names and majors of students in a sample spreadsheet:
      * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
      */
-    public static void main(String... args) throws IOException, GeneralSecurityException {
+    public Sheets getService(String spreadsheetId) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "1yfcgRdGqc540HLdwO26Zar83aLXjatkBeCUhCyDBFqY";
-        final String range = "TABLE!A1:F";
+        //final String spreadsheetId = "1yfcgRdGqc540HLdwO26Zar83aLXjatkBeCUhCyDBFqY";
+        //final String range = "TABLE!A1:F";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, Util.JSON_FACTORY, Util.getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(Util.APPLICATION_NAME)
                 .build();
+        return service;
+    }
+    public ValueRange getSingleSheet(Sheets service, String spreadsheetId, String range) throws IOException {
         ValueRange response = service.spreadsheets().values()
                 .get(spreadsheetId, range)
                 .execute();
-        List<List<Object>> values = response.getValues();
-        if (values == null || values.isEmpty()) {
-            System.out.println("No data found.");
-        } else {
-
-            for (List row : values) {
-
-                // Print columns A and E, which correspond to indices 0 and 4.
-                System.out.printf("%s, %s, %s, %s, %s, %s\n", row.get(0), row.get(1), row.get(2), row.get(3), row.get(4), row.get(5));
-
-            }
-        }
+        return response;
     }
+
 }
