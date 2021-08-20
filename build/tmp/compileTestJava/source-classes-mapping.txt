@@ -1,0 +1,14 @@
+cloud/thoughtspotstaging/champagne/testing/HttpCallbackCatcher.java
+ cloud.thoughtspotstaging.champagne.testing.HttpCallbackCatcher
+cloud/thoughtspotstaging/champagne/controllers/TmlMarshalingTest.java
+ cloud.thoughtspotstaging.champagne.controllers.TmlMarshalingTest
+cloud/thoughtspotstaging/champagne/controllers/BaseControllerTest.java
+ cloud.thoughtspotstaging.champagne.controllers.BaseControllerTest
+cloud/thoughtspotstaging/champagne/testing/ReadFile.java
+ cloud.thoughtspotstaging.champagne.testing.ReadFile
+cloud/thoughtspotstaging/champagne/testing/Test.java
+ cloud.thoughtspotstaging.champagne.testing.Test
+cloud/thoughtspotstaging/champagne/testing/TestHelper.java
+ cloud.thoughtspotstaging.champagne.testing.TestHelper
+cloud/thoughtspotstaging/champagne/controllers/SessionControllerTest.java
+ cloud.thoughtspotstaging.champagne.controllers.SessionControllerTest

@@ -1,4 +1,377 @@
-com/codex/modelsheet/model/Employee.java
- com.codex.modelsheet.model.Employee
+cloud/thoughtspotstaging/champagne/Configuration.java
+ cloud.thoughtspotstaging.champagne.Configuration
+cloud/thoughtspotstaging/champagne/http/client/HttpRedirectInterceptor.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpRedirectInterceptor
+com/codex/modelsheet/model/AddressBook.java
+ com.codex.modelsheet.model.AddressBook
+ com.codex.modelsheet.model.AddressBook$1
+ com.codex.modelsheet.model.AddressBook$Builder
+com/codex/modelsheet/controller/Util.java
+ com.codex.modelsheet.controller.Util
+cloud/thoughtspotstaging/champagne/ApiHelper.java
+ cloud.thoughtspotstaging.champagne.ApiHelper
+ cloud.thoughtspotstaging.champagne.ApiHelper$1
+ cloud.thoughtspotstaging.champagne.ApiHelper$2
+ cloud.thoughtspotstaging.champagne.ApiHelper$3
+ cloud.thoughtspotstaging.champagne.ApiHelper$4
+ cloud.thoughtspotstaging.champagne.ApiHelper$5
+cloud/thoughtspotstaging/champagne/AuthManager.java
+ cloud.thoughtspotstaging.champagne.AuthManager
+cloud/thoughtspotstaging/champagne/http/client/HttpClientConfiguration.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$1
+ cloud.thoughtspotstaging.champagne.http.client.HttpClientConfiguration$Builder
+com/codex/modelsheet/model/Common.java
+ com.codex.modelsheet.model.Common
+ com.codex.modelsheet.model.Common$1
+ com.codex.modelsheet.model.Common$EntityHeader
+ com.codex.modelsheet.model.Common$EntityHeader$1
+ com.codex.modelsheet.model.Common$EntityHeader$Builder
+ com.codex.modelsheet.model.Common$EntityHeaderOrBuilder
+ com.codex.modelsheet.model.Common$KeyValue
+ com.codex.modelsheet.model.Common$KeyValue$1
+ com.codex.modelsheet.model.Common$KeyValue$Builder
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$1
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValue$Builder
+ com.codex.modelsheet.model.Common$KeyValue$DeprecatedValueOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueList
+ com.codex.modelsheet.model.Common$KeyValueList$1
+ com.codex.modelsheet.model.Common$KeyValueList$Builder
+ com.codex.modelsheet.model.Common$KeyValueListOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueOrBuilder
+ com.codex.modelsheet.model.Common$KeyValueStr
+ com.codex.modelsheet.model.Common$KeyValueStr$1
+ com.codex.modelsheet.model.Common$KeyValueStr$Builder
+ com.codex.modelsheet.model.Common$KeyValueStrOrBuilder
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$1
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProto$Builder
+ com.codex.modelsheet.model.Common$MetaDataUpdateReqProtoOrBuilder
+ com.codex.modelsheet.model.Common$OnlineDistributionProto
+ com.codex.modelsheet.model.Common$OnlineDistributionProto$1
+ com.codex.modelsheet.model.Common$OnlineDistributionProto$Builder
+ com.codex.modelsheet.model.Common$OnlineDistributionProtoOrBuilder
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto$1
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProto$Builder
+ com.codex.modelsheet.model.Common$UsageStatsDistributionProtoOrBuilder
+ com.codex.modelsheet.model.Common$ValueProto
+ com.codex.modelsheet.model.Common$ValueProto$1
+ com.codex.modelsheet.model.Common$ValueProto$Builder
+ com.codex.modelsheet.model.Common$ValueProto$Type
+ com.codex.modelsheet.model.Common$ValueProto$Type$1
+ com.codex.modelsheet.model.Common$ValueProtoOrBuilder
+cloud/thoughtspotstaging/champagne/http/client/OkClient.java
+ cloud.thoughtspotstaging.champagne.http.client.OkClient
+ cloud.thoughtspotstaging.champagne.http.client.OkClient$1
+cloud/thoughtspotstaging/champagne/http/response/HttpStringResponse.java
+ cloud.thoughtspotstaging.champagne.http.response.HttpStringResponse
+com/codex/modelsheet/model/EDoc.java
+ com.codex.modelsheet.model.EDoc
+ com.codex.modelsheet.model.EDoc$1
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$1
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$AnswerColumn
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$AnswerColumn$1
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$AnswerColumn$Builder
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$AnswerColumnOrBuilder
+ com.codex.modelsheet.model.EDoc$AnswerEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$AnswerEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$ChartVisualization
+ com.codex.modelsheet.model.EDoc$ChartVisualization$1
+ com.codex.modelsheet.model.EDoc$ChartVisualization$AxisConfig
+ com.codex.modelsheet.model.EDoc$ChartVisualization$AxisConfig$1
+ com.codex.modelsheet.model.EDoc$ChartVisualization$AxisConfig$Builder
+ com.codex.modelsheet.model.EDoc$ChartVisualization$AxisConfigOrBuilder
+ com.codex.modelsheet.model.EDoc$ChartVisualization$Builder
+ com.codex.modelsheet.model.EDoc$ChartVisualization$ChartColumn
+ com.codex.modelsheet.model.EDoc$ChartVisualization$ChartColumn$1
+ com.codex.modelsheet.model.EDoc$ChartVisualization$ChartColumn$Builder
+ com.codex.modelsheet.model.EDoc$ChartVisualization$ChartColumnOrBuilder
+ com.codex.modelsheet.model.EDoc$ChartVisualizationOrBuilder
+ com.codex.modelsheet.model.EDoc$ColumnProperties
+ com.codex.modelsheet.model.EDoc$ColumnProperties$1
+ com.codex.modelsheet.model.EDoc$ColumnProperties$Builder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$CurrencyFormat
+ com.codex.modelsheet.model.EDoc$ColumnProperties$CurrencyFormat$1
+ com.codex.modelsheet.model.EDoc$ColumnProperties$CurrencyFormat$Builder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$CurrencyFormatOrBuilder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$1
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$Builder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$SubRegion
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$SubRegion$1
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$SubRegion$Builder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProto$SubRegionOrBuilder
+ com.codex.modelsheet.model.EDoc$ColumnProperties$GeoConfigProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$ColumnPropertiesOrBuilder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$1
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Builder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Range
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Range$1
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Range$Builder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$RangeOrBuilder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Rule
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Rule$1
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$Rule$Builder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProto$RuleOrBuilder
+ com.codex.modelsheet.model.EDoc$ConditionalFormattingProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$1
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$Builder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$1
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$Builder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ColumnDoc
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ColumnDoc$1
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ColumnDoc$Builder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ColumnDocOrBuilder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ExternalTableMapping
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ExternalTableMapping$1
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ExternalTableMapping$Builder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDoc$ExternalTableMappingOrBuilder
+ com.codex.modelsheet.model.EDoc$ConnectionDoc$TableDocOrBuilder
+ com.codex.modelsheet.model.EDoc$ConnectionDocOrBuilder
+ com.codex.modelsheet.model.EDoc$Filter
+ com.codex.modelsheet.model.EDoc$Filter$1
+ com.codex.modelsheet.model.EDoc$Filter$Builder
+ com.codex.modelsheet.model.EDoc$FilterOrBuilder
+ com.codex.modelsheet.model.EDoc$Formula
+ com.codex.modelsheet.model.EDoc$Formula$1
+ com.codex.modelsheet.model.EDoc$Formula$Builder
+ com.codex.modelsheet.model.EDoc$FormulaOrBuilder
+ com.codex.modelsheet.model.EDoc$FormulaProperties
+ com.codex.modelsheet.model.EDoc$FormulaProperties$1
+ com.codex.modelsheet.model.EDoc$FormulaProperties$Builder
+ com.codex.modelsheet.model.EDoc$FormulaPropertiesOrBuilder
+ com.codex.modelsheet.model.EDoc$Identity
+ com.codex.modelsheet.model.EDoc$Identity$1
+ com.codex.modelsheet.model.EDoc$Identity$Builder
+ com.codex.modelsheet.model.EDoc$IdentityOrBuilder
+ com.codex.modelsheet.model.EDoc$Join
+ com.codex.modelsheet.model.EDoc$Join$1
+ com.codex.modelsheet.model.EDoc$Join$Builder
+ com.codex.modelsheet.model.EDoc$JoinEDocProto
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$1
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$ColumnPair
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$ColumnPair$1
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$ColumnPair$Builder
+ com.codex.modelsheet.model.EDoc$JoinEDocProto$ColumnPairOrBuilder
+ com.codex.modelsheet.model.EDoc$JoinEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$JoinOrBuilder
+ com.codex.modelsheet.model.EDoc$LessonPlanEDocProto
+ com.codex.modelsheet.model.EDoc$LessonPlanEDocProto$1
+ com.codex.modelsheet.model.EDoc$LessonPlanEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$LessonPlanEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalSchemaProto
+ com.codex.modelsheet.model.EDoc$LogicalSchemaProto$1
+ com.codex.modelsheet.model.EDoc$LogicalSchemaProto$Builder
+ com.codex.modelsheet.model.EDoc$LogicalSchemaProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$1
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$DbColumnProperties
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$DbColumnProperties$1
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$DbColumnProperties$Builder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$DbColumnPropertiesOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$LogicalColumnEDocProto
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$LogicalColumnEDocProto$1
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$LogicalColumnEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$LogicalColumnEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$1
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$Builder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$Rule
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$Rule$1
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$Rule$Builder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRule$RuleOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProto$RlsRuleOrBuilder
+ com.codex.modelsheet.model.EDoc$LogicalTableEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$ObjectEDocProto
+ com.codex.modelsheet.model.EDoc$ObjectEDocProto$1
+ com.codex.modelsheet.model.EDoc$ObjectEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$ObjectEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$ObjectPermissions
+ com.codex.modelsheet.model.EDoc$ObjectPermissions$1
+ com.codex.modelsheet.model.EDoc$ObjectPermissions$Builder
+ com.codex.modelsheet.model.EDoc$ObjectPermissionsOrBuilder
+ com.codex.modelsheet.model.EDoc$PinboardEDocProto
+ com.codex.modelsheet.model.EDoc$PinboardEDocProto$1
+ com.codex.modelsheet.model.EDoc$PinboardEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$PinboardEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$PinboardLayout
+ com.codex.modelsheet.model.EDoc$PinboardLayout$1
+ com.codex.modelsheet.model.EDoc$PinboardLayout$Builder
+ com.codex.modelsheet.model.EDoc$PinboardLayout$Tile
+ com.codex.modelsheet.model.EDoc$PinboardLayout$Tile$1
+ com.codex.modelsheet.model.EDoc$PinboardLayout$Tile$Builder
+ com.codex.modelsheet.model.EDoc$PinboardLayout$TileOrBuilder
+ com.codex.modelsheet.model.EDoc$PinboardLayoutOrBuilder
+ com.codex.modelsheet.model.EDoc$PinnedVisualization
+ com.codex.modelsheet.model.EDoc$PinnedVisualization$1
+ com.codex.modelsheet.model.EDoc$PinnedVisualization$Builder
+ com.codex.modelsheet.model.EDoc$PinnedVisualizationOrBuilder
+ com.codex.modelsheet.model.EDoc$RelationEDocProto
+ com.codex.modelsheet.model.EDoc$RelationEDocProto$1
+ com.codex.modelsheet.model.EDoc$RelationEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$RelationEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$TablePath
+ com.codex.modelsheet.model.EDoc$TablePath$1
+ com.codex.modelsheet.model.EDoc$TablePath$Builder
+ com.codex.modelsheet.model.EDoc$TablePath$JoinPath
+ com.codex.modelsheet.model.EDoc$TablePath$JoinPath$1
+ com.codex.modelsheet.model.EDoc$TablePath$JoinPath$Builder
+ com.codex.modelsheet.model.EDoc$TablePath$JoinPathOrBuilder
+ com.codex.modelsheet.model.EDoc$TablePathOrBuilder
+ com.codex.modelsheet.model.EDoc$TableVisualization
+ com.codex.modelsheet.model.EDoc$TableVisualization$1
+ com.codex.modelsheet.model.EDoc$TableVisualization$Builder
+ com.codex.modelsheet.model.EDoc$TableVisualization$TableColumn
+ com.codex.modelsheet.model.EDoc$TableVisualization$TableColumn$1
+ com.codex.modelsheet.model.EDoc$TableVisualization$TableColumn$Builder
+ com.codex.modelsheet.model.EDoc$TableVisualization$TableColumnOrBuilder
+ com.codex.modelsheet.model.EDoc$TableVisualizationOrBuilder
+ com.codex.modelsheet.model.EDoc$Token
+ com.codex.modelsheet.model.EDoc$Token$1
+ com.codex.modelsheet.model.EDoc$Token$Builder
+ com.codex.modelsheet.model.EDoc$TokenOrBuilder
+ com.codex.modelsheet.model.EDoc$ViewEDocProto
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$1
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$ViewColumn
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$ViewColumn$1
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$ViewColumn$Builder
+ com.codex.modelsheet.model.EDoc$ViewEDocProto$ViewColumnOrBuilder
+ com.codex.modelsheet.model.EDoc$ViewEDocProtoOrBuilder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$1
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$Builder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$QueryProperties
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$QueryProperties$1
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$QueryProperties$Builder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$QueryPropertiesOrBuilder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumn
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumn$1
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumn$Builder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProto$WorksheetColumnOrBuilder
+ com.codex.modelsheet.model.EDoc$WorksheetEDocProtoOrBuilder
+com/codex/modelsheet/model/AnnotationOuterClass.java
+ com.codex.modelsheet.model.AnnotationOuterClass
+ com.codex.modelsheet.model.AnnotationOuterClass$1
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation$1
+ com.codex.modelsheet.model.AnnotationOuterClass$Annotation$Builder
+ com.codex.modelsheet.model.AnnotationOuterClass$AnnotationOrBuilder
+cloud/thoughtspotstaging/champagne/http/request/HttpRequest.java
+ cloud.thoughtspotstaging.champagne.http.request.HttpRequest
+cloud/thoughtspotstaging/champagne/http/request/MultipartFileWrapper.java
+ cloud.thoughtspotstaging.champagne.http.request.MultipartFileWrapper
+com/codex/modelsheet/model/Person.java
+ com.codex.modelsheet.model.Person
+ com.codex.modelsheet.model.Person$1
+ com.codex.modelsheet.model.Person$Builder
+ com.codex.modelsheet.model.Person$PhoneNumber
+ com.codex.modelsheet.model.Person$PhoneNumber$1
+ com.codex.modelsheet.model.Person$PhoneNumber$Builder
+ com.codex.modelsheet.model.Person$PhoneNumberOrBuilder
+ com.codex.modelsheet.model.Person$PhoneType
+ com.codex.modelsheet.model.Person$PhoneType$1
+cloud/thoughtspotstaging/champagne/controllers/BaseController.java
+ cloud.thoughtspotstaging.champagne.controllers.BaseController
+ cloud.thoughtspotstaging.champagne.controllers.BaseController$RequestExecutor
+ cloud.thoughtspotstaging.champagne.controllers.BaseController$RequestSupplier
+ cloud.thoughtspotstaging.champagne.controllers.BaseController$ResponseHandler
+cloud/thoughtspotstaging/champagne/http/request/HttpBodyRequest.java
+ cloud.thoughtspotstaging.champagne.http.request.HttpBodyRequest
+cloud/thoughtspotstaging/champagne/Environment.java
+ cloud.thoughtspotstaging.champagne.Environment
+cloud/thoughtspotstaging/champagne/Server.java
+ cloud.thoughtspotstaging.champagne.Server
+cloud/thoughtspotstaging/champagne/controllers/PrivilegeTypeEnum.java
+ cloud.thoughtspotstaging.champagne.controllers.PrivilegeTypeEnum
+cloud/thoughtspotstaging/champagne/http/client/HttpCallback.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpCallback
+cloud/thoughtspotstaging/champagne/http/request/HttpMethod.java
+ cloud.thoughtspotstaging.champagne.http.request.HttpMethod
+cloud/thoughtspotstaging/champagne/utilities/FileWrapper.java
+ cloud.thoughtspotstaging.champagne.utilities.FileWrapper
+cloud/thoughtspotstaging/champagne/http/client/ReadonlyHttpClientConfiguration.java
+ cloud.thoughtspotstaging.champagne.http.client.ReadonlyHttpClientConfiguration
+cloud/thoughtspotstaging/champagne/http/client/HttpContext.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpContext
+cloud/thoughtspotstaging/champagne/controllers/SessionController.java
+ cloud.thoughtspotstaging.champagne.controllers.SessionController
+cloud/thoughtspotstaging/champagne/exceptions/ApiException.java
+ cloud.thoughtspotstaging.champagne.exceptions.ApiException
+cloud/thoughtspotstaging/champagne/internal/OptionalNullable.java
+ cloud.thoughtspotstaging.champagne.internal.OptionalNullable
+ cloud.thoughtspotstaging.champagne.internal.OptionalNullable$Serializer
+cloud/thoughtspotstaging/champagne/http/response/HttpResponse.java
+ cloud.thoughtspotstaging.champagne.http.response.HttpResponse
+cloud/thoughtspotstaging/champagne/models/DynamicResponse.java
+ cloud.thoughtspotstaging.champagne.models.DynamicResponse
+cloud/thoughtspotstaging/champagne/http/request/MultipartWrapper.java
+ cloud.thoughtspotstaging.champagne.http.request.MultipartWrapper
+com/codex/modelsheet/controller/ProtoUtils.java
+ com.codex.modelsheet.controller.ProtoUtils
 com/codex/modelsheet/controller/SheetsQuickstart.java
  com.codex.modelsheet.controller.SheetsQuickstart
+cloud/thoughtspotstaging/champagne/http/client/RetryInterceptor.java
+ cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor
+ cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor$1
+ cloud.thoughtspotstaging.champagne.http.client.RetryInterceptor$RequestState
+com/codex/modelsheet/controller/SpreadsheetSnippets.java
+ com.codex.modelsheet.controller.SpreadsheetSnippets
+com/codex/modelsheet/model/NumberFormat.java
+ com.codex.modelsheet.model.NumberFormat
+ com.codex.modelsheet.model.NumberFormat$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$Builder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CategoryType
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CategoryType$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CurrencyFormatConfig
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CurrencyFormatConfig$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CurrencyFormatConfig$Builder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CurrencyFormatConfigOrBuilder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CustomFormatConfig
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CustomFormatConfig$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CustomFormatConfig$Builder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$CustomFormatConfigOrBuilder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$FormatConfigDetailsCase
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NegativeValueFormat
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NegativeValueFormat$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NumberFormatConfig
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NumberFormatConfig$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NumberFormatConfig$Builder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$NumberFormatConfigOrBuilder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$PercentageFormatConfig
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$PercentageFormatConfig$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$PercentageFormatConfig$Builder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$PercentageFormatConfigOrBuilder
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$Unit
+ com.codex.modelsheet.model.NumberFormat$FormatConfig$Unit$1
+ com.codex.modelsheet.model.NumberFormat$FormatConfigOrBuilder
+cloud/thoughtspotstaging/champagne/controllers/Test.java
+ cloud.thoughtspotstaging.champagne.controllers.Test
+com/codex/modelsheet/model/PersonOrBuilder.java
+ com.codex.modelsheet.model.PersonOrBuilder
+com/codex/modelsheet/model/AddressBookProtos.java
+ com.codex.modelsheet.model.AddressBookProtos
+com/codex/modelsheet/controller/JSONUtil.java
+ com.codex.modelsheet.controller.JSONUtil
+cloud/thoughtspotstaging/champagne/http/client/HttpClient.java
+ cloud.thoughtspotstaging.champagne.http.client.HttpClient
+cloud/thoughtspotstaging/champagne/http/Headers.java
+ cloud.thoughtspotstaging.champagne.http.Headers
+com/codex/modelsheet/model/AddressBookOrBuilder.java
+ com.codex.modelsheet.model.AddressBookOrBuilder
+cloud/thoughtspotstaging/champagne/TSClient.java
+ cloud.thoughtspotstaging.champagne.TSClient
+ cloud.thoughtspotstaging.champagne.TSClient$1
+ cloud.thoughtspotstaging.champagne.TSClient$Builder
+cloud/thoughtspotstaging/champagne/controllers/TMLController.java
+ cloud.thoughtspotstaging.champagne.controllers.TMLController

@@ -1,0 +1,59 @@
+Dhttp://172.19.153.245:8088/callosum/v1/tspublic/v1/session/v2/login
+|JHNoaXJvMSRTSEEtMjU2JDUwMDAwMCR1N3RoU2MxN2p0TlJwL1p5WThtR0tRPT0kcFAycUg4SGlNVldtWE1Ic252SlZzemFTZDNtWUpZNCs1ZytDL1U5S2NOTT0
+`http://172.19.153.245:8088/callosum/v1/metadata/edoc/TABLE/c1a32849-6e99-428e-abef-39f273b2cd95
+FExport Worksheet Response: guid: c1a32849-6e99-428e-abef-39f273b2cd95
+table:
+  name: PRODUCTCATEGORY
+  db: SUPPLYCHAIN_MAIN
+  schema: PUBLIC
+  db_table: PRODUCTCATEGORY
+  connection:
+    name: SnowflakeConnection
+  columns:
+  - name: Product Category
+%    db_column_name: Product Category
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+  - name: Product Group
+"    db_column_name: Product Group
+    properties:
+      column_type: ATTRIBUTE
+      index_type: DONT_INDEX
+    db_column_properties:
+      data_type: VARCHAR
+<TML to Object: guid: "c1a32849-6e99-428e-abef-39f273b2cd95"
+table {
+  name: "PRODUCTCATEGORY"
+  db: "SUPPLYCHAIN_MAIN"
+  schema: "PUBLIC"
+  db_table: "PRODUCTCATEGORY"
+  connection {
+     name: "SnowflakeConnection"
+  }
+  columns {
+    name: "Product Category"
+'    db_column_name: "Product Category"
+    properties {
+      column_type: "ATTRIBUTE"
+      index_type: "DONT_INDEX"
+    }
+    db_column_properties {
+      data_type: "VARCHAR"
+    }
+  }
+  columns {
+    name: "Product Group"
+$    db_column_name: "Product Group"
+    properties {
+      column_type: "ATTRIBUTE"
+      index_type: "DONT_INDEX"
+    }
+    db_column_properties {
+      data_type: "VARCHAR"
+    }
+  }
+}
+

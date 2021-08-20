@@ -1,0 +1,77 @@
+// Copyright: ThoughtSpot Inc. 2020
+// Author: Tejas Saxena (tejas.saxena@thoughtspot.com)
+//
+// Proto definition proto validation annotations.
+
+syntax = "proto2";
+import "google/protobuf/descriptor.proto";
+
+
+// This message contains annotations on general proto fields which can be used
+// for validation.
+message Annotation {
+  extend google.protobuf.FieldOptions {
+    // To validate fields which must be populated.
+    // Usage:
+    //  optional string id = 1 [(ValidationProperties.compulsory) = true];
+    optional bool compulsory = 70001;
+    // To validate fields that can only take values from a set of allowed
+    // values.
+    // Usage:
+    //  optional string type = 1 [(ValidationProperties.allowed_values_key) = "chart_type"];
+    //  Here, chart_type refers to a key in the allowed_values store.
+    //  Refer to
+    //  "java/common/src/main/java/com/thoughtspot/common/ProtoValidationBundle.java"
+    //  for the role of allowed_values store and
+    //  "common/allowed_values_store.proto" to understand how to populate it.
+    // The allowed values store is defined in java/common/src/main/resources/allowed_values_store.pb
+    // The allowed values store is a key value map, where the key is used in the annotation, and the
+    // values are used as a set of allowed values for fields annotated with that key.
+    // NOTE: The comparison with allowed values is CASE INSENSITIVE.
+    optional string allowed_values_key = 70002;
+    // To validate that fields take unique values within a message when reached
+    // through different paths. The property must be defined at the "root" of
+    // the subtree, and the value should be a comma separated list of fields
+    // in the subtree that should take unique values.
+    // Usage:
+    // message B {
+    //   optional string b_1 = 1;
+    // }
+    // message A {
+    //   repeated B a_1 = 1 [(Annotation.unique) = "b_1"];
+    //   repeated B a_2 = 2 [(Annotation.unique) = "b_1"];
+    // Example:
+    //    {
+    //        a_1 {
+    //            b_1: "value_1"
+    //        }
+    //        a_1 {
+    //            b_1: "value_1" // not allowed.
+    //        }
+    //        a_2 {
+    //            b_1: "value_1" // allowed.
+    //        }
+    //        a_2 {
+    //            b_1: "value_2" // allowed.
+    //        }
+    //    }
+    // }
+    // In this example, a_1.b_1 takes "value_1" twice. According to the
+    // annotations in the proto, this is not allowed. a_2.b_1 takes distinct
+    // values, which is allowed. "value_1" occurs in a_1.b_1 and a_2.b_1 and
+    // this is allowed, because we only check for uniqueness in the subtree
+    // formed with the root as the field which has the unique annotation.
+    // NOTE: It is also allowed to specify deeper nested fields for unqie value validation.
+    // For example:
+    // message B {
+    //   repeated C b_1 = 1;
+    // }
+    // message C {
+    //   optional string c_1 = 1;
+    // }
+    // message A {
+    //   optional B a_1 = 1 [(Annotation.unqiue) = "b_1.c_1"];
+    // }
+    optional string unique = 70003;
+  }
+}

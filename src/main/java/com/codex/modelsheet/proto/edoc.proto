@@ -1,0 +1,1031 @@
+// Copyright: ThoughtSpot Inc. 2019
+// Author: Vaibhav Agarwal (vaibhav.agarwal@thoughtspot.com)
+
+// Protocol buffer definition for representing the metadata objects
+// in the system for human editability and readability. The design doc
+// for this can be found at
+// https://docs.google.com/document/d/10zS8qWLkc-wWRn7ibUWlw9VCF56azqv_RXNtiRQaPz8
+
+syntax = "proto2";
+
+import "common.proto";
+import "annotation.proto";
+import "number_format.proto";
+
+option java_outer_classname = "EDoc";
+
+// TODO(Archit): We should think about how ENUM fields can be used in EDoc.
+// Right now we use string fields for proper error messaging while validating
+// the EDoc. Should we have a thin layer b/w Yaml to Proto translation which
+// does this automatically?
+
+// Column definition to use in the worksheet and table.
+message ColumnProperties {
+
+    // Representation of currency format for a column.
+    message CurrencyFormat {
+      optional bool is_browser = 1;
+      optional string column = 2;
+      optional string iso_code = 3;
+    }
+
+    // For columns that indicate location, we need to specify what each value
+    // in that column represents.
+    // e.g. a column can be labeled as,
+    //      a. a country
+    //      b. a state in US
+    //      c. a city in california(US)
+    //      d. a latitude/longitude value
+    //      e. a zipcode
+    // TODO(Akshay): custom descriptors also possible.
+    // This information can be expressed using the GeoConfigProto struct.
+    message GeoConfigProto {
+      message SubRegion {
+        optional string country = 1;
+        optional string region_name = 2;
+      }
+      // TODO(Akshay): Add support for remaining allowed types:
+      //  { country, state, city, zipcode, latitude, longitude }
+      optional bool latitude = 1;
+      optional bool longitude = 2;
+      optional bool country = 3;
+      optional SubRegion region_name = 4;
+    }
+
+    // Type of column - attribute or measure.
+    optional string column_type = 1 [(Annotation.allowed_values_key) = "edoc.column_type"];
+    // Default aggregation operator for the column.
+    // Allowed values: {none, count, count_distinct, sum, average, min, max,
+    //                  variance, std_deviation}
+    // Note: Casing is not important.
+    optional string aggregation = 2 [(Annotation.allowed_values_key) = "edoc.aggregation_type"];
+    // Specifies how values of the column will be indexed.
+    // Allowed values: {default, dont_index, prefix_only, prefix_and_word_substring, prefix_and_substring}
+    // Note: Casing is not important.
+    optional string index_type = 3 [(Annotation.allowed_values_key) = "edoc.index_type"];
+    // Static weight of the column in the index.
+    optional double index_priority = 4 [default = 1.0];
+    // List of synonyms that can be used to refer to this column.  Alternate
+    // names for the column.
+    repeated string synonyms = 5;
+    // True for primary key columns of shared dimension tables that should always
+    // be included in chasm trap queries.
+    optional bool is_attribution_dimension = 6;
+    // Numeric columns can be marked non additive to disallow aggregations on
+    // them.  This is useful in cases such as a numeric primary key column.
+    optional bool is_additive = 7;
+    // The name of the calendar to use for the given column.
+    optional string calendar = 8;
+    // Formatting specification for the column. e.g. "##0.##E0" for number
+    // columns, "MM-yyyy" for date columns.
+    optional string format_pattern = 9;
+    // If the column is a currency column, its formatting specification is
+    // specified by CurrencyFormat.
+    optional CurrencyFormat currency_type = 10;
+    // Property to mark if the column is hidden.
+    optional bool is_hidden = 11;
+    // config object to define the geographic role of the column's value.
+    optional GeoConfigProto geo_config = 12;
+    // Specifies spotIQ preference for that column while running analysis
+    optional string spotiq_preference = 13;
+    // Flag to specify if the column is preferred for search iq.
+    optional bool search_iq_preferred = 14;
+}
+
+// Some properties defined at formula level. As of now these are only relevant
+// for in-answer formula as in case of worksheet these properties are defined
+// at worksheet column level.
+//
+// Only those properties will be set whose value is different from the default
+// value. If all the properties are same as default value then properties
+// field in the Formula proto won't be set.
+message FormulaProperties {
+  // Possible values:  ATTRIBUTE | MEASURE.
+  optional string column_type = 1 [(Annotation.allowed_values_key) = "edoc.column_type"];
+  // Default aggregation operator for the column.
+  optional string aggregation = 3 [(Annotation.allowed_values_key) = "edoc.aggregation_type"];
+}
+
+// Formula definitions.
+message Formula {
+  // ID of the formula.
+  optional string id = 1;
+  // Display Name of the formula.
+  optional string name = 2 [(Annotation.compulsory) = true];
+  // String representation of the expression. This would be of the form:
+  //     1. SUM(LO::Revenue)
+  //     2. LO::SHIPMODE IN ('air','road')
+  //     3. sum(f1) + sum(f2)  // f1 and f2 are IDs of the formula.
+  optional string expr = 3 [(Annotation.compulsory) = true];
+  // non-default properties to specify for the given formula.
+  optional FormulaProperties properties = 4;
+}
+
+// This message is used to represent query filter on a single column.
+message Filter {
+  // EDoc output column ID on which the filter is based.
+  repeated string column = 1 [(Annotation.compulsory) = true];
+  // Operator to define a boolean condition on the @column.
+  // List of supported operators.
+  //   [ =, !=, <, <=, >, >=, between, in, not in ]
+  // Note: between is 'between-inclusive'. The other variations of
+  // between like left-inclusive, right-inclusive and both-exclusive
+  // are represented by changing the values.
+  // e.g. between-exclusive(2,4) is represented as between(3,3).
+  optional string oper = 2;
+  // Values as arguments to the operator.
+  // e.g. date >= 03/01/2020 <= 03/26/2020
+  //      is represented as,
+  //        column: date
+  //        oper: "between"
+  //        values: “03/01/2020"
+  //        values: "03/26/2020”
+  // Date values are expected to be a locale specific representation
+  // of 'mm/dd/yyyy' format.
+  repeated string values = 3;
+  // Visualizations(id) to which filter cannot be applied
+  // e.g. if ws1.f1 cannot be applied to viz_1 and viz_2 then
+  // excluded_visualizations will have viz_1 and viz_2
+  // Note: If a viz is excluded from a filter which is linked to a primary
+  // filter, the excluded viz of linked filter will be saved in the
+  // list of excluded viz of primary filter
+  repeated string excluded_visualizations = 4;
+}
+
+// Join definitions.
+message Join {
+  // To specify the join, the users can specify one of the following:
+  // 1. (name,source,destination) -> Unique to identify the join
+  // 2. (name,source,destination,on) fields to specify the join like:
+  //        source = LO
+  //        destination = CUST
+  //        on [LO.Key  =  CUST.Key]
+  //        on [LO.Key1 =  CUST.Key1]
+  // ID of the join to be used in the edoc. This is mostly of the form
+  // LO->CUST. The source and destination are the IDs of the tables that
+  // are involved in the join. In case there are more than one join between two
+  // tables, the default IDs would be LO->CUST_1, LO->CUST_2 and so on.
+  optional string id = 1;
+  optional string name = 2 [(Annotation.compulsory) = true];
+  optional string source = 3 [(Annotation.compulsory) = true];
+  optional string destination = 4 [(Annotation.compulsory) = true];
+  repeated string on = 5;
+  // Join properties in the context of the object it is being defined.
+  optional string type = 6 [(Annotation.allowed_values_key) = "edoc.join_type"];
+  optional bool is_one_to_one = 7 [default = false];
+}
+
+// Relationship definition to be attached with a logical table.
+// Note: Join proto is pretty much similar to 'RelationEDocProto', However
+//       Join proto is used mostly for referring a relationship in a
+//       worksheet/view/answer or overriding certain properties of a join at
+//       worksheet level and Relationship proto is used for Relationship
+//       definition. The @on field in Join proto is used only for displaying
+//       the join information, however the @on field in RelationEDocProto is
+//       the main expression that defines the join condition.
+message RelationEDocProto {
+  optional string name = 1;
+  optional string description = 2;
+  // Identifier of the source table. If the 'RelationEDocProto' is used
+  // for storing outgoing relationships in a table, @source_table field can be
+  // ignored.
+  optional Identity source = 3;
+  // Identifier of the destination table.
+  optional Identity destination = 4;
+  // Join expression.
+  // Eg: [lineorder::a] = [customer::b] AND [lineorder::c] = [customer::d]
+  optional string on = 5;
+  // Join properties in the context of the object it is being defined.
+  // Possible Values: INNER, OUTER, LEFT_OUTER, RIGHT_OUTER
+  optional string type = 6;
+  optional bool is_one_to_one = 7;
+}
+
+// TODO(Vaibhav): Should following repeated fields have plural names for
+// consistency across.
+// TablePath.JoinPath.join -> joins.
+// TablePath.join_path -> join_paths.
+// TablePath.column -> columns.
+
+// Each table in the worksheet can have multiple manifestations. For each table,
+// we specify the table itself and the join path from the root of the object
+// to the table itself. For example, given the following structure:
+//      T1   T5
+//     / \  /
+//   T2   T3
+//    \  /
+//     T4
+// If there are two different join paths for columns in T4, we can have two
+// different manifestations of T4 with the following join paths:
+// T4_1 : [T1->T2, T2->T4], [T5->T3, T3->T4]
+// T4_2 : [T1->T3, T3->T4], [T5->T3, T3->T4]
+message TablePath {
+
+  message JoinPath {
+    // The ID of the join in the join path as specified in the list of joins.
+    repeated string join = 1;
+  }
+
+  // ID of the new table with join path. Ex : LINEORDER_1, LINEORDER_2
+  optional string id = 1 [(Annotation.compulsory) = true];
+  // ID of the base table that is being used.
+  optional string table = 2 [(Annotation.compulsory) = true];
+  // Join paths of the given set of columns. Consists of sequence of join IDs.
+  repeated JoinPath join_path = 3;
+  // Identity of the columns from the given table.
+  repeated string column = 4;
+}
+
+// Any table in the worksheet/rls rule that uses a joined table has to have a table identity to
+// specify the table.
+message Identity {
+  // ID of the base table as referred in the edoc.
+  optional string id = 1;
+  // Name of the base table in the system.
+  optional string name = 2;
+  // If there are two tables with the same name, optionally we can use
+  // the fqn to figure out the object.
+  optional string fqn = 3;
+}
+
+// In cases where the user used a sage query to generate the query, we would use
+// the tokens to specify the exact query.
+message Token {
+  optional string id = 1;
+  optional string text = 2;
+}
+
+// A wrapper around each of the documents that can be created.
+message ObjectEDocProto {
+  // In case the user wants to update an existing object, user can provid guid
+  // of the object to update. This may or may not be used depending on whether
+  // an external guid is set to override this.
+  // Refer to ImportEPack API contract (edoc_service.proto) for more details.
+  //
+  // NOTE: We are using "1" as field number for "guid" because we want "guid" to
+  // be on top of the exported TML file for better readability.
+  optional string guid = 1;
+  // Exactly only one of the properties below will be populated.
+  optional WorksheetEDocProto worksheet = 2;
+  optional ViewEDocProto view = 3;
+  optional AnswerEDocProto answer = 4;
+  optional PinboardEDocProto pinboard = 5;
+  optional LogicalTableEDocProto table = 6;
+  repeated RelationEDocProto joins = 7;
+  repeated ObjectPermissions permissions = 8;
+}
+
+// Proto definition of a worksheet doc.
+message WorksheetEDocProto {
+
+  // Specific properties for the worksheet that would be needed during query
+  // generation.
+  message QueryProperties {
+    optional bool is_bypass_rls = 1;
+    optional bool join_progressive = 2;
+  }
+
+  // All details for a worksheet column.
+  message WorksheetColumn {
+    // Name of the column as seen by users.
+    optional string name = 1 [(Annotation.compulsory) = true];
+    // Description of the column.
+    optional string description = 2;
+    // ID of column of the table.
+    optional string column_id = 3;
+    // ID of formula to be used as a column.
+    optional string formula_id = 4;
+    // non-default properties to specify for the given column.
+    optional ColumnProperties properties = 5;
+  }
+
+  // Display name of the worksheet.
+  optional string name = 1 [(Annotation.compulsory) = true];
+  // Description of the worksheet.
+  optional string description = 2;
+  // All the tables referred in the worksheet.
+  repeated Identity tables = 3 [(Annotation.compulsory) = true, (Annotation.unique) = "id,fqn"];
+  // Joins that are used in creating of the worksheet.
+  repeated Join joins = 4 [(Annotation.unique) = "id"];
+  // Various manifestations of the tables in the worksheet.
+  repeated TablePath table_paths = 5 [(Annotation.unique) = "id"];
+  // Object manifestations defined in the worksheet.
+  repeated Formula formulas = 6 [(Annotation.unique) = "id"];
+  // Filters defined in the worksheet.
+  // The final result is the intersection/AND of all these filters.
+  repeated Filter filters = 7;
+  // All output columns.
+  repeated WorksheetColumn worksheet_columns = 8 [(Annotation.compulsory) = true, (Annotation.unique) = "name,column_id,formula_id"];
+  // Any special properties that can be specified by the user and which are
+  // needed during query generation like bypassRLS, progressive v/s container.
+  optional QueryProperties properties = 9;
+  // List of outgoing relationship definitions from this logical table.
+  repeated RelationEDocProto joins_with = 10;
+  // Generation Type of the worksheet.
+  optional string generation_type = 11;
+  // Lesson Plan Strings.
+  repeated LessonPlanEDocProto lesson_plans = 12;
+}
+
+message LessonPlanEDocProto {
+  // Index of the lesson in a dictionary.
+  // Note: lesson id is mapped to a query template for a lesson.
+  // For example: lesson_id = 0 lesson plan = <measure><operator><filter>
+  optional int32 lesson_id = 1;
+  // String representing a lesson plan.
+  optional string lesson_plan_string = 2;
+}
+
+message ViewEDocProto {
+
+  // Details related to columns present in the view.
+  message ViewColumn {
+    // [OPTIONAL].
+    // Name of the column as seen by users. This field is optional. If not
+    // provided, we use the search_output_column to display.
+    optional string name = 1;
+    // Description of the column.
+    optional string description = 2;
+    // ID of the column to refer to in the edoc.
+    optional string search_output_column = 3 [(Annotation.compulsory) = true];
+    // non-default properties to specify for the given column.
+    optional ColumnProperties properties = 4;
+  }
+
+  // Display name of the view.
+  optional string name = 1 [(Annotation.compulsory) = true];
+  // Description of the view.
+  optional string description = 2;
+  // All the tables referred in the view.
+  repeated Identity tables = 3 [(Annotation.compulsory) = true,       (Annotation.unique) = "id,fqn"];
+  // All the joins used in the creation of the view.
+  repeated Join joins = 4 [(Annotation.unique) = "id"];
+  // Various manifestations of the tables in the view.
+  repeated TablePath table_paths = 5 [(Annotation.unique) = "id"];
+  // In context formula.
+  repeated Formula formulas = 6 [(Annotation.unique) = "id"];
+  // String representing fully disambiguated Search Query.
+  // Refer to https://docs.thoughtspot.com/latest/app-integrate/reference/search-data-api.html#components .
+  optional string search_query = 7;
+  // List of columns in this view. Each entry contains the modeling properties
+  // for that column. Note: This list can be a subset of the number of columns
+  // that are created from the search query for this view. For the columns that
+  // are missing, we use default column properties.
+  repeated ViewColumn view_columns = 8 [(Annotation.unique) = "search_output_column"];
+  // List of outgoing relationship definitions from this logical table.
+  repeated RelationEDocProto joins_with = 9;
+}
+
+// ConnectionDoc represents mapping of table and columns created from external
+// data warehouse like Snowflake, Redshift, etc. The basic idea is to give user
+// an option to change the mapping of existing tables and columns to other
+// tables and columns in same DataSource or different DataSource. DataSource can
+// be updated by changing the properties in the ConnectionDoc.
+message ConnectionDoc {
+  message TableDoc {
+    message ExternalTableMapping {
+      // String representing database name in external source.
+      optional string db_name = 1;
+      // String representing schema name in external source.
+      optional string schema_name = 2;
+      // String representing table name in external source.
+      optional string table_name = 3;
+    }
+
+    message ColumnDoc {
+      // String representing name of the logical column.
+      optional string name = 1;
+      // String representing id of the logical column.
+      optional string id = 2;
+      // String representing data type of the logic column.
+      optional string data_type = 3;
+      // Properties representing external mapping.
+      optional string external_column = 4;
+    }
+
+    // Name of the logical table.
+    optional string name = 1;
+    // String representing id of the logical table.
+    optional string id = 2;
+    // Properties representing external mapping.
+    optional ExternalTableMapping external_table = 3;
+    // List of ColumnDoc.
+    repeated ColumnDoc column = 4;
+  }
+
+  // Name of the connection.
+  optional string name = 1;
+  // Type of Connection.
+  optional string type = 2;
+  // Authentication type of Connection.
+  // Mentioned in "atlas/public/metadata.proto" Datasource - authenticationType enum
+  optional string authentication_type = 3;
+  // Properties of Connection.
+  //repeated common.KeyValueStr properties = 4;
+  // List of TableDoc.
+  repeated TableDoc table = 5;
+}
+
+
+// Proto used to define conditional formatting for a numeric column in a
+// visualization.
+// Based on MetricDefinitionProto defined in callosum/client/metric.proto.
+// TODO(Archit): Should we re-use MetricDefinitionProto? There are some extra
+// fields in MetricDefinitionProto which are not used in conditional formatting
+// but we can still re-use if we keep the structure same. For re-use, we have to
+// also settle with non-intuitive field names like Row instead of Rule.
+message ConditionalFormattingProto {
+   // Condition specified for formatting using [min-max] range.
+  message Range {
+    optional double min = 1;
+    optional double max = 2;
+  }
+  // Rule defining a condition and corresponding visual properties like color
+  // for formatting.
+  message Rule {
+    // Value range.
+    optional Range range = 1;
+    // Color associated with range.
+    optional string color = 2;
+    // Whether to plot this metric like a band on the Visualization.
+    // TODO(Archit): Come up with a better name for this. On UI we show this
+    // option as "Fill Chart".
+    optional bool plotAsBand = 5;
+  }
+  // We can have multiple rules defined for the same column.
+  repeated Rule rule = 1;
+}
+
+// TODO(Archit): Should we rename:
+//  * TableColumn -> TableColumnProperties or ColumnProperties.
+//  * ChartColumn -> ChartColumnProperties or ColumnProperties.
+
+// Table visualization is used to display detailed view of the answer to the
+// user.  As the name suggests, a table with specified number of columns is
+// displayed to the user for a TableViz.
+message TableVisualization {
+  // Unless otherwise mentioned
+  // @clientState = @AnswerSpecProto.visualization.clientState
+  // for TABLE visualization in AnswerSpecProto.
+
+  // Table column with information on top of the answer column.
+  // Trying to capture @clientState.columnProperties map.
+  message TableColumn {
+    // Answer column id on which the table column is based.
+    // Key of @clientState.columnProperties map.
+    // TODO(Archit): Should we rename this to just id or be more explicit and
+    // rename it to answer_column or answer_column_id?
+    optional string column_id = 1 [(Annotation.compulsory) = true];
+    // Conditional formatting rules for displaying column's values in the table.
+    optional ConditionalFormattingProto conditional_formatting = 2;
+    // @clientState.columnProperties.<columnId>.wrapColumnText.
+    // TODO(Jasmeet/Chetan): Should we instead use a string to capture wrap
+    // style? As of now there are only two styles {WRAP, CLIP}, hence boolean is
+    // sufficient. In future if we introduce a third one like NO_WRAP_NO_CLIP,
+    // string field would be easier to extend.
+    optional bool wrap_column_text = 4;
+    // Used to populate
+    // @AnswerSpecProto.answer_properties.headline_visibility_map.
+    optional bool show_headline = 6 [default = true];
+    // Used to populate
+    // @AnswerSpecProto.visualization.headline.config.aggr.
+    // allowed Values:
+    //  1. COUNT
+    //  2. COUNT_DISTINCT
+    //  3. SUM
+    //  4. MIN
+    //  5. MAX
+    //  6. AVERAGE
+    //  7. TABLE_AGGR
+    // TODO(Archit): Do we need another value like MIN_MAX or RANGE to model
+    // headline which shows both min and max values of the column. In AnswerSpec
+    // we are modelling it via list of Aggregation enums but that does not seem
+    // very intuitive. Also should we then change the name of the field to
+    // headline_type instead of headline_aggregation?
+    // TODO(Archit): Verify and Update if:
+    //  * Any other values are allowed for headline aggregation.
+    //  * There is some other string representation of these aggregations being
+    //    used in WorksheetEDocProto.
+    // Based on atlas.AggregationType.E defined in atlas/public/metadata.proto.
+    // NOTE: Valid values will depend on the properties of answer column.
+    optional string headline_aggregation = 7 [(Annotation.allowed_values_key) = "edoc.headline_aggregation_type"];
+
+    // Deprecated.
+    // @clientState.widthState.<columnId>.
+    // TODO(Jasmeet/Chetan): Does it make sense to move this inside column
+    // properties in json representation of client_state as well.
+    optional int32 column_width = 5;
+  }
+
+  // List of table columns with information on top of the answer columns.
+  // @clientState.columnProperties.
+  repeated TableColumn table_columns = 1 [(Annotation.unique) = "column_id"];
+  // @clientState.ordered_column_ids.
+  repeated string ordered_column_ids = 2;
+  // @clientState.showGridSummary.
+  optional bool show_grid_summary = 3;
+  // @clientState.showTableFooter.
+  optional bool show_table_footer = 4;
+  // @clientState.wrapTableHeader.
+  optional bool wrap_table_header = 5;
+
+  // Any left over @clientState can be serialized as json string.
+  // NOTE: In V1 we might store the complete client state in this field without
+  // using any of the other proto fields corresponding to the client state.
+  optional string client_state = 6;
+  // Store new client state of the table object as json string converted from proto.
+  optional string client_state_v2 = 7;
+}
+
+// Chart visualizations are a more graphical representations of the TableViz.
+// Various chart types from simple line chart to hierarchical geo charts are
+// supported.
+message ChartVisualization {
+  // Unless otherwise mentioned
+  // @clientState = @AnswerSpecProto.visualization.clientState
+  // for CHART visualization in AnswerSpecProto.
+
+  // Chart column with information on top of the answer column.
+  // Trying to capture @clientState.columnProperties map.
+  message ChartColumn {
+    // Answer column id on which the chart column is based.
+    // TODO(Archit): Should we rename this to just id or be more explicit and
+    // rename it to answer_column or answer_column_id?
+    optional string column_id = 1 [(Annotation.compulsory) = true];
+    // Conditional formatting rules for displaying column's values in the chart.
+    optional ConditionalFormattingProto conditional_formatting = 2;
+    // @clientState.columnProperties.<columnId>.dataLabels.
+    // TODO(Jasmeet/Chetan): Is there a default value for this?
+    optional bool show_data_labels = 3;
+  }
+
+  // Axis config represents what columns lie on what axis on the chart.
+  // - Charts, in general plot y axis column values over x axis column values.
+  // - Additionally, y axis values can be categorized over color columns while plotting (legend).
+  // - If we don't want the legend to be colored coded, for ex in SCATTER chart,
+  // then y axis values are categorized over category columns while plotting.
+  // - Some charts like the bubble chart, also have a notion of a radial column, where value of
+  // the measure represent the size of the bubble.
+  // - User sorted measure columns are plotted on the sort columns.
+  // TODO(Archit): Should we re-use existing AxisConfig proto?
+  message AxisConfig {
+    // X-axis/series columns of the chart.
+    repeated string x = 1;
+    // Y-axis/values columns of the chart.
+    repeated string y = 2;
+    // Z-axis/legend/category columns of the chart.
+    repeated string color = 3;
+    // R-axis/Radial column of the chart.
+    optional string size = 4;
+    // Non-color legend columns of the chart.
+    repeated string category = 6;
+    // User sorted columns of the chart.
+    repeated string sort = 7;
+    // Next id: 8
+
+    // Deprecated.
+    // Hidden columns of the chart.
+    repeated string hidden = 5;
+  }
+
+  // Type of the chart.
+  // Allowed Values:
+  //    1. COLUMN
+  //    2. BAR
+  //    3. LINE
+  //    4. PIE
+  //    5. SCATTER
+  //    6. BUBBLE
+  //    7. STACKED_COLUMN
+  //    8. AREA
+  //    9. PARETO
+  //    10. GEO_AREA
+  //    11. GEO_BUBBLE
+  //    12. GEO_HEATMAP
+  //    13. GEO_EARTH_AREA
+  //    14. GEO_EARTH_BUBBLE
+  //    15. GEO_EARTH_BAR
+  //    16. GEO_EARTH_HEATMAP
+  //    17. GEO_EARTH_GRAPH
+  //    18. WATERFALL
+  //    19. TREEMAP
+  //    20. HEATMAP
+  //    21. STACKED_AREA
+  //    22. LINE_COLUMN
+  //    23. FUNNEL
+  //    24. PIVOT_TABLE
+  //    25. LINE_STACKED_COLUMN
+  //    26. SANKEY
+  //    27. GRID_TABLE
+  //    28. SPIDER_WEB
+  //    29. WHISKER_SCATTER
+  //    30. STACKED_BAR
+  //    31. CANDLESTICK
+  // Based on callosum.VisualizationProto.ChartVisualizationContentProto.ChartTypeEnumProto
+  // defined in callosum/client/visualization.proto.
+  optional string type = 1 [(Annotation.compulsory) = true, (Annotation.allowed_values_key) = "edoc.chart_type"];
+  // List of chart column with information on top of the answer column.
+  // @clientState.columnProperties.
+  repeated ChartColumn chart_columns = 2 [(Annotation.unique) = "column_id"];
+  // Axis configuration of the chart. Repeated because some charts need
+  // more than one query to be displayed. Extra configuration represent
+  // other queries that might be needed to display such charts. For example,
+  // to display a stacked column chart for 'revenue by region by nation'
+  // with an overlay of line chart for 'revenue by region' requires multiple
+  // queries with different grouping columns.
+  repeated AxisConfig axis_configs = 3;
+  // Any left over @clientState can be serialized as json string.
+  // NOTE: In V1 we might store the complete client state in this field without
+  // using any of the other proto fields corresponding to the client state.
+  optional string client_state = 5;
+  // Store new client state of the chart object as json string converted from proto.
+  optional string client_state_v2 = 6;
+
+  // All the fields below this line are deprecated. ///////////////////////////
+
+  // We are no longer exporting locked property of the chart because for saved
+  // answers chart it automatically locked, hence during import we can simply
+  // set locked to true in the AnswerSpec.
+  optional bool locked = 4 [default = true, deprecated = true];
+}
+
+// Proto definition for answer doc.
+//
+// A simple answer will look something like this in YAML.
+//
+// name: Simple Answer
+// description: Description of a Simple Answer
+// tables:
+// - name: LinedOrderWS
+// search_query: [Revenue] [Commit Date].yearly [Region] = 'asia'
+// chart:
+//   type: COLUMN
+//   axis_configs:
+//   - x:
+//     - Yearly Commit Date
+//     y:
+//     - Revenue
+//
+// Same answer using an AnswerColumn to create an alias for year column which is
+// then used in chart config.
+//
+// name: Simple Answer
+// description: Description of a Simple Answer
+// tables:
+// - name: LinedOrderWS
+// search_query: [Revenue] [Commit Date].yearly [Region] = 'asia'
+// answer_columns:
+// - id: Year                                   // Alias created for Year.
+//   name: Yearly Commit Date
+//   custom_name: Year of Commit Date
+// chart:
+//   type: COLUMN
+//   axis_configs:
+//   - x:
+//     - Year                                   // Alias used in chart.
+//     y:
+//     - Revenue
+//
+message AnswerEDocProto {
+  // AnswerColumn serves following purposes:
+  // 1. Create a convinient alias (@id) for output columns of search query.
+  //    This enables easy referencing of the output columns in Table or Chart
+  //    definitions.
+  // 2. Attach some OPTIONAL user defined properties/overrides
+  //    (eg. @custom_name, @format) to the output columns of search query.
+  //    These properties are used across visualizations (Table and Chart),
+  //    hence they are part of AnswerColumn instead of individal visualization
+  //    columns (TableColumn/ChartColumn) .
+  // 3. In future we can also support defining the output column here itself
+  //    instead of using using search. This can be a new way of creating answers
+  //    without using the search query.
+  //
+  // Some notable points:
+  // 1. If none of the properties/overrides are defined by the user for an
+  //    OutputColumn then it is not necessary to define AnswerColumn for it.
+  // 2. We can still define the AnswerColumn without properties/overrides just
+  //    to create a convinient alias.
+  // 3. If AnswerColumn is not defined, OutputColumn's auto-generated name
+  //    (@name) will be used for referencing it.
+  //
+  // TODO(Archit): Should we break this into two protos? One for just defining
+  // the alias and another one for properties/overrides.
+  message AnswerColumn {
+    // [OPTIONAL].
+    // Alias for the column for easy referencing in the edoc.
+    // If not specified @name is used as the @id.
+    // TODO(Archit): If @id is not specified but @custom_name is specified,
+    // should we use @custom_name as the @id? Also should we merge @id and
+    // @custom_name into 1 field or keep them separate as they serve different
+    // purpose.
+    optional string id = 1;
+    // TODO(Archit): Should we rename "name" -> query_column and "custom_name"
+    // -> "name". We can also just rename "custom_name" to "display_name".
+    // [REQUIRED].
+    // Auto generated name of the answer column from the search query.
+    // Eg. Sum Revenue, Average Tax, ShipMode, Count Color, OrderDate Monthly.
+    // This is how we will map the output columns of the search query to
+    // AnswerEDoc's Answer Columns.
+    optional string name = 2 [(Annotation.compulsory) = true];
+    // [OPTIONAL].
+    // Overriden display name specified by the user. If specified this will
+    // replace auto generated @name while rendering table or chart.
+    optional string custom_name = 3;
+    // [OPTIONAL].
+    // This is for formatting numeric column values.
+    // Captures @client_state.columnProperties.<columnId>.format where
+    // @client_state = @AnswerSpecProto.answer_properties.sheet_properties.clientState.
+    // TODO(Jasmeet/Chetan): I see copy of this in viz level client states. Do
+    // we need to define this at viz level also?
+    // TODO(Archit): Verify structure and field names of
+    // blink.numberFormatConfig.FormatConfig are suitable for EDoc.
+    // NOTE: This (say this_format) is different from
+    // AnswerSpecProto.answer_column.properties.format (say other_format)
+    // because @other_format flows from worksheet column's definition whereas
+    // @this_format is defined by the user within the answer.
+    // TODO(Jasmeet/Chetan): Does @this_format overrides @other_format?
+    //optional blink.numberFormatConfig.FormatConfig format = 4;
+  }
+
+  // Display name of the answer.
+  optional string name = 1 [(Annotation.compulsory) = true];
+  // Description of the answer.
+  optional string description = 2;
+  // All the tables referred in the answer.
+  repeated Identity tables = 3 [(Annotation.compulsory) = true,       (Annotation.unique) = "id,fqn"];
+  // Joins that are used in the answer.
+  repeated Join joins = 4 [(Annotation.unique) = "id"];
+  // Various manifestations of the tables in the answer.
+  repeated TablePath table_paths = 5 [(Annotation.unique) = "id"];
+  // Formulas defined in the answer.
+  repeated Formula formulas = 6 [(Annotation.unique) = "id"];
+  // String representing fully disambiguated Search Query.
+  // Refer to https://docs.thoughtspot.com/latest/app-integrate/reference/search-data-api.html#components .
+  optional string search_query = 7;
+  // List of columns generated by the search query.
+  repeated AnswerColumn answer_columns = 8 [(Annotation.unique) = "id,name"];
+  // Visualizations present in the answer.
+  optional TableVisualization table = 9;
+  optional ChartVisualization chart = 10;
+  // This decides whether to display TABLE or CHART when the answer is opened.
+  // Based on AnswerDisplayMode enum defined in Blink.
+  // Allowed Values: TABLE_MODE | CHART_MODE .
+  // Keeping this string instead of bool for future extensibility. Blink uses a
+  // third value (R_ANALYSIS) for R Visualizations.
+  // * TML does not support R viz as of now. R viz will get exported as table.
+  // * If not set, TABLE_MODE is used as the default value during import.
+  optional string display_mode = 11 [(Annotation.allowed_values_key) = "edoc.display_mode"];
+  // This field is for supporting answer column client state for old versions
+  // where client state proto was not used
+  optional string client_state = 12 [deprecated = true];
+}
+
+// Proto for defining a visualization pinned to a pinboard.
+message PinnedVisualization {
+  // Id used to refer this pinned answer in PinboardEDocProto. For eg. while
+  // defining the layout. If not populated @answer.name will be used as the @id.
+  //
+  // NOTE: We are using "1" as field number for "id" because we want "id" to be
+  // printed before the complete answer definition for better readability of the
+  // exported pinboard TML file.
+  optional string id = 1;
+  // Underlying answer of the pinned visualization.
+  optional AnswerEDocProto answer = 2;
+  // This is needed to figure out which visualization of the answer should be
+  // displayed in the pinboard. User can specify one of the following:
+  //  1. TABLE
+  //  2. CHART
+  //  3. HEADLINE of an AnswerColumn. This can be specified as
+  //     HEADLINE::AnswerColumnId. For eg. HEADLINE::Revenue.
+  // optional string display_mode = 3;
+  // **************** Alternate way to capture display_mode ******************.
+  // For TABLE|CHART, @answer.display_mode can suffice. Hence extra bit is
+  // needed only if HEADLINE needs to be displayed. We can just have a field
+  // to capture the headline's column name if headline needs to be displayed.
+  optional string display_headline_column = 3;
+  // Sub-type of generic viz. In case  of generic viz we there will only be a
+  // subType rather than pinned answer. Note that a pinboard can still have pinned
+  // answer in addition to generic viz.
+  optional string generic_viz_sub_type = 4;
+}
+
+// PinboardLayout proto to specify how pinned visualizations should be arranged
+// in a pinboard.
+message PinboardLayout {
+  message Tile {
+    // PinnedVisualization's Id to be displayed in the tile.
+    optional string visualization_id = 1 [(Annotation.compulsory) = true];
+    // Size of the tile.
+    // Allowed Values:
+    //  1. EXTRA_SMALL
+    //  2. SMALL
+    //  3. MEDIUM
+    //  4. LARGE
+    //  5. EXTRA_LARGE
+    //  6. MEDIUM_SMALL
+    //  7. LARGE_SMALL
+    // Based on atlas.SheetLayout.Tile.Size defined in atlas/public/metadata.proto.
+    optional string size = 2 [(Annotation.allowed_values_key) = "edoc.pb_viz_size"];
+  }
+  // List of tiles ordered as per the desired layout.
+  repeated Tile tiles = 1;
+}
+
+// Proto definition for pinboard doc.
+// TODO(Archit): Add a simple example for better readability.
+message PinboardEDocProto {
+  // Display name of the pinboard.
+  optional string name = 1 [(Annotation.compulsory) = true];
+  // Description of the pinboard.
+  optional string description = 2;
+  // All the tables referred in the pinboard.
+  // TODO(Archit): Should we keep this only inside answer? But what if whole
+  // pinboard is built on top of a single worksheet? We will end up repeating
+  // this in all the answers.
+  repeated Identity tables = 3;
+  // List of pinned visualizations.
+  repeated PinnedVisualization visualizations = 4 [(Annotation.compulsory) = true, (Annotation.unique) = "id"];
+  // List of pinboard filters.
+  repeated Filter filters = 5;
+  // Pinboard layout specifying how pinned visualizations should be arranged
+  // in this pinboard.
+  optional PinboardLayout layout = 6 [(Annotation.unique) = "visualization_id"];
+}
+
+// All user defined objects like answers, pinboards, views and worksheets, are
+// created using a logical representation of the underlying tables.
+// For e.g.
+//         MyAnswer -> LINEORDER[Logical] -> LINEORDER[Physical]
+// Here MyAnswer uses columns from a logical table called LINEORDER, that is
+// derived from a physical table called LINEORDER.
+//
+// This logical representation allows users to customize the underlying schema
+// for their convenience and requirements.
+// For e.g. at logical layer, a user is allowed to,
+//   a. change table/column names.
+//   b. set column type. e.g. a numeric column can be labelled as ATTRIBUTE or
+//      MEASURE by the user.
+//   c. add RLS rules on tables.
+//   d. define new joins between tables.
+//
+// Since the logical layer can have a lot of user customizations, as explained
+// above, we allow users to download the entire logical schema as an edoc.
+//
+// Implementation detail:
+// In callosum metadata, worksheets and views are also represented as a logical
+// table. And a bunch of fields in LogicalTable.java are there to support these
+// special types of logical tables.
+// However since we already have a specialized edoc representation for both
+// views and worksheets, we are not adding those fields in the edoc definition
+// of a LogicalTable.
+// e.g. we have 2 types of filters in LogicalTable.java
+//   1. TableFilter
+//   2. Filter
+// Here 'Filter' is used to define worksheet filters, while table filters are
+// used for expressing RLS rules. So out of the 2, we only add TableFilter in
+// the edoc definition.
+//
+// This message defines the edoc representation of a logical table.
+message LogicalTableEDocProto {
+  // This message defines the edoc representation for rls rules.
+  message RlsRule {
+    message Rule {
+      // Each RLS rule is a boolean sage expressions, that is represented
+      // using a string. e.g.
+      // RLS rules support variables (ts_groups and ts_username). To represent them, we prefix a
+      // '$' sign.
+      //     1. f1 : column = $ts_groups
+      //     2. f2 : $ts_groups IN ('air','road')
+      //     3. f3 : column1 = column2
+      // An example RLS rule definition is
+      //    rls_rules:
+      //    - name: sales-mapping-rule
+      //    - expr: rls_sales_detail_mapping_1::group_name = $ts_groups
+      // rls_sales_detail_mapping_1 is a table path that is defined earlier.
+      // If there is an RLS rule that uses only columns from the same table, the column name is
+      // still qualified with the table path.
+      optional string name = 1;
+      optional string expr = 2;
+    }
+    // All the tables referred by the RLS rule.
+    repeated Identity tables = 1 [(Annotation.unique) = "id,fqn"];
+    // Joins that are used by the table.
+    repeated Join joins = 2 [(Annotation.unique) = "id"];
+    // Various manifestations of the joined tables.
+    repeated TablePath table_paths = 3 [(Annotation.unique) = "id"];
+    repeated Rule rules = 4;
+  }
+  // This message defines the edoc representation of a logical column.
+  message LogicalColumnEDocProto {
+    // User readable name and description of this logical column.
+    // Note: this name is expected to be unique in the scope of this table.
+    optional string name = 1;
+    optional string description = 2;
+    // Name of the column in the physical table this column maps to.
+    // Note: We assume that only a single column with this name exists in the
+    // db table.
+    // TODO(Archit/Akshay): Should this be an optional field, that needs to be
+    // set only when the logical name is not same as this.
+    // For embrace(external) tables, this field is the external column name.
+    optional string db_column_name = 3;
+
+    optional ColumnProperties properties = 4;
+    optional DbColumnProperties db_column_properties = 5;
+  }
+
+  // ColumnProperties are used for updating the logical column. But we also need
+  // some data structure for scripting physical column properties like
+  // primary_key, foreing_key and data_type. This message can be used for that
+  // requirement.
+  message DbColumnProperties {
+    optional string data_type = 1;
+  }
+
+  // User readable name and description of the logical table to create/update.
+  optional string name = 1;
+  optional string description = 2;
+
+  // Fields required to uniquely identify the db table this table maps to.
+  optional string db = 3;
+  optional string schema = 4;
+  // Note: We assume that only a single table with given @db_table name
+  //       exists in the dependant db-schema pair.
+  //       Since we don't need fqn, using string instead of Identity here.
+  optional string db_table = 5;
+  // A tuple of <db, schema, table> is usually sufficient to uniquely identify
+  // a database table. But since we also support multiple database systems, we
+  // need one more identifier i.e. <system, db, schema, table>.
+  // In embrace terminology, we call this new vairable a 'connection'.
+  // In a cluster we can have multiple connections, to the same or to different
+  // database systems. Also each connection has a name that need not be unique.
+  // Side note: Since logical tables now depends on a connection object instead
+  //            of the physical tables directly, the connection controls what
+  //            underlying tables and columns are visible to the logical layer.
+  // Based on this design, the following rule applies when an external db is
+  // involved:
+  // 1. while downloading, we just download the name of the connection object.
+  // 2. while uploading, we need to provide a name (or fqn in-case name is not
+  //    unique) of the connection we want to use.
+  //    More details about upload logic present in "EDocToTableTranslator.java"
+  // However an empty connection field indicates we indent to use a database in
+  // falcon.
+  optional Identity connection = 6;
+
+  // Below fields defines this table.
+  repeated LogicalColumnEDocProto columns = 7;
+  // Order'd list of rls filters along with supplementary information applied to table.
+  optional RlsRule rls_rules = 8;
+  // List of outgoing relationship definitions from this logical table.
+  repeated RelationEDocProto joins_with = 9;
+
+  // TODO(Akshay):
+  // Add schema version of the physical table? Not relevant for current usecase
+  // of updating logical layer. But need to revisit, when we start making
+  // changes to physical layer.
+}
+
+// This message defines the edoc representation of logical relationship.
+message JoinEDocProto {
+  message ColumnPair {
+    // Note: These names in conjunction with source and destination tables
+    // identities, can un-ambigously represent a logical column in metadata.
+    optional string source_column = 1;
+    optional string destination_column = 2;
+  }
+  // User readable name and description of the relationship to create/update.
+  optional string name = 1;
+  optional string description = 2;
+  // Logical table name or FQN (in case of multiple tables with same name), of
+  // source table.
+  optional Identity source_table = 3;
+  // Logical table name or FQN (in case of multiple tables with same name), of
+  // destination table.
+  optional Identity destination_table = 4;
+  // A join between two tables can be one-to-one, many-to-one or many-to-many.
+  // A ColumnPair represents an edge in the set of relationships in this join.
+  repeated ColumnPair column_pairs = 5;
+  // Allowed values: { inner, outer, left-outer, right-outer }
+  optional string type = 6;
+  // A string representaion of a boolean expression that represents the join
+  // condition. Note: We assume an equi-join if this field is not set.
+  // TODO(Akshay): Revisit.
+  optional string generic_join_condition = 7;
+  optional bool is_one_to_one = 8;
+}
+
+// This message defines the edoc representation of logical schema.
+message LogicalSchemaProto {
+  repeated LogicalTableEDocProto tables = 1;
+  repeated JoinEDocProto joins = 2;
+}
+
+// This message defines the edoc representation of logical schema.
+message ObjectPermissions {
+  // There is a provision in system to just share a column of a base table rather
+  // than sharing complete table. If a particular column is being shared, we will
+  // have column name followed by the permissions.
+  repeated string columns = 1;
+  optional string access_type = 2 [(Annotation.allowed_values_key) = "edoc.access_type"];
+  repeated string users = 3;
+  repeated string user_groups = 4;
+}
