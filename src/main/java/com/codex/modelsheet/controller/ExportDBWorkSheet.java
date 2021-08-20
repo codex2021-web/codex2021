@@ -30,7 +30,7 @@ public class ExportDBWorkSheet extends  BaseController{
         String xRequestedBy = "ThoughtSpot";
         String username = ConfigInfo.getConfigs().getProperty("username");
 
-        controller.export(username, authToken, accept, xRequestedBy);
+        controller.export(username, authToken, accept, xRequestedBy, workSheetId);
 
         String response = new BufferedReader(
                 new InputStreamReader(httpResponse.getResponse().getRawBody(), StandardCharsets.UTF_8))

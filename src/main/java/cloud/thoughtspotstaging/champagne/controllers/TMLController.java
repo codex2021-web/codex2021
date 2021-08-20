@@ -125,9 +125,10 @@ public final class TMLController extends BaseController {
                                     final String username,
                                     final String authToken,
                                     final String accept,
-                                    final String xRequestedBy
+                                    final String xRequestedBy,
+                                    final String workSheetId
     ) throws ApiException, IOException {
-        HttpRequest request = buildExportRequest(username, authToken, accept, xRequestedBy);
+        HttpRequest request = buildExportRequest(username, authToken, accept, xRequestedBy, workSheetId);
 
         HttpResponse response = getClientInstance().execute(request, false);
 
@@ -214,12 +215,13 @@ public final class TMLController extends BaseController {
             final String userName,
             final String authToken,
             final String accept,
-            final String xRequestedBy) {
+            final String xRequestedBy,
+            final String workSheetId) {
         //the base uri for api requests
         String baseUri = config.getBaseUri();
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
-                + "/metadata/edoc/TABLE/c1a32849-6e99-428e-abef-39f273b2cd95");
+                + "/metadata/edoc/").append("WORKSHEET").append("/").append(workSheetId);
         System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
