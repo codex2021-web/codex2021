@@ -15,10 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExcelPojoToExcel {
-    public static void main(String args[]) throws GeneralSecurityException, IOException {
+    public void dataWritingInToExcel(String spreadsheetId) throws GeneralSecurityException, IOException {
         ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
         SheetsQuickstart sheetsQuickstart = new SheetsQuickstart();
-        String spreadsheetId = "1iztXkbN3v1nbI3GoXoIeGvznjvKlOMGzY4xG9ZM0RXE";
+       // String spreadsheetId = "1iztXkbN3v1nbI3GoXoIeGvznjvKlOMGzY4xG9ZM0RXE";
         ModelSheet modelSheet = excelToExcelPojo.getModelSheet(spreadsheetId);
 
         List<Sheet> sheetsNew = new ArrayList<>();
@@ -94,17 +94,6 @@ public class ExcelPojoToExcel {
             workSheetObjects.addAll(Collections.singleton(newObject));
         }
         updateSpreadSheet(service,workSheetObjects,spreadsheet.getSpreadsheetId(),range);
-        /*List<Request> requests = new ArrayList<>();
-        requests.add(new Request().setUpdateTextStyle(new UpdateTextStyleRequest()
-                .setTextStyle(new TextStyle()
-                        .setBold(true)
-                        .setItalic(true))
-                .setRange(new Range()
-                        .setStartIndex(1)
-                        .setEndIndex(5))
-                .setFields("bold")));*/
-
-
     }
 
     private static void updateSpreadSheet(Sheets service, List<List<Object>> workSheetObjects, String spreadsheetId, String range) throws IOException {
