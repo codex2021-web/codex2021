@@ -2,7 +2,7 @@
  * Copyright: ThoughtSpot Inc. 2019
  */
 
-package com.codex.modelsheet.controller;
+package com.codex.modelsheet.util;
 
 import com.google.protobuf.Message;
 

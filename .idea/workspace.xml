@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33571021-7ade-4700-bb04-a5c8dc448a98" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/ExcelPojoToExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/ExcelPojoToExcel.java" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/config.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ModelSheetClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/BaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/CreateTmlPojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/ExportDBWorkSheet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/helper/ConfigInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/helper/HttpCallbackCatcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/helper/TestHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/SheetsQuickstart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/SheetsQuickstart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/SpreadsheetSnippets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller/SpreadsheetSnippets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/util/Util.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,18 +104,18 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/helper" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/helper" />
       <recent name="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/controller" />
       <recent name="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/model" />
       <recent name="$PROJECT_DIR$/src/main/java" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/codex/modelsheet/proto" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.codex.modelsheet.controller" />
@@ -249,20 +264,6 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/cloud/thoughtspotstaging/champagne/controllers/TmlMarshalingTest.java</url>
-          <line>109</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/cloud/thoughtspotstaging/champagne/controllers/TmlMarshalingTest.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
@@ -270,16 +271,20 @@
     </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+<<<<<<< Updated upstream
     <SUITE FILE_PATH="coverage/Codex2021$ExcelPojoToExcel.ic" NAME="ExcelPojoToExcel Coverage Results" MODIFIED="1629462909659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+=======
+    <SUITE FILE_PATH="coverage/Codex2021$ExcelToExcelPojo.ic" NAME="ExcelToExcelPojo Coverage Results" MODIFIED="1629434509516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.codex.modelsheet.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Codex2021$ExcelPojoToExcel.ic" NAME="ExcelPojoToExcel Coverage Results" MODIFIED="1629442377383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+>>>>>>> Stashed changes
       <FILTER>com.codex.modelsheet.controller.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Codex2021$SheetsQuickstart.ic" NAME="SheetsQuickstart Coverage Results" MODIFIED="1629374350841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.codex.modelsheet.controller.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Codex2021$ExcelToTml.ic" NAME="ExcelToTml Coverage Results" MODIFIED="1629360720115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.codex.modelsheet.controller.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Codex2021$ExcelToExcelPojo.ic" NAME="ExcelToExcelPojo Coverage Results" MODIFIED="1629434509516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.codex.modelsheet.controller.*</FILTER>
     </SUITE>
   </component>

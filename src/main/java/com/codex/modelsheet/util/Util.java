@@ -1,4 +1,4 @@
-package com.codex.modelsheet.controller;
+package com.codex.modelsheet.util;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -12,6 +12,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class Util {
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
      */
-    protected static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
         InputStream in = new FileInputStream(new File(CREDENTIALS_FILE_PATH));
         //  InputStream in = com.codex.modelsheet.controller.SheetsQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -52,4 +54,8 @@ public class Util {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+    public static String readFile(String fileName) throws IOException {
+        String content = new String(Files.readAllBytes(Paths.get(fileName)));
+        return content;
+    }
 }

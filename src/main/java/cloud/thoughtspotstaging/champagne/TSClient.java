@@ -9,6 +9,7 @@ package cloud.thoughtspotstaging.champagne;
 import cloud.thoughtspotstaging.champagne.controllers.SessionController;
 import cloud.thoughtspotstaging.champagne.controllers.TMLController;
 import cloud.thoughtspotstaging.champagne.http.client.*;
+import com.codex.modelsheet.helper.ConfigInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -151,12 +152,15 @@ public final class TSClient implements Configuration {
      * @return base URL
      */
     private static String environmentMapper(Environment environment, Server server) {
+        String host = ConfigInfo.getConfigs().getProperty("host");
+        String port = ConfigInfo.getConfigs().getProperty("port");
+        String ip = host+":"+port;
         if (environment.equals(Environment.PRODUCTION)) {
             if (server.equals(Server.ENUM_DEFAULT)) {
-                return "http://172.19.153.245:8088/callosum/v1";
+                return "http://"+ip+"/callosum/v1";
             }
         }
-        return "http://172.19.153.245:8088/callosum/v1";
+        return "http://"+ip+"/callosum/v1";
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
  * Copyright: ThoughtSpot Inc. 2012
  */
-package com.codex.modelsheet.controller;
+package com.codex.modelsheet.util;
 
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonNode;

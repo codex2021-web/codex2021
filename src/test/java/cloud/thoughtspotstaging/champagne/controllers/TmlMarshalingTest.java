@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 import cloud.thoughtspotstaging.champagne.TSClient;
 import cloud.thoughtspotstaging.champagne.exceptions.ApiException;
-import com.codex.modelsheet.controller.ProtoUtils;
 import com.codex.modelsheet.model.EDoc;
+import com.codex.modelsheet.util.ProtoUtils;
 import org.junit.*;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
