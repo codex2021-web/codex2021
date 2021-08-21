@@ -126,9 +126,10 @@ public final class TMLController extends BaseController {
                                     final String authToken,
                                     final String accept,
                                     final String xRequestedBy,
-                                    final String workSheetId
+                                    final String workSheetId,
+                                    final boolean isWorkSheet
     ) throws ApiException, IOException {
-        HttpRequest request = buildExportRequest(username, authToken, accept, xRequestedBy, workSheetId);
+        HttpRequest request = buildExportRequest(username, authToken, accept, xRequestedBy, workSheetId, isWorkSheet);
 
         HttpResponse response = getClientInstance().execute(request, false);
 
@@ -216,7 +217,8 @@ public final class TMLController extends BaseController {
             final String authToken,
             final String accept,
             final String xRequestedBy,
-            final String workSheetId) {
+            final String workSheetId,
+            final boolean isWorkSheet) {
         //the base uri for api requests
         String baseUri = config.getBaseUri();
         //prepare query string for API call
@@ -232,14 +234,8 @@ public final class TMLController extends BaseController {
         headers.add("Authorization", "Bearer "+authToken);
 
         Map<String, Object> formParameters = new HashMap<>();
-        /*formParameters.put("type", "WORKSHEET");
-        formParameters.put("id", "008e037c-b3dc-4ae5-b285-74d22d64fab4");*/
-        formParameters.put("export_names", "[\""+workSheetId+"\"]");
-        formParameters.put("isworksheet", true);
-
-        Map<String, Object> queryParameters = new HashMap<>();
-        queryParameters.put("formattype", "YAML");
-        queryParameters.put("exportpermissions", false);
+        formParameters.put("export_names", workSheetId);
+        formParameters.put("isworksheet", isWorkSheet);
 
         HttpRequest request = getClientInstance().post(queryBuilder, headers, null, ApiHelper.prepareFormFields(formParameters));
 
