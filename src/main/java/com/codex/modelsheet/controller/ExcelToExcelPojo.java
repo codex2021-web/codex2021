@@ -109,14 +109,14 @@ public class ExcelToExcelPojo {
                     attribute.setFormatPattern(attributeValue.get(13).toString());
                 }if(attributeValue.size() >=15){
                     attribute.setCurrencyType(attributeValue.get(14).toString());
-                }if(attributeValue.size() >=15){
+                }if(attributeValue.size() >=16){
                     attribute.setAttributeDimension(attributeValue.get(15).toString());
-                }if(attributeValue.size() >=13){
-                    attribute.setSpotIqPreference(attributeValue.get(12).toString());
-                }if(attributeValue.size() >=14){
-                    attribute.setCalenderType(attributeValue.get(13).toString());
-                }if(attributeValue.size() >=15){
-                    attribute.setWorksheetColumn(attributeValue.get(14).toString());
+                }if(attributeValue.size() >=17){
+                    attribute.setSpotIqPreference(attributeValue.get(16).toString());
+                }if(attributeValue.size() >=18){
+                    attribute.setCalenderType(attributeValue.get(17).toString());
+                }if(attributeValue.size() >=19){
+                    attribute.setWorksheetColumn(attributeValue.get(18).toString());
                 }
 
 
