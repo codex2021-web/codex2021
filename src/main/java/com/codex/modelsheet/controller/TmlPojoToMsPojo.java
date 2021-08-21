@@ -9,7 +9,7 @@ public class TmlPojoToMsPojo {
     public ModelSheet convertToGSPOJO(EDoc.ObjectEDocProto.Builder tableBuilder){
         ModelSheet modelSheet = new ModelSheet();
 
-        if(tableBuilder.getWorksheet() != null){
+        if(tableBuilder.hasWorksheet()){
             List<WorkSheet> workSheetList = new ArrayList<WorkSheet>();
             for(EDoc.Identity table : tableBuilder.getWorksheet().getTablesList()){
                 WorkSheet workSheet = new WorkSheet();
@@ -22,8 +22,7 @@ public class TmlPojoToMsPojo {
             modelSheet.setWorkSheets(workSheetList);
 
         }
-        if(tableBuilder.getTable() != null){
-
+        if(tableBuilder.hasTable()){
             List<Tables> tables = new ArrayList<Tables>();
             List<String> tableNames = new ArrayList<>();
 
@@ -62,7 +61,7 @@ public class TmlPojoToMsPojo {
 
             List<String> tableIds = new ArrayList<>();
             List<String> worksheetColumns = new ArrayList<>();
-            if(tableBuilder.getWorksheet() != null){
+            if(tableBuilder.hasWorksheet()){
                 tableBuilder.getWorksheet().getTablePathsList().parallelStream()
                         .filter(tp -> tableNames.contains(tp.getTable()))
                         .filter(tp -> tableIds.add(tp.getId()));
