@@ -234,7 +234,7 @@ public final class TMLController extends BaseController {
         Map<String, Object> formParameters = new HashMap<>();
         /*formParameters.put("type", "WORKSHEET");
         formParameters.put("id", "008e037c-b3dc-4ae5-b285-74d22d64fab4");*/
-        formParameters.put("export_names", "[\"Supplier Worksheet\"]");
+        formParameters.put("export_names", "[\""+workSheetId+"\"]");
         formParameters.put("isworksheet", true);
 
         Map<String, Object> queryParameters = new HashMap<>();
