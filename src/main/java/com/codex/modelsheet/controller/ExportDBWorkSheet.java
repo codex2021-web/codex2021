@@ -5,11 +5,16 @@ import cloud.thoughtspotstaging.champagne.controllers.SessionController;
 import cloud.thoughtspotstaging.champagne.controllers.TMLController;
 import cloud.thoughtspotstaging.champagne.exceptions.ApiException;
 import com.codex.modelsheet.helper.ConfigInfo;
+import com.codex.modelsheet.util.JSONUtil;
+import com.codex.modelsheet.util.Util;
 import sun.misc.IOUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -36,7 +41,10 @@ public class ExportDBWorkSheet extends  BaseController{
                 new InputStreamReader(httpResponse.getResponse().getRawBody(), StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));
-        System.out.println("Export Worksheet Response: "+response);
+        //System.out.println("Export Worksheet Response: "+response);
+        Map<String, String> tmls = JSONUtil.getGsonUI().fromJson(response, Map.class);
+        byte[] zipBytes = Util.createZip(tmls);
+        Util.writeFile(ConfigInfo.getConfigs().getProperty("filename"), zipBytes);
     }
     public String getAuthToken() throws IOException, ApiException {
 

@@ -220,8 +220,8 @@ public final class TMLController extends BaseController {
         //the base uri for api requests
         String baseUri = config.getBaseUri();
         //prepare query string for API call
-        final StringBuilder queryBuilder = new StringBuilder(baseUri
-                + "/metadata/edoc/").append("WORKSHEET").append("/").append(workSheetId);
+        final StringBuilder queryBuilder = new StringBuilder(baseUri).append("/tspublic/v1/metadata/tml/exportmodelsheet");
+                //+ "/metadata/edoc/").append("WORKSHEET").append("/").append(workSheetId);
         System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
@@ -232,14 +232,16 @@ public final class TMLController extends BaseController {
         headers.add("Authorization", "Bearer "+authToken);
 
         Map<String, Object> formParameters = new HashMap<>();
-        formParameters.put("type", "WORKSHEET");
-        formParameters.put("id", "008e037c-b3dc-4ae5-b285-74d22d64fab4");
+        /*formParameters.put("type", "WORKSHEET");
+        formParameters.put("id", "008e037c-b3dc-4ae5-b285-74d22d64fab4");*/
+        formParameters.put("export_names", "[\"Supplier Worksheet\"]");
+        formParameters.put("isworksheet", true);
 
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("formattype", "YAML");
         queryParameters.put("exportpermissions", false);
 
-        HttpRequest request = getClientInstance().get(queryBuilder, headers, queryParameters, null);
+        HttpRequest request = getClientInstance().post(queryBuilder, headers, null, ApiHelper.prepareFormFields(formParameters));
 
         return request;
     }

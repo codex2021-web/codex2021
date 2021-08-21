@@ -13,9 +13,13 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class Util {
 
@@ -57,5 +61,26 @@ public class Util {
     public static String readFile(String fileName) throws IOException {
         String content = new String(Files.readAllBytes(Paths.get(fileName)));
         return content;
+    }
+    public static void writeFile(String fileName, byte[] content)
+            throws IOException {
+        Path path = Paths.get(fileName);
+        //byte[] strToBytes = content.getBytes();
+        Files.write(path, content);
+    }
+    public static byte[] createZip(final Map<String, String> fileNameToContentMap)
+            throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(baos);
+        for (Map.Entry<String, String> e : fileNameToContentMap.entrySet()) {
+            String fileName = e.getKey();
+            String fileContent = e.getValue();
+            ZipEntry entry = new ZipEntry(fileName);
+            zos.putNextEntry(entry);
+            zos.write(fileContent.getBytes());
+            zos.closeEntry();
+        }
+        zos.close();
+        return baos.toByteArray();
     }
 }

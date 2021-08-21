@@ -9,11 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.google.api.client.util.DateTime;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.DoubleMath;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Message;
@@ -111,4 +114,36 @@ public final class JSONUtil {
         yamlMapper.configure(YAMLGenerator.Feature.ALWAYS_QUOTE_NUMBERS_AS_STRINGS, true);
         return yamlMapper;
     }
+    /**
+     * @return Gson instance for UI-specific JSON generation.
+     */
+    public static Gson getGsonUI() {
+        GsonBuilder bldrUI = new GsonBuilder();
+        Gson gson = bldrUI.create();
+        return gson;
+    }
+/*    *//**
+     * Register default type adapters for core system classes.
+     *
+     * @param aBldr {@code GsonBuilder} to register adapters with
+     *//*
+    private static void registerDefaultTypeAdapters(final GsonBuilder aBldr) {
+        aBldr.registerTypeAdapter(DateTime.class, new DateTimeSerializer());
+        aBldr.registerTypeAdapter(DateTime.class, new DateTimeDeserializer());
+        aBldr.registerTypeAdapter(GUID.class, new GUIDSerializer());
+        aBldr.registerTypeAdapter(GUID.class, new GUIDDeserializer());
+        aBldr.registerTypeAdapter(ACContext.class, new TBaseAdapter<>(ACContext.class));
+        aBldr.registerTypeAdapter(ACContextWithList.class,
+                new TBaseAdapter<>(ACContextWithList.class));
+        aBldr.registerTypeHierarchyAdapter(GeneratedMessageV3.class, new ProtoTypeAdapter());
+        aBldr.registerTypeAdapterFactory(new ImmutableMapTypeAdapterFactory());
+        aBldr.registerTypeAdapter(ImmutableMap.class, ImmutableMapTypeAdapterFactory.newCreator());
+        aBldr.registerTypeAdapterFactory(new ImmutableSetTypeAdapterFactory());
+        aBldr.registerTypeAdapter(ImmutableSet.class, ImmutableSetTypeAdapterFactory.newCreator());
+        aBldr.registerTypeAdapterFactory(new ImmutableListTypeAdapterFactory());
+        aBldr.registerTypeAdapter(
+                ImmutableList.class, ImmutableListTypeAdapterFactory.newCreator());
+    }*/
+
+
 }
