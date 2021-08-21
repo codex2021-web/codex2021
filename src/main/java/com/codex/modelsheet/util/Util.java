@@ -16,9 +16,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Util {
@@ -65,7 +67,6 @@ public class Util {
     public static void writeFile(String fileName, byte[] content)
             throws IOException {
         Path path = Paths.get(fileName);
-        //byte[] strToBytes = content.getBytes();
         Files.write(path, content);
     }
     public static byte[] createZip(final Map<String, String> fileNameToContentMap)
@@ -82,5 +83,25 @@ public class Util {
         }
         zos.close();
         return baos.toByteArray();
+    }
+    public static Map<String, String> readZip(String fileName)
+            throws IOException {
+        final Map<String, String> fileNameToContentMap = new HashMap<>();
+        try (FileInputStream fis = new FileInputStream(fileName);
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             ZipInputStream stream = new ZipInputStream(bis)) {
+            byte[] buffer = new byte[1024];
+            ZipEntry entry;
+            int read = 0;
+            StringBuilder extractedFileContent = new StringBuilder();
+            while ((entry = stream.getNextEntry()) != null) {
+                while ((read = stream.read(buffer, 0, 1024)) >= 0) {
+                    extractedFileContent.append(new String(buffer, 0, read));
+                }
+                fileNameToContentMap.put(entry.getName(), extractedFileContent.toString());
+                extractedFileContent.setLength(0);
+            }
+        }
+        return fileNameToContentMap;
     }
 }
