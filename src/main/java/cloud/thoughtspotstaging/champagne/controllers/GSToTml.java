@@ -6,6 +6,8 @@ import com.codex.modelsheet.controller.TmlPojoToTml;
 import com.codex.modelsheet.model.EDoc;
 import com.codex.modelsheet.model.ModelSheet;
 
+import java.util.List;
+
 public class GSToTml {
 
     public static void main(String[] args) {
@@ -14,7 +16,7 @@ public class GSToTml {
             ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
             ModelSheet modelSheet = excelToExcelPojo.getModelSheet(spreadsheetId);
             MsPojoToTmlPojo msPojoToTmlPojo = new MsPojoToTmlPojo();
-            EDoc.ObjectEDocProto.Builder builder = msPojoToTmlPojo.convertToTMLPOJO(modelSheet);
+            List<EDoc.ObjectEDocProto.Builder> builder = msPojoToTmlPojo.convertToTMLPOJO(modelSheet);
             TmlPojoToTml tmlPojoToTml = new TmlPojoToTml();
             tmlPojoToTml.createTml(builder);
         }catch (Exception e){

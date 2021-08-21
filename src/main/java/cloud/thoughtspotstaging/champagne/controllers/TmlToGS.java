@@ -8,17 +8,27 @@ import com.codex.modelsheet.model.EDoc;
 import com.codex.modelsheet.model.ModelSheet;
 import com.codex.modelsheet.util.ConversionUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TmlToGS {
     public static void main(String[] args) {
 
         try {
-            String filePathWorksheet = "/Users/shaik.ansari/Downloads/Test-Worksheet.worksheet/Test-Worksheet.worksheet.tml";
-            //String tablePath = "/Users/shaik.ansari/Downloads/Test-Worksheet.worksheet/ORDERS.table.tml";
-            String tablePath = "/Users/shaik.ansari/Downloads/Test-Worksheet.worksheet/CUSTOMER.table.tml";
+            String filePath = "/Users/shaik.ansari/Downloads/Test-Worksheet.worksheet.zip";
             TmlToTmlPojo tmlToTmlPojo = new TmlToTmlPojo();
-            EDoc.ObjectEDocProto.Builder builder = tmlToTmlPojo.createTMLPojo(tablePath);
+            EDoc.ObjectEDocProto.Builder finalbuilder = EDoc.ObjectEDocProto.newBuilder();
+            List<EDoc.ObjectEDocProto.Builder> builders = tmlToTmlPojo.createTMLPojo(filePath);
             TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
-            ModelSheet modelSheet = tmlPojoToMsPojo.convertToGSPOJO(builder);
+            List<EDoc.LogicalTableEDocProto> tableslist  = new ArrayList<>();
+            for (EDoc.ObjectEDocProto.Builder builder : builders) {
+                    if (builder.hasWorksheet()){
+                        finalbuilder =builder;
+                    }else{
+                        tableslist.add(builder.getTable());
+                    }
+            }
+            ModelSheet modelSheet = tmlPojoToMsPojo.convertToGSPOJO(finalbuilder,tableslist);
             ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
             excelPojoToExcel.dataWritingInToExcel(modelSheet,"Worksheet_codex");
 
