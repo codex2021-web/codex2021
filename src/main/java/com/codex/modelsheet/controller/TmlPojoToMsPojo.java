@@ -2,11 +2,13 @@ package com.codex.modelsheet.controller;
 
 import com.codex.modelsheet.model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TmlPojoToMsPojo {
 
-    public ModelSheet convertToGSPOJO(EDoc.ObjectEDocProto.Builder tableBuilder){
+    public ModelSheet convertToGSPOJO(EDoc.ObjectEDocProto.Builder tableBuilder, List<EDoc.LogicalTableEDocProto> tableslist){
         ModelSheet modelSheet = new ModelSheet();
 
         if(tableBuilder.hasWorksheet()){
@@ -61,6 +63,7 @@ public class TmlPojoToMsPojo {
 
             List<String> tableIds = new ArrayList<>();
             List<String> worksheetColumns = new ArrayList<>();
+            Map<String,EDoc.WorksheetEDocProto.WorksheetColumn> worksheetColumnHashMap = new HashMap<>();
             if(tableBuilder.hasWorksheet()){
                 tableBuilder.getWorksheet().getTablePathsList().parallelStream()
                         .filter(tp -> tableNames.contains(tp.getTable()))
@@ -69,7 +72,7 @@ public class TmlPojoToMsPojo {
                     for(String id : tableIds){
                         if(worksheetColumn.getColumnId().contains(id+"::")){
                             worksheetColumns.add(worksheetColumn.getColumnId().replace(id+"::",""));
-                            //worksheetColumns.add(worksheetColumn.getColumnId().substring(worksheetColumn.getColumnId().indexOf(id+"::")));
+                            //worksheetColumnHashMap.put();
                         }
                     }
                 }

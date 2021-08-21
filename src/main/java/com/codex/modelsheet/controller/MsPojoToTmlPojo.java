@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MsPojoToTmlPojo {
-    public EDoc.ObjectEDocProto.Builder convertToTMLPOJO(ModelSheet modelSheet) {
-        EDoc.ObjectEDocProto.Builder builder = EDoc.ObjectEDocProto.newBuilder();
+    public List<EDoc.ObjectEDocProto.Builder> convertToTMLPOJO(ModelSheet modelSheet) {
+        List<EDoc.ObjectEDocProto.Builder> builderList = new ArrayList<>();
+        EDoc.ObjectEDocProto.Builder worksheetbuilder = EDoc.ObjectEDocProto.newBuilder();
 
         if (modelSheet.getWorkSheets() != null && !modelSheet.getWorkSheets().isEmpty()) {
             EDoc.WorksheetEDocProto.Builder worksheetBuilder = EDoc.WorksheetEDocProto.newBuilder();
@@ -89,10 +90,12 @@ public class MsPojoToTmlPojo {
             worksheetProperties.setJoinProgressive(Boolean.parseBoolean(modelSheet.getWorkSheets().get(0).getProgressiveJoin()));
             worksheetBuilder.setProperties(worksheetProperties.build());
 
-            builder.setWorksheet(worksheetBuilder);
+            worksheetbuilder.setWorksheet(worksheetBuilder);
+            builderList.add(worksheetbuilder);
         }
 
         for(Tables table : modelSheet.getTables()){
+            EDoc.ObjectEDocProto.Builder tablebuilder = EDoc.ObjectEDocProto.newBuilder();
             EDoc.LogicalTableEDocProto.Builder tableEDocProto = EDoc.LogicalTableEDocProto.newBuilder();
             tableEDocProto.setName(table.getTable());
             tableEDocProto.setDb(table.getDatabase());
@@ -158,8 +161,9 @@ public class MsPojoToTmlPojo {
                 tableEDocProto.addJoinsWith(joinsWithProto);
 
             }
-            builder.setTable(tableEDocProto.build());
+            tablebuilder.setTable(tableEDocProto.build());
+            builderList.add(tablebuilder);
         }
-        return builder;
+        return builderList;
     }
 }
