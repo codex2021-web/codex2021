@@ -7,12 +7,13 @@ import cloud.thoughtspotstaging.champagne.exceptions.ApiException;
 import com.codex.modelsheet.helper.ConfigInfo;
 import com.codex.modelsheet.util.JSONUtil;
 import com.codex.modelsheet.util.Util;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import sun.misc.IOUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -55,11 +56,15 @@ public class ExportDBWorkSheet extends  BaseController{
                     workSheetName = key;
                 }
             }else{
+                if(value.contains("table:")) {
                     workSheetName = key;
+                }
             }
         }
         byte[] zipBytes = Util.createZip(tmls);
-        Util.writeFile(workSheetName, zipBytes);
+        Path p = Paths.get(ConfigInfo.getConfigs().getProperty("filename"));
+        Path path = p.getParent();
+        Util.writeFile(path+"/"+workSheetName+".zip", zipBytes);
     }
     public String getAuthToken() throws IOException, ApiException {
 
