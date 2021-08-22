@@ -25,4 +25,16 @@ public class TmlToTmlPojo {
         }
         return tmlObjs;
     }
+    public List<EDoc.ObjectEDocProto.Builder> createTMLPojo(Map<String, String> fileNameToContentMap) throws IOException {
+
+        List<EDoc.ObjectEDocProto.Builder> tmlObjs = new ArrayList<>();
+        //TML to Object
+        for( String tmlContent : fileNameToContentMap.values()) {
+            EDoc.ObjectEDocProto.Builder tableBuilder = EDoc.ObjectEDocProto.newBuilder();
+            ProtoUtils.yamlToProto(tmlContent, tableBuilder);
+            tmlObjs.add(tableBuilder);
+            System.out.println("TML to Object: " + tableBuilder.toString());
+        }
+        return tmlObjs;
+    }
 }

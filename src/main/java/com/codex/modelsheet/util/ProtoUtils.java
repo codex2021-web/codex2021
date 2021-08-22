@@ -51,6 +51,4 @@ public final class ProtoUtils {
         String json = JSONUtil.yamlToJson(yaml);
         jsonToProto(json, builder);
     }
-
-
 }

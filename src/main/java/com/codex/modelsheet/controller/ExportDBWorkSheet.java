@@ -26,7 +26,30 @@ public class ExportDBWorkSheet extends  BaseController{
         super();
     }
 
-    public void exportWorkSheet(String workSheetId, boolean isWorkSheet ) throws IOException, ApiException {
+    public Map<String, String> exportWorkSheet(String workSheetId, boolean isWorkSheet ) throws IOException, ApiException {
+
+        client = BaseController.createConfiguration();
+        String authToken = getAuthToken();
+        TMLController controller = client.getTMLController();
+
+        String accept = "text/plain";
+        String xRequestedBy = "ThoughtSpot";
+        String username = ConfigInfo.getConfigs().getProperty("username");
+
+        List<String> listOfObjs = Arrays.asList(workSheetId.split(","));
+        // this method converts a list to JSON Array
+        workSheetId = JSONUtil.getGsonUI().toJson(listOfObjs);
+
+        controller.export(username, authToken, accept, xRequestedBy, workSheetId, isWorkSheet);
+
+        String response = new BufferedReader(
+                new InputStreamReader(httpResponse.getResponse().getRawBody(), StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
+        Map<String, String> tmls = JSONUtil.getGsonUI().fromJson(response, Map.class);
+        return tmls;
+    }
+    public void exportWorkSheet(String workSheetId, boolean isWorkSheet, String outFile ) throws IOException, ApiException {
 
         client = BaseController.createConfiguration();
         String authToken = getAuthToken();
@@ -48,7 +71,7 @@ public class ExportDBWorkSheet extends  BaseController{
                 .collect(Collectors.joining("\n"));
         //System.out.println("Export Worksheet Response: "+response);
         Map<String, String> tmls = JSONUtil.getGsonUI().fromJson(response, Map.class);
-        String workSheetName = "";
+        /*String workSheetName = "";
         for( String key : tmls.keySet()){
             String value = tmls.get(key);
             if(isWorkSheet){
@@ -60,11 +83,12 @@ public class ExportDBWorkSheet extends  BaseController{
                     workSheetName = key;
                 }
             }
-        }
+        }*/
         byte[] zipBytes = Util.createZip(tmls);
-        Path p = Paths.get(ConfigInfo.getConfigs().getProperty("filename"));
-        Path path = p.getParent();
-        Util.writeFile(path+"/"+workSheetName+".zip", zipBytes);
+        /*Path p = Paths.get(ConfigInfo.getConfigs().getProperty("filename"));
+        Path path = p.getParent();*/
+        //Util.writeFile(path+"/"+workSheetName+".zip", zipBytes);
+        Util.writeFile(outFile, zipBytes);
     }
     public String getAuthToken() throws IOException, ApiException {
 
