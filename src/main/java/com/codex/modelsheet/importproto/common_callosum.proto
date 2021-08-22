@@ -1,0 +1,190 @@
+// Copyright: ThoughtSpot Inc. 2015
+// Author: Vijay Ganesan (vijay@thoughtspot.com)
+//
+// Protocol buffer definitions for representing elements common to all Callosum
+// metadata protos.
+//
+// The convention is to add "proto" to the end of the type names
+// so that there is no confusion with similar types in Callosum server code.
+
+syntax = "proto2";
+import "definition.proto";
+
+message KeyValueProto {
+  // Key
+  required ConstantValue key = 1;
+  // Value
+  optional ConstantValue value = 2;
+}
+
+message ClientStateProto {
+  // Arbitrary client-specified name-value pairs stored as JSON
+  repeated KeyValueProto state = 1;
+}
+
+// Column data types.
+// See com.thoughtspot.callosum.common.ColumnDataTypeEnum
+message ColumnDataTypeEnumProto {
+  enum E {
+    UNKNOWN = 0;
+    BOOL = 1;
+    CHAR = 2;
+    VARCHAR = 3;
+    DATE = 4;
+    DATE_TIME = 5;
+    TIME = 6;
+    DATE_NUM = 7;
+    DATE_NUM_QUARTER_IN_YEAR = 8;
+    DATE_NUM_MONTH_IN_YEAR = 9;
+    DATE_NUM_MONTH_IN_QUARTER = 10;
+    DATE_NUM_WEEK_IN_YEAR = 11;
+    DATE_NUM_WEEK_IN_QUARTER = 28;
+    DATE_NUM_WEEK_IN_MONTH = 29;
+    DATE_NUM_DAY_IN_YEAR = 12;
+    DATE_NUM_DAY_IN_QUARTER = 13;
+    DATE_NUM_DAY_IN_MONTH = 14;
+    DATE_NUM_DAY_OF_WEEK = 15;
+    DATE_NUM_DAY_OF_WEEK_STR = 16;
+    DATE_NUM_HOUR_IN_DAY = 30;
+    DATE_NUM_ABS_YEAR = 17;
+    DATE_NUM_ABS_QUARTER = 18;
+    DATE_NUM_ABS_DAY = 19;
+    DATE_NUM_ABS_MONTH = 20;
+    DATE_NUM_ABS_HOUR = 21;
+    DATE_NUM_ABS_WEEK = 22;
+    DATE_NUM_SEC_IN_DAY = 23;
+    INT32 = 24;
+    INT64 = 25;
+    FLOAT = 26;
+    DOUBLE = 27;
+  }
+}
+
+
+// Aggregation types.
+// See com.thoughtspot.callosum.common.AggregateFunctionTypeEnum
+message AggregateFunctionTypeEnumProto {
+  enum E {
+    NONE = 0;
+    COUNT = 1;
+    COUNT_DISTINCT = 2;
+    SUM = 3;
+    AVERAGE = 4;
+    MIN = 5;
+    MAX = 6;
+    STD_DEVIATION = 7;
+    VARIANCE = 8;
+    GROWTH = 9;
+    AGGR_DISTINCT = 10;
+    TABLE_AGGR = 11;
+    RANK = 12;
+    RANK_PERCENTILE = 13;
+    PERCENTILE = 14;
+    MEDIAN = 15;
+    APPROX_COUNT_DISTINCT = 16;
+    APPROX_AGGR_DISTINCT = 24;
+    APPROX_AGGR_DISTINCT_MERGE = 25;
+    // Embrace passthrough functions starting here. These are not mapped to any Falcon functions.
+    SQL_INT_AGGREGATE_OP = 17;
+    SQL_DOUBLE_AGGREGATE_OP = 18;
+    SQL_BOOL_AGGREGATE_OP = 19;
+    SQL_DATE_AGGREGATE_OP = 20;
+    SQL_TIME_AGGREGATE_OP = 21;
+    SQL_DATE_TIME_AGGREGATE_OP = 22;
+    SQL_STRING_AGGREGATE_OP = 23;
+  }
+}
+
+// Geo types.
+// See com.thoughtspot.callosum.common.GeoTypeEnum
+message GeoTypeEnumProto {
+  enum E {
+    NONE = 0;
+    AREA_CODE = 1;
+    CBSA_MSA = 2;
+    CITY = 3;
+    CONGRESSIONAL_DISTRICT = 4;
+    COUNTRY_REGION = 5;
+    COUNTY = 6;
+    LATITUDE = 7;
+    LONGITUDE = 8;
+    STATE_PROVINCE = 9;
+    ZIP_CODE = 10;
+  }
+}
+
+message ColumnSpotiqPreferenceProto {
+  enum E {
+    // Assume the default behavior as per UBR.
+    DEFAULT = 0;
+    // Don't include column for spotIQ analysis.
+    EXCLUDE = 1;
+  }
+}
+
+message GeoConfigProto {
+  enum Type {
+    LATITUDE = 0;
+    LONGITUDE = 1;
+    ZIP_CODE = 2;
+    // Country
+    ADMIN_DIV_0 = 3;
+    // First level sub-division of a country, like state.
+    ADMIN_DIV_1 = 4;
+    // Second level subdivision of a country, like county/district.
+    ADMIN_DIV_2 = 5;
+    // Custom region defined by a region definition file.
+    CUSTOM_REGION = 6;
+  }
+  optional Type type = 1;
+  // Used when this object represents a parent of column's geo config.
+  optional string fixedValue = 2;
+  // Used when this object represents a parent of column's geo config.
+  optional string columnGuid = 3;
+  // GUID of the file that contains the geographic definition of the custom regions.
+  optional string customFileGuid = 5;
+  // Parent of the geo config that defines what region the currrent geo
+  // area belongs.
+  optional GeoConfigProto parent = 4;
+}
+
+// Join types for relationships
+// See generated com.thoughtspot.callosum.metadata.store.rdbms.jooq.enums.LogicalRelationshipJoinTypeEnum
+message LogicalRelationshipJoinTypeEnumProto {
+  enum E {
+    INNER = 0;
+    LEFT_OUTER = 1;
+    RIGHT_OUTER = 2;
+    OUTER = 3;
+  }
+}
+
+// Worksheet type
+// See com.thoughtspot.callosum.metadata.content.LogicalTableContent.WorksheetTypeEnum
+message WorksheetTypeEnumProto {
+  enum E {
+    VIEW = 0;
+    CONTAINER = 1;
+  }
+}
+
+// Logical table type
+// See generated com.thoughtspot.callosum.metadata.store.rdbms.jooq.enums.LogicalTableTypeEnum
+message LogicalTableTypeEnumProto {
+  enum E {
+    ONE_TO_ONE_LOGICAL = 1;
+    WORKSHEET = 2;
+    PRIVATE_WORKSHEET = 3;
+    USER_DEFINED = 4;
+    DB_VIEW = 5;
+    AGGR_WORKSHEET = 6;
+    MATERIALIZED_VIEW = 7;
+    // CALENDAR_TABLE is the new type of LogicalTable we are going to create
+    // which represents a physical table in falcon with data to facilitate a
+    // specific type of custom calendar.
+    CALENDAR_TABLE = 8;
+    // Next available id: 9
+  }
+}
+
+

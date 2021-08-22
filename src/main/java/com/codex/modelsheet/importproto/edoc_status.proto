@@ -1,0 +1,68 @@
+// Copyright: ThoughtSpot Inc. 2019
+// Author: Romil Gadia (romil.gadia@thoughtspot.com)
+//
+// Protocol buffer definitions for representing objects
+// used in the request-response for edoc actions.
+
+syntax = "proto2";
+import "header.proto";
+import "status.proto";
+import "edoc_common.proto";
+import "edoc_database_action.proto";
+
+// Metadata header with additional owner name info
+message MetadataHeaderWithOwnerProto {
+    optional MetadataHeaderProto header = 1;
+    // Entity owner name.
+    optional string owner_name = 2;
+}
+
+// Info representing single entity.
+// Examples. a) For edoc column matching to multiple system columns,
+// identifier => edoc column name
+// matched_header => containing matched system column headers along with
+//                   column owner (table)
+// b) For edoc joins, if both referenced table do not exist,
+// identifer => edoc join name
+// mapped_value => Both source and destination edoc table aliases.
+// c) For invalid column properties,
+// identifier => WS column name
+// mapped_value => list of invalid properties
+// d) For invalid referred formulas in WS output columns,
+// identifier => WS column name
+// mapped_value => invalid formula reference
+message EntityMapping {
+    // Current entity's identifier (alias or name)
+    optional string identifier = 1;
+    // Matched headers from system
+    repeated MetadataHeaderWithOwnerProto matched_header = 2;
+    // Mapped entity identifier from edoc.
+    repeated string mapped_value = 3;
+}
+
+// Mapping info representing multiple entities.
+message EntityMappingInfoProto {
+    // This will be stringified form of MetadataTypeEnum
+    optional string type = 1;
+    repeated EntityMapping entity_map = 2;
+}
+
+// Response object for edoc create/update API
+message EDocResponseProto {
+    // Response status
+    optional StatusProto status = 1;
+    // Metadata header for success status. Populated only for success response.
+    optional MetadataHeaderProto header = 2;
+    // If response is not successful, one of the following will be additionally
+    // populated containing additional info about the error/warning.
+    // Entity mapping info per metadata type.
+    optional EntityMappingInfoProto entity_mapping_info = 3;
+    // Type of the action taken by the backend. It should be one of create or
+    // update. It could be different from the action specified in the api-input
+    // in some cases. In some cases api might not specify in the input, only
+    // the backend is responsible for figuring out the appropriate action.
+    // ToDo(Mohit): This field might not be set in the response of all APIs. We
+    //              need to add this for all APIs.
+    optional ImportAction.E action = 4;
+    optional TableActionProto table_action_needed = 5;
+}

@@ -1,0 +1,319 @@
+// Copyright: ThoughtSpot Inc. 2014
+// Author: Priyendra Deshwal (deshwal@thoughtspot.com)
+
+syntax = "proto2";
+
+message AggregateOp {
+  enum E {
+    option allow_alias = true;
+    // These are the new names for the aggregate operations. Use these as much
+    // as possible. Also, do not add any new names in the deprecated section
+    // above.
+    AGGR_NONE = 0;
+    AGGR_SUM = 1;
+    AGGR_AVERAGE = 2;
+    AGGR_COUNT_NON_NULL = 3;
+    AGGR_MIN = 4;
+    AGGR_MAX = 5;
+    AGGR_VARIANCE = 6;
+    AGGR_STDEV = 7;
+    AGGR_GROWTH = 8;
+    // Alias for AGGR_PERCENTILE_CONT_WITHIN_GROUP with @p = 0.5.
+    AGGR_MEDIAN = 9;
+    AGGR_COUNT_DISTINCT = 10;
+    AGGR_COUNT_WITH_NULL = 11;
+    AGGR_ROW_NUMBER = 12;
+    AGGR_RANK = 13;
+    AGGR_DENSE_RANK = 14;
+    AGGR_APPROX_COUNT_DISTINCT = 15;
+    AGGR_DISTINCT = 16;
+    AGGR_NTILE = 17;
+    AGGR_COUNT_DISTINCT_V1 = 19;
+    // Interpolating inverse distribution function.
+    // Takes percentile @p and sort specification (WithinGroupDefinition).
+    AGGR_PERCENTILE_CONT_WITHIN_GROUP = 20;
+    // Non-interpolating inverse distribution function.
+    // Takes percentile @p and sort specification (WithinGroupDefinition).
+    AGGR_PERCENTILE_DISC_WITHIN_GROUP = 21;
+    // Number of breaks in value.
+    AGGR_VALUE_BREAK = 22;
+    // Standard database PERCENT_RANK. Calculates the relative rank of a row
+    // within a group of rows. The rank is normalized between 0.0 and 1.0. Only
+    // usable with an OVER clause.
+    AGGR_PERCENT_RANK = 23;
+    // Standard database count distinct (ignore nulls).
+    AGGR_COUNT_DISTINCT_NON_NULL = 24;
+    // Distinct version that ignores nulls. This is used in V2 count distinct
+    // when we maintain a set of distinct values.
+    AGGR_DISTINCT_NON_NULL = 25;
+    AGGR_APPROX_DISTINCT = 26;
+    AGGR_APPROX_DISTINCT_MERGE = 27;
+
+    // ---------------------- DEPRECATED_BEGIN ---------------------------------
+    // These names are old aliases to the new names. They will continue to be
+    // supported, but should not be used in new code. We will attempt to phase
+    // them out gradually.
+    // WARNING: Do NOT add new operator names in this deprecated section.
+    NONE = 0;
+    SUM = 1;
+    AVG = 2;
+    COUNT = 3;  // this is just an alias for COUNT_NON_NULL
+    COUNT_NON_NULL = 3;
+    MIN = 4;
+    MAX = 5;
+    VARIANCE = 6;
+    STDEV = 7;
+    GROWTH = 8;
+    MEDIAN = 9;
+    COUNT_DISTINCT = 10;
+    COUNT_WITH_NULL = 11;
+    // Deprecated. Equivalent to AGGR_PERCENT_RANK(...) * 100.
+    AGGR_RANK_PERCENTILE = 18;
+    // -------------------------- DEPRECATED_END -------------------------------
+  }
+}
+
+message ExpressionOp {
+  enum E {
+    option allow_alias = true;
+
+    // These are the new names for the expression operations. Use these as much
+    // as possible. Also, do not add any new names in the deprecated section
+    // above.
+    // For details on these operators, see falcon/queryplan/expression_spec.txt
+    OP_NONE = 0;
+    OP_PLUS = 1;
+    OP_MINUS = 2;
+    OP_MULTIPLY = 3;
+    OP_DIVIDE = 4;
+    OP_MOD = 5;
+    OP_EXP = 6;
+    OP_ABS_YEAR = 7;
+    OP_ABS_QUARTER = 8;
+    OP_ABS_MONTH = 9;
+    OP_ABS_DAY = 10;
+    OP_QUARTER_IN_YEAR = 11;
+    OP_MONTH_IN_YEAR = 12;
+    OP_DAY_IN_YEAR = 13;
+    OP_MONTH_IN_QUARTER = 14;
+    OP_DAY_IN_QUARTER = 15;
+    OP_DAY_IN_MONTH = 16;
+    OP_DAY_OF_WEEK = 17;
+    OP_YEAR_START_EPOCH = 21;
+    OP_QUARTER_START_EPOCH = 22;
+    OP_MONTH_START_EPOCH = 23;
+    OP_DAY_START_EPOCH = 24;
+    OP_WEEK_IN_YEAR = 25;
+    OP_WEEK_IN_QUARTER = 26;
+    OP_WEEK_IN_MONTH = 27;
+    OP_WEEK_IN_YEAR_AS_EPOCH = 28;
+    OP_WEEK_IN_QUARTER_AS_EPOCH = 29;
+    OP_WEEK_IN_MONTH_AS_EPOCH = 30;
+    OP_ABS_HOUR = 31;
+    OP_HOUR_START_EPOCH = 32;
+    OP_ABS_WEEK = 33;
+    OP_WEEK_START_EPOCH = 34;
+    OP_NOT = 35;
+    OP_SQRT = 36;
+    OP_STRLEN = 37;  // Returns the string length in bytes.
+    OP_IS_NULL = 38;
+    OP_EQUALS = 39;
+    OP_NOT_EQUALS = 40;
+    OP_LESS_THAN = 41;
+    OP_LESSER_EQUALS = 42;
+    OP_GREATER_THAN = 43;
+    OP_GREATER_EQUALS = 44;
+    OP_AND = 45;
+    OP_OR = 46;
+    OP_BEGINS_WITH = 47;
+    OP_ENDS_WITH = 48;
+    OP_CONTAINS = 49;
+    OP_EQUALS_NOCASE = 50;
+    OP_NOT_EQUALS_NOCASE = 51;
+    OP_LESS_THAN_NOCASE = 52;
+    OP_LESSER_EQUALS_NOCASE = 53;
+    OP_GREATER_THAN_NOCASE = 54;
+    OP_GREATER_EQUALS_NOCASE = 55;
+    OP_BEGINS_WITH_NOCASE = 56;
+    OP_ENDS_WITH_NOCASE = 57;
+    OP_CONTAINS_NOCASE = 58;
+    OP_NEGATE = 59;
+    OP_ABS = 60;
+    OP_FLOOR = 61;
+    OP_CEIL = 62;
+    OP_SQUARE = 63;
+    OP_CUBE = 64;
+    OP_CUBEROOT = 65;
+    OP_EXP2 = 66;
+    OP_LN = 67;
+    OP_LOG2 = 68;
+    OP_LOG10 = 69;
+    OP_SIGN = 70;
+    OP_POW = 71;
+    OP_LEAST = 72;
+    OP_GREATEST = 73;
+    OP_DATE_DIFF_DAYS = 74;
+    OP_COS = 75;
+    OP_SIN = 76;
+    OP_TAN = 77;
+    OP_ACOS = 78;
+    OP_ASIN = 79;
+    OP_ATAN = 80;
+    OP_ATAN2 = 81;
+    OP_IF_NULL = 82;
+    OP_IF = 83;
+    OP_RANDOM = 84;
+    OP_ROUND = 85;
+
+    // STRPOS(haystack, needle) - string position.
+    // If @needle is found in @haystack, the position (in bytes) is
+    // returned (0-based). Otherwise, -1 is returned.
+    OP_STRPOS = 86;
+
+    OP_NOW = 87;  // implemented in NaivePlanner
+
+    // SUBSTR(string, start, len) - substring.
+    // @start (0-based) indicates starting byte.
+    // @len indicates length (in bytes).
+    // @len < 0 is treated as 0.
+    OP_SUBSTR = 88;
+
+    OP_SPHERICAL_DISTANCE = 89;
+    OP_IS_WEEKEND = 90;
+    OP_DAY_OF_WEEK_STR = 91;
+    OP_DATE_ADD_DAYS = 92;
+    OP_HOUR_IN_DAY = 93;
+    OP_SECOND_IN_DAY = 94;
+    OP_MONTH_IN_YEAR_STR = 95;
+    OP_IDENTITY = 96;
+    OP_HASH = 97;
+    OP_COMBINE_HASH = 98;
+    OP_DATE_PARSE = 99;
+    OP_TIME_PART = 100;  // return time component of datetime or time field.
+    OP_STRCAT = 101;
+    OP_IN = 102;
+    OP_CONVERT_BOOL_NUMERIC = 103;
+    OP_CONVERT_BOOL_STRING = 104;
+    OP_CONVERT_NUMERIC_BOOL = 105;
+    OP_CONVERT_STRING_BOOL = 106;
+    OP_CONVERT_FLOAT_INTEGER = 107;
+    OP_CONVERT_STRING_INT64 = 108;
+    OP_CONVERT_STRING_DOUBLE = 109;
+    OP_CONVERT_INT64_STRING = 110;
+    OP_CONVERT_DOUBLE_STRING = 111;
+    OP_CONVERT_DATE_STRING = 112;
+    OP_SPELLS_LIKE = 113;  // returns true if strings are within 2 edit distance.
+    OP_SOUNDS_LIKE = 114;  // returns true if strings sounds similar.
+    OP_LIKE = 115;         // returns true if OP_STRING_MATCH_SCORE >= 0.2.
+    OP_STRING_MATCH_SCORE = 116;  // Edit-Distance & Bag-Of-Words based score.
+    OP_EDIT_DISTANCE = 117;       // Edit Distance b/w 2 strings.
+    // Computes Edit Distance b/w 2 strings if they are within specified cap.
+    // Otherwise returns value greater than cap.
+    OP_EDIT_DISTANCE_WITH_CAP = 118;
+    OP_TODAY = 119;
+    // Falcon Internal Use Only. Used for calculation of approx distinct count.
+    // See falcon/queryplan/aggregator_impls.hpp for details.
+    OP_APPROX_SET_CARDINALITY = 120;
+    // Size of a set.
+    OP_CONTAINER_SIZE = 121;
+    OP_CONVERT_STRING_FLOAT = 122;
+    // Week number in a ISO-year. An ISO-year starts on first Monday 12.00am
+    // before Jan 1st (similar to startofweek).
+    OP_WEEK_IN_YEAR_ISO = 123;
+    OP_CONVERT_INTEGER_DOUBLE = 124;
+
+    OP_DATE_ADD_WEEKS = 127;
+    // Add months operator
+    OP_DATE_ADD_MONTHS = 128;
+    // Add seconds to date/time/datetime.
+    OP_DATE_TIME_ADD_SECONDS = 129;
+    // Add minutes to date/time/datetime.
+    OP_DATE_TIME_ADD_MINUTES = 130;
+    OP_DATE_ADD_YEARS = 131;
+    // Performs falcon's *internal* string normalization which both trims the
+    // string and lowercases the string. Note given a TYPE_STRING_CASE it is a
+    // no-op except case bytes are discarded. The resulting type is
+    // TYPE_STRING.
+    OP_NORMALIZE_STRING = 132;
+    // Performs falcon's *internal* case-preserving string normalization which
+    // both trims the string and lowercases the string (so comparisons are
+    // case-insensitive) but retains case information by storing additional bits
+    // after the end of the string that allow the original case to be
+    // recovered. Note given a TYPE_STRING_CASE it is a no-op. The resulting
+    // type is TYPE_STRING_CASE.
+    OP_NORMALIZE_STRING_PRESERVE_CASE = 133;
+    // Extracts given number of chars from a string, starting from left/right
+    // input: (string, no. of chars)
+    OP_LEFT = 134;
+    OP_RIGHT = 135;
+
+    // Analogous to OP_STRLEN but counts the number of complete unicode
+    // characters found in its string argument (instead of the length in bytes).
+    // Note this method is not to be consumed publicly (use OP_STRLEN instead).
+    OP_UTF8_STRLEN = 136;
+    // Analogous to OP_SUBSTR but the start and length parameters are treated as
+    // number of complete unicode characters (instead of bytes).
+    // Note this method is not to be consumed publicly (use OP_SUBSTR instead).
+    OP_UTF8_SUBSTR = 137;
+    // Analogous to OP_LEFT but the length parameter is treated as the desired
+    // number of complete unicode characters (instead of bytes).
+    // Note this method is not to be consumed publicly (use OP_LEFT instead).
+    OP_UTF8_LEFT = 138;
+    // Analogous to OP_RIGHT but the length parameter is treated as the desired
+    // number of complete unicode characters (instead of bytes).
+    // Note this method is not to be consumed publicly (use OP_RIGHT instead).
+    OP_UTF8_RIGHT = 139;
+    // Analogous to OP_STRPOS but the position returned is the number of
+    // complete utf-8 characters from the beginning (instead of bytes).
+    // Note this method is not to be consumed publicly (use OP_STRPOS instead).
+    OP_UTF8_STRPOS = 140;
+
+    // Every time add a new op, update OP_NUM_OPS.
+    OP_NUM_OPS = 141;
+
+    // ---------------------- DEPRECATED_BEGIN ---------------------------------
+    // These names are old aliases to the new names. They will continue to be
+    // supported, but should not be used in new code. We will attempt to phase
+    // them out gradually.
+    // WARNING: Do NOT add new operator names in this deprecated section.
+    NONE = 0;
+    SUM = 1;
+    DIFF = 2;
+    MULT = 3;
+    DIV = 4;
+    MOD = 5;
+    EXP = 6;
+    ABS_YEAR = 7;
+    ABS_QUARTER = 8;
+    ABS_MONTH = 9;
+    ABS_DAY = 10;
+    QUARTER_IN_YEAR = 11;
+    MONTH_IN_YEAR = 12;
+    DAY_IN_YEAR = 13;
+    MONTH_IN_QUARTER = 14;
+    DAY_IN_QUARTER = 15;
+    DAY_IN_MONTH = 16;
+    DAY_OF_WEEK = 17;
+    // tags 18-20 unused
+    ABS_YEAR_AS_EPOCH = 21;
+    YEAR_START_EPOCH = 21;
+    ABS_QUARTER_AS_EPOCH = 22;
+    QUARTER_START_EPOCH = 22;
+    ABS_MONTH_AS_EPOCH = 23;
+    MONTH_START_EPOCH = 23;
+    ABS_DAY_AS_EPOCH = 24;
+    DAY_START_EPOCH = 24;
+    WEEK_IN_YEAR = 25;
+    WEEK_IN_QUARTER = 26;
+    WEEK_IN_MONTH = 27;
+    WEEK_IN_YEAR_AS_EPOCH = 28;
+    WEEK_IN_QUARTER_AS_EPOCH = 29;
+    WEEK_IN_MONTH_AS_EPOCH = 30;
+    ABS_HOUR = 31;
+    ABS_HOUR_AS_EPOCH = 32;
+    HOUR_START_EPOCH = 32;
+    ABS_WEEK = 33;
+    WEEK_START_EPOCH = 34;
+    // ---------------------- DEPRECATED_END -----------------------------------
+  }
+}

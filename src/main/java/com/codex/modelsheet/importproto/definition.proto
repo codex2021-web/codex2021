@@ -1,0 +1,209 @@
+// Copyright: ThoughtSpot Inc. 2015
+// Author: Sanjay Agrawal (sanjay@thoughtspot.com)
+//
+// Protocol buffer definitions for representing expressions in falcon
+// query and schema schema.
+//
+// Note that this is a public falcon proto and is used by different components
+// (Callosum, Sage, Tools etc). Before making a change to this proto, make sure
+// the dependencies are addressed!!!
+
+syntax = "proto2";
+import "common.proto";
+import "data_type.proto";
+import "ops.proto";
+import "partition_window.proto";
+import "google/protobuf/descriptor.proto";
+
+// Define an option to indicate that a given field is a definition reference.
+extend google.protobuf.FieldOptions {
+  optional bool defn_ref = 60000 [default = false];
+}
+
+// These user annotations are simply copied from the query expressions (values,
+// columns or expressions) to output ColumnResult objects.
+message DeprecatedUserAnnotation {
+  optional string type = 1;
+};
+
+// Representation of a constant value.
+message ConstantValue {
+  // We do not support unsigned variations of the
+  // following as our data is channeled through
+  // Java based middle tier which does not support
+  // such variations.
+  optional sint32 int32_val = 1;
+  optional sint64 int64_val = 2;
+  optional string string_val = 3;
+  optional bool bool_val = 4;
+  optional double double_val = 5;
+  optional float float_val = 6;
+  optional bool null_val = 7 [default = false];
+  // If this is set to true, falcon normalizes this value specifically for
+  // string types. If set to false, then the value is treated as is. Latter is
+  // required for format specifications that are passed as string values for
+  // run time data type conversions & are case sensitive.
+  optional bool normalize = 8 [default = true];
+  optional ValueProto.Type null_type = 9;
+}
+
+// Definition of a named constant value in the query.
+message ValueDefinition {
+  // Unique identifier of a constant in the query.
+  optional string name = 1;
+  // A user friendly name, used during visual inspection. Not used otherwise.
+  optional string display_name = 2;
+  // @value is the public mechanism for specifying constant values in the Falcon
+  // query proto. Internally, Falcon converts these constant values to
+  // ValueProtos that are stored in the internal.vproto().
+  // While this is convenient for Falcon query processing, we want to
+  // reserve the internal.vproto field for falcon internal use. Public clients
+  // are forbidden from using this field directly.
+  optional ConstantValue value = 3;
+  message Internal {
+    optional ValueProto vproto = 1;
+  }
+  optional Internal internal = 5;
+  optional DeprecatedUserAnnotation user_annotation = 4 [deprecated = true];
+  // Next tag: 6
+}
+
+// Definition of a named column in the query.
+message ColumnDefinition {
+  // Unique identifier of the column in the query for a base column.
+  optional string name = 1;
+  // A user friendly name, used during visual inspection. Not used otherwise.
+  optional string display_name = 2;
+  // Representation of a column.
+  message Column {
+    optional string table_name = 1;
+    // A user friendly name, used during visual inspection. Not used otherwise.
+    optional string table_display_name = 2;
+    optional string column_name = 3;
+    // A user friendly name, used during visual inspection. Not used otherwise.
+    optional string column_display_name = 4;
+    optional string user_schema_name = 5;
+    // A user friendly name, used during visual inspection. Not used otherwise.
+    optional string user_schema_display_name = 6;
+  }
+  optional Column column = 3;
+  optional DeprecatedUserAnnotation user_annotation = 4 [deprecated = true];
+}
+
+// This allows us to specify windowing functions. Specifically we want to
+// support specification of two types of windowing functions.
+// (1) Level based measures.
+//     Example, [City, State, Country, Revenue] augment with
+//     [StateRevenue, CountryRevenue]
+//     Would be expressed as:
+//     StateRevenue -> sum(Revenue) over { partition_by {State, Country}}
+//     CountryRevenue -> sum(Revenue) over { partition_by {Country}}
+// (2) Cumulative sums, moving aggregates.
+//     Example, [Category, Year, Revenue] augment with [YTDRevenue]
+//     Would be expressed as:
+//     YTDRevenue -> sum(Revenue) over {order_by {Year}}
+//     In this expression there is no need to specify partition_by as
+//     we are looking for cumulative revenue inclusive of past and
+//     current year. If we want cumulative revenue to be limited for the
+//     particular Category then modify the expression to:
+//     YTDCategoryRevenue ->
+//         sum(Revenue) over {partition_by {Category} order_by {Year}}
+message PartitionOverDefinition {
+  message OrderingColumn {
+    // This can be one of expression, column or constant.
+    optional string column = 1 [(defn_ref) = true];
+    optional bool ascending = 2 [default = true];
+  }
+  repeated string partition_by = 1 [(defn_ref) = true];
+  repeated OrderingColumn order_by = 2;
+  // If no start, end is provided, default is start as UNBOUNDED_PRECEDING
+  // and end as CURRENT_ROW and type is RANGE.
+  optional PartitionWindow window = 3;
+}
+
+// This is to specify datepart function, which is used to extract date
+// property from a custom calendar table.
+// For example, given a unix epoch we can extract quarter datepart.
+message DatepartDefinition {
+  // Calendar table header. Only guid and schema_version required. Name is a
+  // user friendly string used only for diagnostics and should be provided.
+  optional TableHeaderProto calendar_table = 1;
+  // Calendar part column definition reference. I.e. 'quarter' column reference.
+  // Required.
+  optional string part_column_tag = 2;
+  // Calendar lookup (typically epoch) column definition reference. Currently
+  // required.
+  optional string lookup_column_tag = 3;
+}
+
+// Specifies SubqueryRef function, which is used when a predicate compares
+// against a subquery.
+// For example, "SELECT a FROM T1 WHERE a IN (SELECT b FROM T2);"
+message SubqueryRefDefinition {
+  // Guid for the table or relation that corresponds to the subquery. In the
+  // case of a relation, can just use the "name" field in query proto.
+  optional string subquery_table_guid = 1;
+  // Guids for the targeted columns of the relation.
+  repeated string subquery_column_tag = 2 [(defn_ref) = true];
+}
+
+// This is to specify "Ordered-Set Aggregate" style functions.
+// postgresql.org/docs/9.4/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE
+message WithinGroupDefinition {
+  message OrderingColumn {
+    // This can be one of expression, column or constant.
+    optional string column = 1 [(defn_ref) = true];
+    optional bool ascending = 2 [default = true];
+  }
+  repeated OrderingColumn order_by = 1;
+}
+
+// Definition of a named expression in the query.
+message ExpressionDefinition {
+  // Query level global unique name for the expression node.
+  optional string name = 1;
+  // A user friendly name, used during visual inspection. Not used otherwise.
+  optional string display_name = 2;
+  // Mathematical operators used in query expressions.
+  optional ExpressionOp.E op = 3;
+  optional string left_node_tag = 4 [deprecated = true];
+  optional string right_node_tag = 5 [deprecated = true];
+  repeated string operand_tag = 9 [(defn_ref) = true];
+  optional AggregateOp.E function = 6 [default = NONE];
+  optional DataType.E data_type = 7 [default = UNKNOWN];
+  optional DeprecatedUserAnnotation user_annotation = 8 [deprecated = true];
+  optional PartitionOverDefinition partition_over = 10;
+  optional DatepartDefinition datepart = 11;
+  optional WithinGroupDefinition within_group = 12;
+  // Note when @subquery_ref is present @op must equal OP_IN. The elements of
+  // @operand_tag are treated as the left-hand-side of the IN-subquery and
+  // must match the length of @subquery_ref.subquery_column_tag.
+  optional SubqueryRefDefinition subquery_ref = 13;
+  // Next available tag: 14
+}
+
+// WARNING: DO NOT USE. THIS IS DEPRECATED AND WILL BE REMOVED SOON.
+message ExpressionDefinitionList {
+  // Expression tree is translated into an array of nodes. Last
+  // element in the array represents the current expression i.e., root
+  // of the expression tree.
+  repeated ExpressionDefinition nodes = 1;
+}
+
+// All definitions associated with a single query set.
+message Definitions {
+  repeated ColumnDefinition columns = 1;
+  repeated ExpressionDefinitionList expressions_old = 2 [deprecated=true];
+  repeated ExpressionDefinition expressions = 3;
+  repeated ValueDefinition values = 4;
+}
+
+// Table version info against which the falcon query was run against.
+// Useful to know which data, schema version a query ran on.
+message TableVersionInfo {
+  // GUID of the table.
+  optional string table = 1;
+  optional string alias = 2;
+  optional sint32 data_version = 3;
+  optional sint32 schema_version = 4;
+}

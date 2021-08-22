@@ -1,0 +1,156 @@
+// Copyright: ThoughtSpot Inc. 2013
+// Author: Abhishek Rai (abhishek@thoughtspot.com)
+
+syntax = "proto2";
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MessageOptions {
+  // Unused entry for the following documentation.
+  optional string unused = 50000;
+
+  // NOTE: It is critical that the same extension number is not used for
+  // different extensions. Hence, we stick to the convention that when an
+  // extension number is used, we add it to the following list:
+  // ---------------------------------------------------------------------------
+  // LIST OF USED EXTENSION NUMBERS
+  // ---------------------------------------------------------------------------
+  // 50001 - NodeProto.node_id : atlas/public/atlas.proto
+  // 50002 - NodeProto.is_name_unique : atlas/public/atlas.proto DEPRECATED
+}
+
+extend google.protobuf.EnumValueOptions {
+  optional string type_guid = 50000;
+
+  // NOTE: It is critical that the same extension number is not used for
+  // different extensions. Hence, we stick to the convention that when an
+  // extension number is used, we add it to the following list:
+  // ---------------------------------------------------------------------------
+  // LIST OF USED EXTENSION NUMBERS
+  // ---------------------------------------------------------------------------
+  // 50000 - type_guid : common/common.proto
+}
+
+extend google.protobuf.FieldOptions {
+  optional string map_key = 50000;
+  optional int32 sensitivity = 50001;
+
+  // NOTE: It is critical that the same extension number is not used for
+  // different extensions. Hence, we stick to the convention that when an
+  // extension number is used, we add it to the following list:
+  // ---------------------------------------------------------------------------
+  // LIST OF USED EXTENSION NUMBERS
+  // ---------------------------------------------------------------------------
+  // 50000 - map_key : common/common.proto
+  // 50001 - sensitivity : common/common.proto
+  // 70002 - compulsory : common/proto_validation/annotation.proto
+  // 70002 - allowed_values : common/proto_validation/annotation.proto
+  // 70003 - unique : common/proto_validation/annotation.proto
+  // 50003 - allowed_values : common/common.proto
+  // 1000  - Properties : callosum/callosum_stats.proto
+  // 1001  - Aggregation : callosum/callosum_stats.proto
+  // 1002  - StatsProperties : orion/resource.proto
+  // 1003  - ignore_for_persistence : callosum/public/metadata/annotation.proto
+  // 60000 - defn_ref : falcon/public/definitions.proto
+  // 60001 - Storable.in_commit : atlas/public/atlas.proto
+}
+
+message ValueProto {
+  // All supported values.
+  enum Type {
+    TYPE_NULL = 0;
+    TYPE_INT64 = 1;
+    TYPE_DOUBLE = 2;
+    TYPE_STRING = 3;
+    TYPE_BOOL = 4;
+    TYPE_UINT64 = 5;
+  };
+  optional Type type = 6 [default=TYPE_NULL];
+  optional int64 i64 = 1;
+  optional double d = 2;
+  optional string s = 3;
+  optional bool b = 4;
+  optional uint64 u64 = 5;
+}
+
+message KeyValue {
+  message DeprecatedValue {
+    optional int64 i64 = 1;
+    optional double d = 2;
+    optional string s = 3;
+  }
+  optional string key = 1;
+  optional ValueProto value = 3;
+  // An optional description for @key or @value.
+  optional string description = 4;
+
+  // Deprecated in favor of @value which is of type ValueProto.
+  optional DeprecatedValue deprecated_value = 2 [deprecated=true];
+}
+
+/*KeyValueStr
+
+KeyValueStr detailed
+
+swagger:model KeyValueStr
+*/
+message KeyValueStr {
+  optional string key = 1;
+  optional string value = 2;
+}
+
+message KeyValueList {
+  optional string key = 1;
+  repeated ValueProto value = 2;
+  // An optional description for @key or @value.
+  optional string description = 3;
+}
+
+// Common header for all logical entities.
+//
+// Next available id: 4
+message EntityHeader {
+  // Guid of the logical entity.
+  optional string guid = 1;
+  // Display name of the logical entity.
+  optional string display_name = 2;
+  // Description associated with the logical entity (Not used right now).
+  optional string description = 3;
+};
+
+// An OnlineDistribution class object is serialized using this proto.
+// The non-template type members of the class are written directly to proto
+// fields, whereas the template type members (sub_samples, min, max) are first
+// converted to a string representation and then written to the corresponding
+// proto field.
+message OnlineDistributionProto {
+  optional int64 seed = 1;
+  optional int64 max_sub_sample_size = 2;
+  optional int64 sample_size = 3;
+  optional double mean = 4;
+  optional double variance_factor = 5;
+  repeated bytes sub_samples = 6;
+  optional bytes min = 7;
+  optional bytes max = 8;
+};
+
+// A UsageStatsDistribution class object is serialized using this proto.
+message UsageStatsDistributionProto {
+  optional OnlineDistributionProto online_distribution_proto = 1;
+}
+
+// Req proto for metadata update telegraf input plugin.
+message MetaDataUpdateReqProto {
+  repeated string file_paths = 1;
+}
+
+// Identifies a fully versioned table in falcon.
+// TODO(sanjay): Remove name field from this proto. This proto is commonly
+// used to compare table entries in various protos. Dependence on a name
+// will cause such comparisons to fail if table is renamed and change is
+// not made in every occurence.
+message TableHeaderProto {
+  optional string guid = 1;
+  optional string name = 2;
+  optional int64 schema_version = 3;
+  optional int64 data_version = 4;
+}

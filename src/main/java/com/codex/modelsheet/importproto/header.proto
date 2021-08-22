@@ -1,0 +1,102 @@
+// Copyright: ThoughtSpot Inc. 2015
+// Author: Vijay Ganesan (vijay@thoughtspot.com)
+//
+// Protocol buffer definitions for representing Metadata headers exposed to
+// Callosum clients.
+
+// See com.thoughtspot.callosum.metadata.MetadataHeader class.
+//
+// The convention is to add "proto" to the end of the type names
+// so that there is no confusion with similar types in Callosum server code.
+
+syntax = "proto2";
+import "common_callosum.proto";
+
+message MetadataHeaderProto {
+  // Unique identifier GUID
+  required string id_guid = 1;
+  // Display name
+  optional string name = 2;
+  // Description
+  optional string description = 3;
+  // Id of object author (created by)
+  optional string author_guid = 4;
+  // Name of object author (created by)
+  optional string author_name = 5;
+  // Display name of object author (created by)
+  optional string author_display_name = 6;
+  // Date/Time created Epoch.
+  optional int64 created = 7;
+  // Date/Time last modified
+  optional int64 modified = 8;
+  // Last modified By User GUID
+  optional string modified_by = 9;
+  // Generation number which tracks the writes to this object
+  optional int64 generation_num = 10;
+  // Id of object that owns this object
+  optional string owner_guid = 11;
+  // If true, this object has been soft-deleted but not yet purged from the system
+  optional bool deleted = 12;
+  // If true, this object is hidden
+  optional bool hidden = 13;
+  // client state
+  optional ClientStateProto client_state = 14;
+  // Database stripe - represents grouping of schemas
+  optional string database_stripe = 15;
+  // Schema stripe - schemas belong to database identified by database_stripe
+  optional string schema_stripe = 16;
+  // Tags associated with this object
+  repeated MetadataHeaderProto tag = 17;
+  // Sub Type of this metadata object
+  // TODO (Vaibhav): Rename this field to sub_type
+  optional string type = 18;
+  // Metadata type of this metadata object.
+  optional string metadata_type = 19;
+}
+
+// Search filters for filtering out metadata headers.
+message SearchFilterProto {
+  message RequestStatus {
+    enum E {
+      ALL = 1;
+      RESOLVED = 2;
+      UNRESOLVED = 3;
+    }
+  }
+  message BoolFilterValue {
+    enum E {
+      IGNORE = 1;
+      TRUE_VALUE = 2;
+      FALSE_VALUE = 3;
+    }
+  }
+  // List of sub-types of metadata object.
+  // Applies for LOGICAL_TABLE type with valid values - ONE_TO_ONE_LOGICAL, WORKSHEET,
+  // PRIVATE_WORKSHEET, USER_DEFINED, AGGR_WORKSHEET
+  repeated string sub_type = 1;
+  // List of owner-types of metadata object.
+  // Applies for LOGCIAL_COLUMN with valid values - ONE_TO_ONE_LOCICAL, WORKSHEET,
+  // PRIVATE_WORKSHEET, USER_DEFINED, AGGR_WORKSHEET
+  repeated string owner_type = 2;
+  // List of tag names of filter headers by.
+  repeated string tag_name = 3;
+  // Pattern to match for object names (use '%' for wildcard match)
+  optional string name_pattern = 4;
+  // GUID ids of metadata objects to exclude
+  // TODO(romil): Remove requirement for passing in list to skip ids.
+  repeated string skip_id = 5;
+  // GUID ids of metadata objects to fetch
+  repeated string fetch_id = 6;
+  // Include/exclude/do not consider auto created objects.
+  // TODO(romil): Move auto created objects to answer book subtype.
+  optional BoolFilterValue.E auto_created = 7;
+  // Include/exclude/do not consider auto created objects.
+  optional BoolFilterValue.E is_author = 8;
+  // Include/exclude/do not consider favorite objects.
+  optional BoolFilterValue.E favorite = 9;
+  // Include/exclude/do not consider if object has associated expert request
+  optional BoolFilterValue.E expert_request = 10;
+  // Status of expert request. Supported for expert requests.
+  optional RequestStatus.E status = 11;
+}
+

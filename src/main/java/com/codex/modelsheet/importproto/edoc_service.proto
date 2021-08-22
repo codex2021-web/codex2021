@@ -1,0 +1,274 @@
+// Copyright: ThoughtSpot Inc. 2020
+// Author: Archit Bansal (archit.bansal@thoughtspot.com)
+
+// Protocol buffer definition for representing request/response protos used
+// by MetadataEntityDocService.java.
+
+syntax = "proto2";
+import "status.proto";
+import "edoc_status.proto";
+import "edoc_common.proto";
+
+// POST API : /callosum/v1/metadata/edoc/exportEPack
+// argument1 request : ExportEPackRequest proto serialized as JSON string
+// Returns ExportEPackResponse proto serialized as JSON string.
+message ExportEPackRequest {
+  message Object {
+    // Type can have one of the following values:
+    // {WORKSHEET, VIEW, PINBOARD, ANSWER, TABLE}.
+    // In addition, following deprecated types are also acceptable for a short
+    // duration in future:
+    // {LOGICAL_TABLE, PINBOARD_ANSWER_BOOK, QUESTION_ANSWER_BOOK}.
+    // * LOGICAL_TABLE - for worksheet, view and table.
+    // * PINBOARD_ANSWER_BOOK - for pinboard.
+    // * QUESTION_ANSWER_BOOK - for answer.
+    optional EDocObjectType.E type = 1;
+    // Id of the object to be exported.
+    optional string id = 2;
+  }
+  // List of objects to be exported.
+  repeated Object object = 1;
+  // Flag to control automatic export of dependencies.
+  // If true, the dependency objects will also be exported and the term
+  // 'requested objects' will refer to union of both explcitly requested and
+  // implicitly requested due to dependency.
+  optional bool export_dependencies = 2 [default = false];
+  // Flag to control automatic export of permissions.
+  // If true, the permissions of the objects will also be exported and if the
+  // dependencies are also requested, then permissions of those dependencies
+  // will be exported as well.
+  optional bool export_permissions = 3 [default = false];
+  // Format type of the EDoc representation.
+  optional EDocFormatType.E format_type = 4 [default = YAML];
+}
+
+message EPackManifest {
+  message Dependency {
+    // Name of dependency object.
+    optional string name = 1;
+    // File name of dependency object. Populated only if object is exported
+    // succesfully
+    optional string filename = 2;
+    // Export status of the dependency object. Populated only if object is not
+    // exported.
+    optional StatusProto status = 3;
+  }
+  // Meta information of an exported object.
+  // Ordered by relevance.
+  message ObjectInfo {
+    // Name of the object. Same as what is displayed in ThoughtSpot App.
+    optional string name = 1;
+    // File name of the exported object file, present in zip file.
+    // It is unique across all objects in zip files.
+    optional string filename = 2;
+    // status
+    optional StatusProto status = 3;
+    // Type can be one of [WORKSHEET, PINBOARD, ANSWER]
+    // Note: The value of type is consumed by end user, so it should be simple.
+    //       Hence it differs from ExportEPackRequest.Object.type
+    optional string type = 4;
+    // Guid of the original object. Might be helpful for some users if
+    // there are multiple objects with same name. User might want to cross
+    // reference guid with URL of objects.
+    optional string id = 5;
+    // list of dependency objects of a given object.
+    // eg: underlying worksheets are dependency objects for a pinboard or
+    // filter.
+    repeated Dependency dependency = 6;
+  }
+  // Details of the exported objects in zip file.
+  repeated ObjectInfo object = 1;
+}
+
+
+// ExportEPackResponse is the response of ExportEPack API.
+// Zip file includes:
+//   1. Object Files -
+//      For each of the successfully exported objected, there will be a file
+//      in zip with name `{object-name}.{object-type}.tml`.
+//          Eg: sales-report.pinboard.tml,
+//              sales-report.answer.tml,
+//              sales-report.worksheet.tml
+//      1. In the filename, all the non [a-zA-Z0-9_()] char of the display
+//         name will be coverted to '-'.
+//      2. If there are multiple objects with same name, we will append a
+//         counter in their name. eg: sales-report-1.yaml, sales-report-2.yaml.
+//   2. Manifest YAML file. Content of the file will be generated from
+//      EPackManifest proto.
+message ExportEPackResponse {
+  message Object {
+    // Meta information of the object.
+    optional EPackManifest.ObjectInfo info = 1;
+    // Edoc content of the object in YAML format.
+    optional string edoc = 2;
+  }
+  // base64 encoded content of zip file.
+  optional string zip_file = 1;
+  repeated Object object = 2;
+}
+
+// POST API : /callosum/v1/metadata/edoc/importEPack
+// argument1 request : ImportEPackRequest proto serialized as JSON string
+// Returns ImportEPackResponse proto serialized as JSON string.
+message ImportEPackRequest {
+  message Object {
+    // Action specified by the user. Valid values: [CREATE, UPDATE]
+    // 1. If action is set to CREATE (default), a new object will be created
+    //    irrespective of the external and internal guids.
+    // 2. If action is set to UPDATE, we require that atleast one of external or
+    //    internal guids be specified. If both are empty, an error will be thrown.
+    //    If external guid is present, it will take priority over internal guid
+    //    and an object corresponding to the external guid will be updated.
+    // Note: We have an option to provide guid in TML file as well as request
+    //       parameter. The guid inside the TML object is referred as internal
+    //       guid here. The guid in the request params is referred as external
+    //       guid.
+    optional ImportAction.E action = 1 [default = CREATE];
+    // Filename of the TML file.
+    optional string filename = 2;
+    // [Required] Entity doc representation of metadata object. i.e. Content of
+    // TML file.
+    optional string edoc = 3;
+    // Type can have one of the following values:
+    // {WORKSHEET, VIEW, PINBOARD, ANSWER, TABLE}.
+    // In addition, following deprecated types are also acceptable for a short
+    // duration in future:
+    // {LOGICAL_TABLE, PINBOARD_ANSWER_BOOK, QUESTION_ANSWER_BOOK}.
+    // * LOGICAL_TABLE - for worksheet, view and table.
+    // * PINBOARD_ANSWER_BOOK - for pinboard.
+    // * QUESTION_ANSWER_BOOK - for answer.
+    // If present, type of the @edoc must match with @type.
+    // If not present, there will be no check on the type of eDoc.
+    optional EDocObjectType.E type = 4;
+    // This is external guid (as mentioned in the comments around ImportAction).
+    optional string guid = 5;
+    // Filename of the containing zip file. This is only required to
+    // differentiate between same named TML files across different zip files.
+    optional string zip_filename = 6;
+  }
+  // Import policy that the user wants.
+  // If ALL_OR_NONE, either all or no object will be imported. i.e. If one
+  // object fails to import, no other object will be imported.
+  // If PARTIAL, import of some objects might fail and some might succeed. In
+  // case of failure of a object their dependent objects will also be skipped.
+  // If VALIDATE_ONLY, all the objects will be validated and error(s) will be
+  // returned if they cannot lead to successful import. Note that objects won't
+  // actually be imported in this case.
+  enum ImportPolicy {
+    PARTIAL = 1;
+    ALL_OR_NONE = 2;
+    VALIDATE_ONLY = 3;
+  }
+  // List of objects to be imported.
+  repeated Object object = 1;
+  // Refer comments above.
+  optional ImportPolicy import_policy = 2 [default = PARTIAL];
+  // Format type of the EDoc representation.
+  optional EDocFormatType.E format_type = 3 [default = YAML];
+  // Flag to control import of permissions. If true, the permissions of the objects
+  // will also be imported and if the dependencies are also requested, then
+  // permissions of those dependencies will be imported as well.
+  // Please note that applying permissions will only impact the permissions for users mentioned in
+  // the edoc. All other user permissions remain untouched.
+  optional bool import_permissions = 4 [default = false];
+}
+
+message ImportEPackResponse {
+  message Object {
+    // Name of the object. Same as what is displayed in ThoughtSpot App.
+    optional string name = 1;
+    // Filename of the object in input zip file.
+    optional string filename = 2;
+    // Filename of the containing zip file.
+    optional string zip_filename = 3;
+    // Guid of the imported object.
+    optional string guid = 4;
+    // Response of an individual import request.
+    optional EDocResponseProto response = 5;
+  }
+  // List of imported objects.
+  repeated Object object = 1;
+  // This status object can be used to capture errors that are not specific to
+  // any particular edoc.
+  optional StatusProto status = 2;
+}
+
+// POST API : /callosum/v1/metadata/edoc/getEPackInfo
+// argument1 request : GetEPackInfoRequest proto serialized as JSON string
+// Returns GetEPackInfoResponse proto serialized as JSON string.
+// This API is doing two things:
+// 1. Unzipping the zip files.
+// 2. Checks if the guid(s) mentioned in the TML file(s) are present in the
+//    system. If yes, it returns the type of object(s) corresponding to these
+//    guid(s).
+message GetEPackInfoRequest {
+  message ZipFile {
+    // Mandatory fields.
+    // Zip file name.
+    optional string filename = 1;
+    // Base64 encoded content of zip file containing the TML objects to be
+    // imported.
+    optional string file_content = 2;
+  }
+  message Object {
+    // Mandatory fields.
+    // Filename of the TML file.
+    optional string filename = 1;
+    // Entity doc representation of metadata object. i.e. Content of TML file.
+    optional string edoc = 2;
+    // Filename of the containing zip file. This is only required to differentiate between same
+    // named TML files across different zip files.
+    optional string zip_filename = 4;
+  }
+  // List of zip files to be unzipped.
+  repeated ZipFile zip_file = 1;
+  // List of objects (TML files) to validate.
+  repeated Object object = 2;
+  // Format type of the EDoc representation. Valid Values: [JSON, YAML, PROTO]
+  optional EDocFormatType.E format_type = 3 [default=YAML];
+}
+
+message GetEPackInfoResponse {
+  // In case of a user specified guid in TML file, we determine whether that
+  // guid exists in our system. If yes, we convey this to the user along with
+  // the type of object mapping to that guid in the system.
+  message EDocGuidInfo {
+    // Guid of the object present inside the edoc/TML file.
+    // If no guid is present inside edoc file, this field will be empty.
+    optional string guid = 1;
+    // True if an object corresponding to the guid in TML file is found in the
+    // system. False otherwise.
+    optional bool matching_object_found = 2;
+    // TODO(Sudarshan): We may want to return complete metadata header of the
+    // matching object later.
+    // Type of object already present in the system corresponding to guid.
+    // Note that this may be different from the object type present in the
+    // edoc file.
+    optional string matching_object_type = 3;
+    optional EDocObjectType.E matching_object_type_enum = 4;
+  }
+
+  message Object {
+    // [Deprecated] Type of the edoc. It will be one of the following values:
+    // * LOGICAL_TABLE - for worksheet/view/table.
+    // * PINBOARD_ANSWER_BOOK - for pinboard.
+    // * QUESTION_ANSWER_BOOK - for answer.
+    optional string type = 1;
+    // Entity doc representation of metadata object. i.e. Content of TML file.
+    optional string edoc = 2;
+    // Filename of the TML file.
+    optional string filename = 3;
+    // Filename of the containing zip file.
+    optional string zip_filename = 4;
+    // Guid info of the edoc.
+    optional EDocGuidInfo guid_info = 5;
+    optional StatusProto status = 6;
+    // Type enum of the edoc. It will be one of the following values:
+    // {WORKSHEET, VIEW, PINBOARD, ANSWER, TABLE}
+    optional EDocObjectType.E type_enum = 7;
+    // Name of the object
+    optional string name = 8;
+  }
+  // List of objects to be imported.
+  repeated Object object = 1;
+}

@@ -1,8 +1,8 @@
 package com.codex.modelsheet.controller;
 
-import com.codex.modelsheet.helper.ConfigInfo;
+import com.codex.modelsheet.importmodel.EdocCommon;
+import com.codex.modelsheet.importmodel.EdocService;
 import com.codex.modelsheet.model.EDoc;
-import com.codex.modelsheet.util.JSONUtil;
 import com.codex.modelsheet.util.ProtoUtils;
 import com.codex.modelsheet.util.Util;
 
@@ -28,12 +28,31 @@ public class TmlPojoToTml {
 
     public String createTml(List<EDoc.ObjectEDocProto.Builder> tableBuilders) throws IOException {
         List<String> tmls = new ArrayList<>();
+
+        EdocService.ImportEPackRequest.Builder request =
+                EdocService.ImportEPackRequest.newBuilder();
+        request.setFormatType(EdocCommon.EDocFormatType.E.YAML);
+
         for( EDoc.ObjectEDocProto.Builder tableBuilder : tableBuilders ) {
             EDoc.ObjectEDocProto objectEDocProto = tableBuilder.build();
+            if (!(objectEDocProto.hasWorksheet() || objectEDocProto.hasTable())) continue;
+
             String tml = ProtoUtils.protoToYaml(objectEDocProto);
-            tmls.add(tml);
+
+
+
+            EdocCommon.EDocObjectType.E ObjectType = objectEDocProto.hasWorksheet()? EdocCommon.EDocObjectType.E.WORKSHEET : EdocCommon.EDocObjectType.E.TABLE;
+            String name = objectEDocProto.hasWorksheet()? objectEDocProto.getWorksheet().getName() : objectEDocProto.getTable().getName();
+            request.addObjectBuilder()
+                    .setFilename(name + ".tml")
+                    .setEdoc(tml)
+                    .setType(ObjectType)
+                    .setAction(EdocCommon.ImportAction.E.CREATE).build();
         }
-        String json = JSONUtil.getGsonUI().toJson(tmls);
+
+        String json = ProtoUtils.protoToJSON(request.build());
+
+        //String json = JSONUtil.getGsonUI().toJson(tmls);
         System.out.println("Object to json: "+json);
         return json;
 

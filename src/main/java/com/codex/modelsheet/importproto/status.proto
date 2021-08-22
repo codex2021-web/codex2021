@@ -1,0 +1,19 @@
+// Copyright: ThoughtSpot Inc. 2019
+// Author: Romil Gadia (romil.gadia@thoughtspot.com)
+//
+// Protocol buffer definitions for representing callosum
+// response status.
+
+syntax = "proto2";
+
+// Contains status, error codes, and error message
+message StatusProto {
+    enum Code {
+        OK = 1;
+        ERROR = 2;
+        WARNING = 3;
+    }
+    optional Code status_code = 1;
+    optional int64 error_code = 2;
+    optional string error_message = 3;
+}

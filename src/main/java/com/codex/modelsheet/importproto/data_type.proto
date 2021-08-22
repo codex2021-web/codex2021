@@ -1,0 +1,29 @@
+// Copyright: ThoughtSpot Inc. 2013
+// Author: Priyendra Deshwal (deshwal@thoughtspot.com)
+
+syntax = "proto2";
+
+// TODO(deshwal): Reconcile these types with the list of Value types.
+// TODO(deshwal): Consider folding this into query.proto once storage.proto
+//                is no longer there.
+message DataType {
+  // TODO(shashank,abhishek): From user's side, VarChar and Char should be
+  // two distinct types. Otherwise it adds a third piece of metadata
+  // (type, size, var_or_fixed) to be kept which is not very pretty.
+  // Add VarChar as a type. It is already added in the Java side.  Once
+  // added, replace existing Java column type enum with this.
+  enum E {
+    option allow_alias = true;
+    UNKNOWN = 0;
+    BOOL = 1;
+    CHAR = 2;
+    DATE = 3;
+    INT32 = 4;
+    INT64 = 5;
+    FLOAT = 6;
+    DOUBLE = 7;
+    DATE_TIME = 8;
+    TIME = 9;
+    MAX_TYPE = 9;
+  }
+}

@@ -1,0 +1,50 @@
+// Copyright: ThoughtSpot Inc. 2020
+// Author: Mohit Saini (mohit.saini@thoughtspot.com)
+
+// Common proto definition for edoc.
+
+syntax = "proto2";
+
+// Format type of the TML file.
+message EDocFormatType {
+  enum E {
+    YAML = 1;
+    JSON = 2;
+    PROTO = 3;
+  }
+}
+
+// Type of exportable objects.
+message EDocObjectType {
+  enum E {
+    ANSWER = 0;
+    PINBOARD = 1;
+    WORKSHEET = 2;
+    VIEW = 3;
+    TABLE = 4;
+
+    // JOIN is a internal type. We don't have accept individual JOINs in edoc
+    // but it is used internally.
+    JOIN = 5;
+
+    //-------------------------------------------------------------------------|
+    // Following types are deprecated and their usage is strongly discouraged.//
+    // They exists for backward compatibility while the usage of              //
+    // 'MetadataTypeEnum' from edoc.                                          //
+    LOGICAL_TABLE = 10000;                                                    //
+    PINBOARD_ANSWER_BOOK = 10001;                                             //
+    QUESTION_ANSWER_BOOK = 10002;                                             //
+    //-------------------------------------------------------------------------|
+  }
+}
+
+// Type of import action
+// - CREATE creates a new entity
+// - UPDATE updates an existing entity
+message ImportAction {
+  enum E {
+    CREATE = 1;
+    UPDATE = 2;
+    UPDATE_OR_CREATE = 3;
+  }
+}

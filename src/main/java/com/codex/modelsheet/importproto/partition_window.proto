@@ -1,0 +1,32 @@
+// Copyright: ThoughtSpot Inc. 2015
+// Author: Sanjay Agrawal (sanjay@thoughtspot.com)
+//
+// Protocol buffer definitions for representing windows in falcon
+// partition over expressions.
+//
+// Note that this is a public falcon proto and is used by different components
+// (Scanner, Callosum, Sage, Tools etc). Before making a change to this proto,
+// make sure the dependencies are addressed!!!
+
+syntax = "proto2";
+
+message PartitionWindow {
+  enum PointType {
+    UNBOUNDED_PRECEDING = 1;
+    PRECEDING = 2;
+    UNBOUNDED_FOLLOWING = 3;
+    FOLLOWING = 4;
+    CURRENT_ROW = 5;
+  }
+  enum WindowType {
+    RANGE = 1;
+    ROW = 2;
+  }
+  message Point {
+    optional PointType type = 1;
+    optional sint64 n = 2;  // Can be PRECEDING or FOLLOWING.
+  }
+  optional Point start = 1;
+  optional Point end = 2;
+  optional WindowType window_type = 3 [default = RANGE];
+}

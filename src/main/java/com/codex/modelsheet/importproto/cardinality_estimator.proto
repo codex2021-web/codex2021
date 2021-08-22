@@ -1,0 +1,17 @@
+// Copyright: ThoughtSpot Inc. 2014
+// Author: Shikhar Agarwal (shikhar@thoughtspot.com)
+
+syntax = "proto2";
+
+// This message holds the cardinality estimator details for a set.
+message CardinalityEstimatorProto {
+  // This stores the ordered trailing maximum zeroes of each bucket which
+  // can be used to calculate the estimated cardinality of the set.
+  // These are also useful when the set is sharded and we want to
+  // calculate the cardinality of the overall set by combining cardinality
+  // estimate of each sharded subset. This can be done iff the number of
+  // buckets are same i.e. the lengths of @max_trailing_zeroes are equal.
+  // In this case, each ith value of each sharded subset correspond to the
+  // same bucket.
+  repeated int32 max_trailing_zeroes = 1;
+}

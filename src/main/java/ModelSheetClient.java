@@ -53,6 +53,23 @@ public class ModelSheetClient {
                 tmlPojoToTml.createTml(tableBuilder, args[2]);
                 break;
 
+            case "tml2ts":
+                if (args.length != 2) throw new Exception("Invalid number of arguments.");
+                TmlToTmlPojo tp = new TmlToTmlPojo();
+                List<EDoc.ObjectEDocProto.Builder> tbs = tp.createTMLPojo(args[1]);
+                /**
+                 * Convert tml object to tml.
+                 */
+                TmlPojoToTml TmlPojoToTml = new TmlPojoToTml();
+                String jsonTml = TmlPojoToTml.createTml(tbs);
+
+                /**
+                 * Get list of tml data
+                 */
+                ImportDMWorkSheet importTml = new ImportDMWorkSheet();
+                importTml.importWorkSheet(jsonTml);
+                break;
+
             case "ms2ms":
                 if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 ExcelToExcelPojo ep = new ExcelToExcelPojo();

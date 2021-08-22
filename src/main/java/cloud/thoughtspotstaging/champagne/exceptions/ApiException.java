@@ -48,10 +48,9 @@ public class ApiException extends Exception {
         try {
             // Can throw IOException if input has invalid content type.
             JsonNode jsonNode = ApiHelper.mapper.readTree(context.getResponse().getRawBody());
-            if (!getClass().equals(ApiException.class)) {
-                // In case of IOException JsonNode cannot be detected.
-                ApiHelper.mapper.readerForUpdating(this).readValue(jsonNode);
-            }
+
+            System.out.println("ApiException:"+jsonNode);
+
         } catch (IOException ioException) { 
             // Can throw exception while object mapper tries to:
             // Deserialize the content as JSON tree.
