@@ -3,6 +3,7 @@ import com.codex.modelsheet.helper.ConfigInfo;
 import com.codex.modelsheet.model.EDoc;
 import com.codex.modelsheet.model.ModelSheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelSheetClient {
@@ -48,7 +49,7 @@ public class ModelSheetClient {
 
             case "tmlpojo2modelpojo"://TODO
                 TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
-                tmlPojoToMsPojo.convertToGSPOJO(EDoc.ObjectEDocProto.newBuilder());
+                tmlPojoToMsPojo.convertToGSPOJO(EDoc.ObjectEDocProto.newBuilder(),new ArrayList<>());
                 break;
 
             case "modelpojo2tmlpojo"://TODO
