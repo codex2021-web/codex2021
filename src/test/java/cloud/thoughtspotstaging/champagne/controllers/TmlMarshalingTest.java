@@ -90,7 +90,7 @@ public class TmlMarshalingTest extends BaseControllerTest {
         String username = "tsadmin";//"srikanth.jandhyala@thoughtspot.com";
         // Set callback and perform API call
         try {
-            controller.export(username, authToken, accept, xRequestedBy, "db767288-f968-47ae-aa45-1228e0309e26");
+            controller.export(username, authToken, accept, xRequestedBy, "db767288-f968-47ae-aa45-1228e0309e26",true);
         } catch (ApiException e) {
             // Empty block
         }

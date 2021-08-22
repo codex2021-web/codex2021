@@ -15,14 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExcelPojoToExcel {
-    public static void main(String... args) throws GeneralSecurityException, IOException {
-        ExcelPojoToExcel excelToExcelPojo = new ExcelPojoToExcel();
-        String sheetName ="Code//test";
-        String spreadsheetId = "1iztXkbN3v1nbI3GoXoIeGvznjvKlOMGzY4xG9ZM0RXE";
-        ExcelToExcelPojo excelPojo = new ExcelToExcelPojo();
-        ModelSheet modelSheet = excelPojo.getModelSheet(spreadsheetId);
-        excelToExcelPojo.dataWritingInToExcel(modelSheet,sheetName);
-    }
+
     public void dataWritingInToExcel(ModelSheet modelSheet, String sheetName) throws GeneralSecurityException, IOException {
         ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
         SheetsQuickstart sheetsQuickstart = new SheetsQuickstart();

@@ -1,5 +1,6 @@
 package com.codex.modelsheet.util;
 
+import com.codex.modelsheet.helper.ConfigInfo;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -33,7 +34,7 @@ public class Util {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS);
-    private static final String CREDENTIALS_FILE_PATH = "/Users/sowjanya.goriga/Downloads/client_secret.json";
+    private static final String CREDENTIALS_FILE_PATH = ConfigInfo.getConfigs().getProperty("googlecredentials");//"/Users/sowjanya.goriga/Downloads/client_secret.json";
 
     /**
      * Creates an authorized Credential an object.
