@@ -20,7 +20,7 @@ public class GSToTml {
             MsPojoToTmlPojo msPojoToTmlPojo = new MsPojoToTmlPojo();
             List<EDoc.ObjectEDocProto.Builder> builder = msPojoToTmlPojo.convertToTMLPOJO(modelSheet);
             TmlPojoToTml tmlPojoToTml = new TmlPojoToTml();
-            tmlPojoToTml.createTml(builder);
+            tmlPojoToTml.createTml(builder, "/Users/shaik.ansari/Downloads/ansari_Untitled_guid1.zip");
         }catch (Exception e){
             e.printStackTrace();
         }

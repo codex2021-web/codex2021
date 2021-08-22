@@ -2,13 +2,12 @@ package com.codex.modelsheet.controller;
 
 import com.codex.modelsheet.model.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MsPojoToTmlPojo {
+    private java.lang.Object Object;
+
     public List<EDoc.ObjectEDocProto.Builder> convertToTMLPOJO(ModelSheet modelSheet) {
         List<EDoc.ObjectEDocProto.Builder> builderList = new ArrayList<>();
         EDoc.ObjectEDocProto.Builder worksheetbuilder = EDoc.ObjectEDocProto.newBuilder();
@@ -150,6 +149,7 @@ public class MsPojoToTmlPojo {
             worksheetBuilder.setProperties(worksheetProperties.build());
 
             worksheetbuilder.setWorksheet(worksheetBuilder);
+            worksheetbuilder.setGuid(UUID.randomUUID().toString());
             builderList.add(worksheetbuilder);
         }
 
@@ -268,6 +268,7 @@ public class MsPojoToTmlPojo {
 
             }
             tablebuilder.setTable(tableEDocProto.build());
+            tablebuilder.setGuid(UUID.randomUUID().toString());
             builderList.add(tablebuilder);
         }
         return builderList;
