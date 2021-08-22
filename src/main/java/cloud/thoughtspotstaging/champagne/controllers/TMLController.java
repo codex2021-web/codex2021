@@ -56,63 +56,19 @@ public final class TMLController extends BaseController {
      * @throws    ApiException    Represents error response from the server.
      * @throws    IOException    Signals that an I/O exception of some sort has occurred.
      */
-    public DynamicResponse userUpdate(
-            final String userid,
+    public DynamicResponse importWorksheet(
+            final String userName,
             final String content,
-            final String password,
-            final String authToken
-            ) throws ApiException, IOException {
-        HttpRequest request = buildUserUpdateRequest(userid, content, password, authToken);
-
-        HttpResponse response = getClientInstance().execute(request, false);
-
-        HttpContext context = new HttpContext(request, response);
-
-        return handleUserListResponse(context);
-    }
-
-    /**
-     * Api to get all users, groups and their inter-dependencies.
-     * @return    Returns the DynamicResponse response from the API call
-     * @throws    ApiException    Represents error response from the server.
-     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
-     */
-    public DynamicResponse userDelete(
-            final String userid,
-            final String authToken
-    ) throws ApiException, IOException {
-        HttpRequest request = buildUserDeleteRequest(userid, authToken);
-
-        HttpResponse response = getClientInstance().execute(request, false);
-
-        HttpContext context = new HttpContext(request, response);
-
-        return handleUserListResponse(context);
-    }
-
-    /**
-     * Api to get all users, groups and their inter-dependencies.
-     * @param  accept  Required parameter: Example: application/json
-     * @param  xRequestedBy  Required parameter: Example: ThoughtSpot
-     * @return    Returns the DynamicResponse response from the API call
-     * @throws    ApiException    Represents error response from the server.
-     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
-     */
-    public DynamicResponse userList(//username, authToken, accept, xRequestedBy
-            final String username,
             final String authToken,
-            final String accept,
-            final String xRequestedBy
+            final String accept
     ) throws ApiException, IOException {
-        HttpRequest request = buildUserListRequest(username, authToken, accept, xRequestedBy);
-
+        HttpRequest request = buildImportWorksheetRequest(userName, content, authToken, accept);
         HttpResponse response = getClientInstance().execute(request, false);
 
         HttpContext context = new HttpContext(request, response);
 
         return handleUserListResponse(context);
     }
-
     /**
      * Api to get all users, groups and their inter-dependencies.
      * @param  accept  Required parameter: Example: application/json
@@ -287,31 +243,29 @@ public final class TMLController extends BaseController {
     /**
      * Builds the HttpRequest object for userList.
      */
-    private HttpRequest buildUserUpdateRequest(
-            final String userid,
+    private HttpRequest buildImportWorksheetRequest(
+            final String userName,
             final String content,
-            final String password,
-            final String authToken) {
+            final String authToken,
+            final String accept) {
         //the base uri for api requests
         String baseUri = config.getBaseUri();
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
-                + "/tspublic/v1/user/").append(userid);
+                + "/metadata/edoc/importEPack");
         System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
-        headers.add("Accept", "application/json");
+        headers.add("Accept", accept);
         headers.add("X-Requested-By", "ThoughtSpot");
-        headers.add("UserName", "tsadmin");
+        headers.add("UserName", userName);
         headers.add("Authorization", "Bearer "+authToken);
 
         Map<String, Object> formParameters = new HashMap<>();
-        formParameters.put("userid", userid);
-        formParameters.put("password", password);
-        formParameters.put("content", content);
+        formParameters.put("request", content);
 
-        HttpRequest request = getClientInstance().put(queryBuilder, headers, null, ApiHelper.prepareFormFields(formParameters));
+        HttpRequest request = getClientInstance().post(queryBuilder, headers, null, ApiHelper.prepareFormFields(formParameters));
 
         return request;
     }
