@@ -15,22 +15,25 @@ public class TmlToGS {
     public static void main(String[] args) {
 
         try {
-            String filePath = "/Users/shaik.ansari/Downloads/Test-Worksheet.worksheet.zip";
+            String filePath = "/Users/shaik.ansari/Downloads/Untitled.worksheet.zip";
             TmlToTmlPojo tmlToTmlPojo = new TmlToTmlPojo();
             EDoc.ObjectEDocProto.Builder finalbuilder = EDoc.ObjectEDocProto.newBuilder();
             List<EDoc.ObjectEDocProto.Builder> builders = tmlToTmlPojo.createTMLPojo(filePath);
             TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
-            List<EDoc.LogicalTableEDocProto> tableslist  = new ArrayList<>();
+            List<EDoc.ObjectEDocProto.Builder> tableslist  = new ArrayList<>();
+            EDoc.ObjectEDocProto.Builder manifest = EDoc.ObjectEDocProto.newBuilder();
             for (EDoc.ObjectEDocProto.Builder builder : builders) {
                     if (builder.hasWorksheet()){
-                        finalbuilder =builder;
+                        finalbuilder = builder;
+                    }else if(builder.hasTable()){
+                        tableslist.add(builder);
                     }else{
-                        tableslist.add(builder.getTable());
+                        manifest = builder; //TODO need to check how to handle
                     }
             }
             ModelSheet modelSheet = tmlPojoToMsPojo.convertToGSPOJO(finalbuilder,tableslist);
             ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
-            excelPojoToExcel.dataWritingInToExcel(modelSheet,"Worksheet_codex");
+            excelPojoToExcel.dataWritingInToExcel(modelSheet,"Untitled_new");
 
         }catch (Exception e){
             e.printStackTrace();

@@ -75,7 +75,7 @@ public class ModelSheetClient {
 
             case "tmlpojo2modelpojo"://TODO Not Req
                 TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
-                tmlPojoToMsPojo.convertToGSPOJO(EDoc.ObjectEDocProto.newBuilder(), new ArrayList<EDoc.LogicalTableEDocProto>());
+                tmlPojoToMsPojo.convertToGSPOJO(EDoc.ObjectEDocProto.newBuilder(), new ArrayList<>());
                 break;
 
             case "modelpojo2tmlpojo"://TODO Not Req
@@ -134,7 +134,7 @@ public class ModelSheetClient {
          * Converting tml objects to Worksheet Object
          */
         EDoc.ObjectEDocProto.Builder workSheetBuilder = null;
-        List<EDoc.LogicalTableEDocProto> tableBuilders = new ArrayList<>();
+        List<EDoc.ObjectEDocProto.Builder> tableBuilders = new ArrayList<>();
                     for(
         EDoc.ObjectEDocProto.Builder builder :tmlObjects)
 
@@ -142,7 +142,7 @@ public class ModelSheetClient {
             if (builder.hasWorksheet()) {
                 workSheetBuilder = builder;
             } else if (builder.hasTable()) {
-                tableBuilders.add(builder.getTable());
+                tableBuilders.add(builder);
             } else {
                 //TODO Manifest
             }
