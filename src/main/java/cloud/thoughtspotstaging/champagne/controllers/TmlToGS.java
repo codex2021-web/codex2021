@@ -4,6 +4,7 @@ import com.codex.modelsheet.controller.ExcelPojoToExcel;
 import com.codex.modelsheet.controller.ExcelToExcelPojo;
 import com.codex.modelsheet.controller.TmlPojoToMsPojo;
 import com.codex.modelsheet.controller.TmlToTmlPojo;
+import com.codex.modelsheet.helper.ConfigInfo;
 import com.codex.modelsheet.model.EDoc;
 import com.codex.modelsheet.model.ModelSheet;
 import com.codex.modelsheet.util.ConversionUtil;
@@ -15,7 +16,8 @@ public class TmlToGS {
     public static void main(String[] args) {
 
         try {
-            String filePath = "/Users/shaik.ansari/Downloads/Untitled.worksheet.zip";
+            ConfigInfo.loadConfigurations();
+            String filePath = "/Users/shaik.ansari/Downloads/Supplier Worksheet.worksheet.zip";
             TmlToTmlPojo tmlToTmlPojo = new TmlToTmlPojo();
             EDoc.ObjectEDocProto.Builder finalbuilder = EDoc.ObjectEDocProto.newBuilder();
             List<EDoc.ObjectEDocProto.Builder> builders = tmlToTmlPojo.createTMLPojo(filePath);
@@ -33,7 +35,7 @@ public class TmlToGS {
             }
             ModelSheet modelSheet = tmlPojoToMsPojo.convertToGSPOJO(finalbuilder,tableslist);
             ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
-            excelPojoToExcel.dataWritingInToExcel(modelSheet,"Untitled_new");
+            excelPojoToExcel.dataWritingInToExcel(modelSheet,"Supplier Worksheet");
 
         }catch (Exception e){
             e.printStackTrace();
