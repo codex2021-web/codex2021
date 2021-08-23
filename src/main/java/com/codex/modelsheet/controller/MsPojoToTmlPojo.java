@@ -149,7 +149,12 @@ public class MsPojoToTmlPojo {
             worksheetBuilder.setProperties(worksheetProperties.build());
 
             worksheetbuilder.setWorksheet(worksheetBuilder);
-            worksheetbuilder.setGuid(UUID.randomUUID().toString());
+            if (modelSheet.getWorkSheets().get(0) != null && contentCheck(modelSheet.getWorkSheets().get(0).getGuid())){
+                worksheetbuilder.setGuid(modelSheet.getWorkSheets().get(0).getGuid());
+            }else{
+                worksheetbuilder.setGuid(UUID.randomUUID().toString());
+            }
+
             builderList.add(worksheetbuilder);
         }
 

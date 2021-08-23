@@ -15,6 +15,7 @@ public class TmlPojoToMsPojo {
             List<WorkSheet> workSheetList = new ArrayList<>();
             for(EDoc.Identity table : worksheetBuilder.getWorksheet().getTablesList()){
                 WorkSheet workSheet = new WorkSheet();
+                workSheet.setGuid(worksheetBuilder.getGuid());
                 workSheet.setWorksheetName(worksheetBuilder.getWorksheet().getName());
                 workSheet.setTables(table.getName());
                 workSheet.setByPassRls(String.valueOf(worksheetBuilder.getWorksheet().getProperties().getIsBypassRls()));

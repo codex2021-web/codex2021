@@ -1,16 +1,26 @@
 package com.codex.modelsheet.model;
 
 public class WorkSheet {
+    private String guid;
     private String worksheetName;
     private String tables;
     private String byPassRls;
     private String progressiveJoin;
 
     public WorkSheet() {
+        this.guid="";
         this.worksheetName = "";
         this.tables = "";
         this.byPassRls = "";
         this.progressiveJoin = "";
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     public String getWorksheetName() {
@@ -48,7 +58,8 @@ public class WorkSheet {
     @Override
     public String toString() {
         return "WorkSheet{" +
-                "worksheetName='" + worksheetName + '\'' +
+                "guid='" + guid + '\'' +
+                ", worksheetName='" + worksheetName + '\'' +
                 ", tables='" + tables + '\'' +
                 ", byPassRls='" + byPassRls + '\'' +
                 ", progressiveJoin='" + progressiveJoin + '\'' +
