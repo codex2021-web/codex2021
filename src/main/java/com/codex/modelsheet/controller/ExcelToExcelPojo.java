@@ -130,13 +130,15 @@ public class ExcelToExcelPojo {
             workSheet1 = new WorkSheet();
             if(count !=1){
                 if(worksheetValue.size() >=1){
-                    workSheet1.setWorksheetName(worksheetValue.get(0).toString());
+                    workSheet1.setGuid(worksheetValue.get(0).toString());
                 } if(worksheetValue.size() >=2){
-                    workSheet1.setTables(worksheetValue.get(1).toString());
+                    workSheet1.setWorksheetName(worksheetValue.get(1).toString());
                 } if(worksheetValue.size() >=3){
-                    workSheet1.setByPassRls(worksheetValue.get(2).toString());
+                    workSheet1.setTables(worksheetValue.get(2).toString());
                 } if(worksheetValue.size() >=4){
-                    workSheet1.setProgressiveJoin(worksheetValue.get(3).toString());
+                    workSheet1.setByPassRls(worksheetValue.get(3).toString());
+                }if(worksheetValue.size() >=5){
+                    workSheet1.setProgressiveJoin(worksheetValue.get(4).toString());
                 }
 
             }

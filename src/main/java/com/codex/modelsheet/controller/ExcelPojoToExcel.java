@@ -54,11 +54,11 @@ public class ExcelPojoToExcel {
         List<List<Object>> workSheetObjects = new ArrayList<>();
         List<Object> newObject = new ArrayList<>();
         newObject =
-                Arrays.asList("Worksheet Name", "Tables", "Bypass RLS?", "Progressive Join?");
+                Arrays.asList("Guid","Worksheet Name", "Tables", "Bypass RLS?", "Progressive Join?");
         workSheetObjects.addAll(Collections.singleton(newObject));
         for(WorkSheet workSheet :modelSheet.getWorkSheets()){
             newObject =
-                    Arrays.asList(workSheet.getWorksheetName(),workSheet.getTables(),workSheet.getByPassRls(),workSheet.getProgressiveJoin());
+                    Arrays.asList(workSheet.getGuid(),workSheet.getWorksheetName(),workSheet.getTables(),workSheet.getByPassRls(),workSheet.getProgressiveJoin());
             workSheetObjects.addAll(Collections.singleton(newObject));
         }
         String range = "WORKSHEET";
