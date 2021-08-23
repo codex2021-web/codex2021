@@ -5,6 +5,7 @@ import com.codex.modelsheet.importmodel.EdocService;
 import com.codex.modelsheet.model.EDoc;
 import com.codex.modelsheet.util.ProtoUtils;
 import com.codex.modelsheet.util.Util;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class TmlPojoToTml {
         System.out.println("Object to TML: "+tmls);
     }
 
-    public String createTml(List<EDoc.ObjectEDocProto.Builder> tableBuilders) throws IOException {
+    public String createTml(@NotNull List<EDoc.ObjectEDocProto.Builder> tableBuilders, boolean includeDependents) throws IOException {
         List<String> tmls = new ArrayList<>();
 
         EdocService.ImportEPackRequest.Builder request =
@@ -36,10 +37,8 @@ public class TmlPojoToTml {
         for( EDoc.ObjectEDocProto.Builder tableBuilder : tableBuilders ) {
             EDoc.ObjectEDocProto objectEDocProto = tableBuilder.build();
             if (!(objectEDocProto.hasWorksheet() || objectEDocProto.hasTable())) continue;
-
+            if (!includeDependents && objectEDocProto.hasTable()) continue;
             String tml = ProtoUtils.protoToYaml(objectEDocProto);
-
-
 
             EdocCommon.EDocObjectType.E ObjectType = objectEDocProto.hasWorksheet()? EdocCommon.EDocObjectType.E.WORKSHEET : EdocCommon.EDocObjectType.E.TABLE;
             String name = objectEDocProto.hasWorksheet()? objectEDocProto.getWorksheet().getName() : objectEDocProto.getTable().getName();

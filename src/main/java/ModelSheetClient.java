@@ -30,8 +30,13 @@ public class ModelSheetClient {
              * gsheet2ts -g sheetname( from googlesheet to TS Cloud)
               */
             case "gsheet2ts":
-                if (args.length != 3) throw new Exception("Invalid number of arguments.");
-                gsheet2ts(args);
+                if (args.length < 3 && args.length > 4) throw new Exception("Invalid number of arguments.");
+                if(args.length == 4 && args[3].equalsIgnoreCase("includedependents")) {
+                    gsheet2ts(args, true);
+                }else {
+                    gsheet2ts(args, false);
+                }
+
                 break;
             /**
              * xport worksheet will create zip file with worksheet/table name
@@ -54,15 +59,19 @@ public class ModelSheetClient {
                 break;
 
             case "tml2ts":
-                if (args.length != 2) throw new Exception("Invalid number of arguments.");
+                if (args.length < 2 && args.length > 3) throw new Exception("Invalid number of arguments.");
                 TmlToTmlPojo tp = new TmlToTmlPojo();
                 List<EDoc.ObjectEDocProto.Builder> tbs = tp.createTMLPojo(args[1]);
                 /**
                  * Convert tml object to tml.
                  */
                 TmlPojoToTml TmlPojoToTml = new TmlPojoToTml();
-                String jsonTml = TmlPojoToTml.createTml(tbs);
-
+                String jsonTml = "";
+                if(args.length == 3 && args[2].equalsIgnoreCase("includedependents")) {
+                    jsonTml = TmlPojoToTml.createTml(tbs, true);
+                }else {
+                    jsonTml = TmlPojoToTml.createTml(tbs, false);
+                }
                 /**
                  * Get list of tml data
                  */
@@ -108,7 +117,7 @@ public class ModelSheetClient {
         }
     }
 
-    private static void gsheet2ts(String... args) throws Exception {
+    private static void gsheet2ts(String[] args, boolean includeDependents) throws Exception {
         /**
          * Modelsheet to Modelsheet object
          */
@@ -125,7 +134,7 @@ public class ModelSheetClient {
          * Convert tml object to tml.
          */
         TmlPojoToTml TmlPojoToTml = new TmlPojoToTml();
-        String jsonTml = TmlPojoToTml.createTml(builderList);
+        String jsonTml = TmlPojoToTml.createTml(builderList, includeDependents);
 
         /**
          * Get list of tml data
