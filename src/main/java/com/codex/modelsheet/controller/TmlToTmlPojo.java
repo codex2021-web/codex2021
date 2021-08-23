@@ -21,7 +21,7 @@ public class TmlToTmlPojo {
             EDoc.ObjectEDocProto.Builder tableBuilder = EDoc.ObjectEDocProto.newBuilder();
             ProtoUtils.yamlToProto(tmlContent, tableBuilder);
             tmlObjs.add(tableBuilder);
-            System.out.println("TML to Object: " + tableBuilder.toString());
+            //System.out.println("TML to Object: " + tableBuilder.toString());
         }
         return tmlObjs;
     }
@@ -33,7 +33,7 @@ public class TmlToTmlPojo {
             EDoc.ObjectEDocProto.Builder tableBuilder = EDoc.ObjectEDocProto.newBuilder();
             ProtoUtils.yamlToProto(tmlContent, tableBuilder);
             tmlObjs.add(tableBuilder);
-            System.out.println("TML to Object: " + tableBuilder.toString());
+            //System.out.println("TML to Object: " + tableBuilder.toString());
         }
         return tmlObjs;
     }

@@ -58,6 +58,35 @@ public class ModelSheetClient {
                 tmlPojoToTml.createTml(tableBuilder, args[2]);
                 break;
 
+            case "ms2tml":
+                if (args.length != 3) throw new Exception("Invalid number of arguments.");
+                ExcelToExcelPojo ee = new ExcelToExcelPojo();
+                ModelSheet modelSheet = ee.getModelSheet(args[1]);
+                MsPojoToTmlPojo mp = new MsPojoToTmlPojo();
+                List<EDoc.ObjectEDocProto.Builder> builder = mp.convertToTMLPOJO(modelSheet);
+                TmlPojoToTml pt = new TmlPojoToTml();
+                pt.createTml(builder, args[2]);
+                break;
+
+            case "tml2ms":
+                if (args.length != 3) throw new Exception("Invalid number of arguments.");
+                TmlToTmlPojo tt = new TmlToTmlPojo();
+                EDoc.ObjectEDocProto.Builder finalbuilder = EDoc.ObjectEDocProto.newBuilder();
+                List<EDoc.ObjectEDocProto.Builder> builders = tt.createTMLPojo(args[1]);
+                TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
+                List<EDoc.ObjectEDocProto.Builder> tableslist  = new ArrayList<>();
+                for (EDoc.ObjectEDocProto.Builder edoc : builders) {
+                    if (edoc.hasWorksheet()){
+                        finalbuilder = edoc;
+                    }else if(edoc.hasTable()){
+                        tableslist.add(edoc);
+                    }
+                }
+                ModelSheet mm = tmlPojoToMsPojo.convertToGSPOJO(finalbuilder,tableslist);
+                ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
+                excelPojoToExcel.dataWritingInToExcel(mm,args[2]);
+                break;
+
             case "tml2ts":
                 if (args.length < 2 && args.length > 3) throw new Exception("Invalid number of arguments.");
                 TmlToTmlPojo tp = new TmlToTmlPojo();
@@ -95,12 +124,12 @@ public class ModelSheetClient {
                 break;
 
             case "pojo2modelsheet"://TODO Not Req
-                ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
+                excelPojoToExcel = new ExcelPojoToExcel();
                 excelPojoToExcel.dataWritingInToExcel(new ModelSheet(), "");
                 break;
 
             case "tmlpojo2modelpojo"://TODO Not Req
-                TmlPojoToMsPojo tmlPojoToMsPojo = new TmlPojoToMsPojo();
+                tmlPojoToMsPojo = new TmlPojoToMsPojo();
                 tmlPojoToMsPojo.convertToGSPOJO(EDoc.ObjectEDocProto.newBuilder(), new ArrayList<>());
                 break;
 
