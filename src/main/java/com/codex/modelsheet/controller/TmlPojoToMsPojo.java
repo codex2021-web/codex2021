@@ -42,16 +42,27 @@ public class TmlPojoToMsPojo {
                         table.setJoinName(joinsWith.getName());
                         table.setJoinsWith(joinsWith.getDestination().getName());
                         table.setJoinCondition(joinsWith.getOn());
-                        table.setJoinType(joinsWith.getType());
+
                         if (worksheetBuilder.hasWorksheet()) {//TODO we need to fetch from worksheet
-                            boolean isOneToOne = worksheetBuilder.getWorksheet().getJoinsList()
+                            worksheetBuilder.getWorksheet().getJoinsList()
                                     .parallelStream().filter(join -> join.getName().equals(joinsWith.getName()))
-                                    .findFirst().get().getIsOneToOne();
-                            if (isOneToOne) {
+                                    .forEach(join -> {
+                                        if (join.getIsOneToOne()) {
+                                            table.setJoinCardinality("One to One");
+                                        }else {
+                                            table.setJoinCardinality("Many to One");
+                                        }
+                                        table.setJoinType(join.getType());
+                                    });
+                                    //.findFirst().get().getIsOneToOne();
+                            /*if (isOneToOne) {
                                 table.setJoinCardinality("One to One");
                             }else {
                                 table.setJoinCardinality("Many to One");
-                            }
+                            }*/
+                        }else {
+                            table.setJoinType(joinsWith.getType());
+                            table.setJoinCardinality("One to One");
                         }
                         tables.add(table);
                         tableNames.add(tableBuilder.getTable().getName());

@@ -57,11 +57,12 @@ public class MsPojoToTmlPojo {
             for (Tables t : modelSheet.getTables()) {
                 if (duplicateCheck.add(t.getTable())) {
                     List<String> joinNames = new ArrayList<>();
-                    for (Tables tb : modelSheet.getTables()) {
+                    getTablePathsJoinNames(t.getTable(),modelSheet.getTables(),joinNames);
+                    /*for (Tables tb : modelSheet.getTables()) {
                         if (t.getTable().equals(tb.getJoinsWith())) {
                             joinNames.add(tb.getJoinName());
                         }
-                    }
+                    }*/
                     EDoc.TablePath.JoinPath.Builder tablePathJoinPathBuilder = EDoc.TablePath.JoinPath.newBuilder();
                     if (!joinNames.isEmpty()) {
                         for (String jn : joinNames) {
@@ -279,6 +280,15 @@ public class MsPojoToTmlPojo {
         return builderList;
     }
 
+    private void getTablePathsJoinNames(String table, List<Tables> tables, List<String> joinNames) {
+        for (Tables tb : tables) {
+            if (table.equals(tb.getJoinsWith())) {
+                joinNames.add(tb.getJoinName());
+                getTablePathsJoinNames(tb.getTable(),tables,joinNames);
+            }
+        }
+    }
+
     public static boolean contentCheck(String value){
         boolean flag = false;
         if (value != null && !value.isEmpty()){
@@ -286,4 +296,5 @@ public class MsPojoToTmlPojo {
         }
         return flag;
     }
+
 }
