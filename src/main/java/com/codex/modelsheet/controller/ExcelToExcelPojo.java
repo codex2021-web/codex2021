@@ -73,13 +73,13 @@ public class ExcelToExcelPojo {
             attribute = new Attribute();
             if(count !=1){
                 if(attributeValue.size() >=1){
-                    attribute.setWorksheetColumn(attributeValue.get(0).toString());
+                    attribute.setWorksheetColumnFlag(attributeValue.get(0).toString());
                 }if(attributeValue.size() >=2){
                     attribute.setTable(attributeValue.get(1).toString());
                 }if(attributeValue.size() >=3){
-                    attribute.setColumn(attributeValue.get(2).toString());
+                    attribute.setWorkSheetColumn(attributeValue.get(2).toString());
                 }if(attributeValue.size() >=4){
-                    attribute.setTableColumn(attributeValue.get(3).toString());
+                    attribute.setColumn(attributeValue.get(3).toString());
                 }if(attributeValue.size() >=5){
                     attribute.setDescription(attributeValue.get(4).toString());
                 }
