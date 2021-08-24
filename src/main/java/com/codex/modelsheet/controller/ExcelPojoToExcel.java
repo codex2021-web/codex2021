@@ -81,16 +81,16 @@ public class ExcelPojoToExcel {
         workSheetObjects = new ArrayList<>();
         newObject = new ArrayList<>();
         newObject =
-                Arrays.asList("Table","Column","Description","Data Type","Column Type","Additive","Aggregation",
+                Arrays.asList("Worksheet Column(Y/N)?","Table","Column","Table Column","Description","Data Type","Column Type","Additive","Aggregation",
                         "Hidden Attribute","Synonyms","Suggested Values in Search","GEO Config","Index Type","Index Priority"
-                        ,"Format Pattern","Currency Type","Attribution Dimension","SpotIQ Preference","Calendar Type","Worksheet Column(Y/N)?");
+                        ,"Format Pattern","Currency Type","Attribution Dimension","SpotIQ Preference","Calendar Type");
         workSheetObjects.addAll(Collections.singleton(newObject));
         for(Attribute attribute :modelSheet.getAttributes()){
             newObject =
-                    Arrays.asList(attribute.getTable(),attribute.getColumn(),attribute.getDescription(),attribute.getDataType(),attribute.getColumnType()
+                    Arrays.asList(attribute.getWorksheetColumn(),attribute.getTable(),attribute.getColumn(),attribute.getTableColumn(),attribute.getDescription(),attribute.getDataType(),attribute.getColumnType()
                             ,attribute.getAdditive(),attribute.getAggregation(),attribute.getHiddenAttribute(),attribute.getSynonyms(),attribute.getSuggestedValue()
                             ,attribute.getGeoConfig(),attribute.getIndexType(),attribute.getIndexPriority(),attribute.getFormatPattern(),attribute.getCurrencyType()
-                            ,attribute.getAttributeDimension(),attribute.getSpotIqPreference(),attribute.getCalenderType(),attribute.getWorksheetColumn()
+                            ,attribute.getAttributeDimension(),attribute.getSpotIqPreference(),attribute.getCalenderType()
                     );
             workSheetObjects.addAll(Collections.singleton(newObject));
         }

@@ -73,50 +73,51 @@ public class ExcelToExcelPojo {
             attribute = new Attribute();
             if(count !=1){
                 if(attributeValue.size() >=1){
-                    attribute.setTable(attributeValue.get(0).toString());
+                    attribute.setWorksheetColumn(attributeValue.get(0).toString());
                 }if(attributeValue.size() >=2){
-                    attribute.setColumn(attributeValue.get(1).toString());
-                }
-                if(attributeValue.size() >=3){
-                    attribute.setDescription(attributeValue.get(2).toString());
-                }
-                if(attributeValue.size() >=4){
-                    attribute.setDataType(attributeValue.get(3).toString());
-                }
-                if(attributeValue.size() >=5){
-                    attribute.setColumnType(attributeValue.get(4).toString());
+                    attribute.setTable(attributeValue.get(1).toString());
+                }if(attributeValue.size() >=3){
+                    attribute.setColumn(attributeValue.get(2).toString());
+                }if(attributeValue.size() >=4){
+                    attribute.setTableColumn(attributeValue.get(3).toString());
+                }if(attributeValue.size() >=5){
+                    attribute.setDescription(attributeValue.get(4).toString());
                 }
                 if(attributeValue.size() >=6){
-                    attribute.setAdditive(attributeValue.get(5).toString());
+                    attribute.setDataType(attributeValue.get(5).toString());
                 }
                 if(attributeValue.size() >=7){
-                    attribute.setAggregation(attributeValue.get(6).toString());
+                    attribute.setColumnType(attributeValue.get(6).toString());
                 }
                 if(attributeValue.size() >=8){
-                    attribute.setHiddenAttribute(attributeValue.get(7).toString());
+                    attribute.setAdditive(attributeValue.get(7).toString());
                 }
                 if(attributeValue.size() >=9){
-                    attribute.setSynonyms(attributeValue.get(8).toString());
-                }if(attributeValue.size() >=10){
-                    attribute.setSuggestedValue(attributeValue.get(9).toString());
-                }if(attributeValue.size() >=11){
-                    attribute.setGeoConfig(attributeValue.get(10).toString());
+                    attribute.setAggregation(attributeValue.get(8).toString());
+                }
+                if(attributeValue.size() >=10){
+                    attribute.setHiddenAttribute(attributeValue.get(9).toString());
+                }
+                if(attributeValue.size() >=11){
+                    attribute.setSynonyms(attributeValue.get(10).toString());
                 }if(attributeValue.size() >=12){
-                    attribute.setIndexType(attributeValue.get(11).toString());
+                    attribute.setSuggestedValue(attributeValue.get(11).toString());
                 }if(attributeValue.size() >=13){
-                    attribute.setIndexPriority(attributeValue.get(12).toString());
+                    attribute.setGeoConfig(attributeValue.get(12).toString());
                 }if(attributeValue.size() >=14){
-                    attribute.setFormatPattern(attributeValue.get(13).toString());
+                    attribute.setIndexType(attributeValue.get(13).toString());
                 }if(attributeValue.size() >=15){
-                    attribute.setCurrencyType(attributeValue.get(14).toString());
+                    attribute.setIndexPriority(attributeValue.get(14).toString());
                 }if(attributeValue.size() >=16){
-                    attribute.setAttributeDimension(attributeValue.get(15).toString());
+                    attribute.setFormatPattern(attributeValue.get(15).toString());
                 }if(attributeValue.size() >=17){
-                    attribute.setSpotIqPreference(attributeValue.get(16).toString());
+                    attribute.setCurrencyType(attributeValue.get(16).toString());
                 }if(attributeValue.size() >=18){
-                    attribute.setCalenderType(attributeValue.get(17).toString());
+                    attribute.setAttributeDimension(attributeValue.get(17).toString());
                 }if(attributeValue.size() >=19){
-                    attribute.setWorksheetColumn(attributeValue.get(18).toString());
+                    attribute.setSpotIqPreference(attributeValue.get(18).toString());
+                }if(attributeValue.size() >=20){
+                    attribute.setCalenderType(attributeValue.get(19).toString());
                 }
 
 
