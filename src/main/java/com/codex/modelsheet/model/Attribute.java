@@ -3,6 +3,7 @@ package com.codex.modelsheet.model;
 public class Attribute {
     private String table;
     private String column;
+    private String tableColumn;
     private String description;
     private String dataType;
     private String columnType;
@@ -24,6 +25,7 @@ public class Attribute {
     public Attribute(){
         this.table = "";
         this.column = "";
+        this.tableColumn = "";
         this.description = "";
         this.dataType = "";
         this.columnType = "";
@@ -53,6 +55,14 @@ public class Attribute {
 
     public String getColumn() {
         return column;
+    }
+
+    public String getTableColumn() {
+        return tableColumn;
+    }
+
+    public void setTableColumn(String tableColumn) {
+        this.tableColumn = tableColumn;
     }
 
     public void setColumn(String column) {
