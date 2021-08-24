@@ -88,7 +88,7 @@ public class ModelSheetClient {
                 break;
 
             case "ts2tml":
-                if (args.length < 2 || args.length > 3) throw new Exception("Invalid number of arguments.");
+                if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 boolean objectType = args[1].equals("-w") ? true : false;
                 ExportDBWorkSheet ed = new ExportDBWorkSheet();
                 ed.exportWorkSheet(args[2], objectType, args[3]);
