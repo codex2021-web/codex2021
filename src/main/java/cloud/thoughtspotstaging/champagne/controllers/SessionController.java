@@ -90,7 +90,7 @@ public final class SessionController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
                 + "/tspublic/v1/session/v2/login");
-System.out.println(queryBuilder.toString());
+//System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("Accept", "application/json");

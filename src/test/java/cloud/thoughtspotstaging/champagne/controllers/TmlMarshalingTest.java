@@ -65,7 +65,7 @@ public class TmlMarshalingTest extends BaseControllerTest {
         try {
             sessionControl.getAuthToken(password, username, access_level, contentType, accept, xRequestedBy);
             authToken = new String(IOUtils.readFully(httpResponse.getResponse().getRawBody(), -1, true));
-            System.out.println(authToken);
+            //System.out.println(authToken);
             //controller.login(username, password, rememberme, contentType, accept, xRequestedBy);
         } catch (ApiException | IOException e) {
             e.printStackTrace();
@@ -102,16 +102,16 @@ public class TmlMarshalingTest extends BaseControllerTest {
                 new InputStreamReader(httpResponse.getResponse().getRawBody(), StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));
-        System.out.println("Export Worksheet Response: "+content);
+        //System.out.println("Export Worksheet Response: "+content);
 
         EDoc.ObjectEDocProto.Builder tableBuilder = EDoc.ObjectEDocProto.newBuilder();
         //TML to Object
         ProtoUtils.yamlToProto(content, tableBuilder);
-        System.out.println("TML to Object: "+tableBuilder.toString());
+        //System.out.println("TML to Object: "+tableBuilder.toString());
 
         //Object to TML
         EDoc.ObjectEDocProto objectEDocProto = tableBuilder.build();
         String tml =  ProtoUtils.protoToYaml(objectEDocProto);
-        System.out.println("Object to TML: "+tml);
+        //System.out.println("Object to TML: "+tml);
     }
 }

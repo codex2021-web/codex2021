@@ -102,7 +102,7 @@ public class ExportDBWorkSheet extends  BaseController{
         SessionController sessionControl = client.getSessionController();
         sessionControl.getAuthToken(password, username, access_level, contentType, accept, xRequestedBy);
         String authToken = new String(IOUtils.readFully(httpResponse.getResponse().getRawBody(), -1, true));
-        System.out.println(authToken);
+        //System.out.println(authToken);
             //controller.login(username, password, rememberme, contentType, accept, xRequestedBy);
         return  authToken;
     }

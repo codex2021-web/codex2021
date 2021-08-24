@@ -24,7 +24,7 @@ public class TmlPojoToTml {
         byte[] zipBytes = Util.createZip(tmls);
         Util.writeFile(outFile, zipBytes);
 
-        System.out.println("Object to TML: "+tmls);
+        //System.out.println("Object to TML: "+tmls);
     }
 
     public String createTml(@NotNull List<EDoc.ObjectEDocProto.Builder> tableBuilders, boolean includeDependents) throws IOException {
@@ -52,7 +52,7 @@ public class TmlPojoToTml {
         String json = ProtoUtils.protoToJSON(request.build());
 
         //String json = JSONUtil.getGsonUI().toJson(tmls);
-        System.out.println("Object to json: "+json);
+        //System.out.println("Object to json: "+json);
         return json;
 
     }

@@ -69,7 +69,7 @@ public class ImportDMWorkSheet extends BaseController{
                 new InputStreamReader(httpResponse.getResponse().getRawBody(), StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));
-        System.out.println("Export Worksheet Response: "+response);
+        //System.out.println("Export Worksheet Response: "+response);
     }
     public String getAuthToken() throws IOException, ApiException {
 
@@ -83,7 +83,7 @@ public class ImportDMWorkSheet extends BaseController{
         SessionController sessionControl = client.getSessionController();
         sessionControl.getAuthToken(password, username, access_level, contentType, accept, xRequestedBy);
         String authToken = new String(IOUtils.readFully(httpResponse.getResponse().getRawBody(), -1, true));
-        System.out.println(authToken);
+        //System.out.println(authToken);
         //controller.login(username, password, rememberme, contentType, accept, xRequestedBy);
         return  authToken;
     }

@@ -138,11 +138,26 @@ public class ModelSheetClient {
                 msPojoToTmlPojo.convertToTMLPOJO(new ModelSheet());
                 break;
 
-            case "importworksheet":
+            case "--help":
+                System.out.println("sh modelsheet.command ts2gsheet -w TestWorksheet -g googlesheet-name");
+                System.out.println("sh modelsheet.command ts2gsheet -t [TABLE1,TABLE2] -g googlesheet-name");
+                        System.out.println("sh modelsheet.command gsheet2ts -g googlesheet-id includedependents");
+                                System.out.println("sh modelsheet.command exportworksheet -w|-t ws|table outputZipFile");
+                                        System.out.println("sh modelsheet.command tml2tml inputZipFile outputZipFile");
+                                                System.out.println("sh modelsheet.command ms2ms inputSheetId outputSheetName");
+                                                        System.out.println("sh modelsheet.command modelsheet2pojo inputSheetId");
+                                                                System.out.println("sh modelsheet.command tml2ts “/TPCH WS.worksheet.zip” includedependents");
+                                                                        System.out.println("sh modelsheet.command ms2tml googlesheet-id outputZipFile");
+                                                                                System.out.println("sh modelsheet.command tml2ms inputZipFile googlesheet-name");
+
+                break;
+
+            /*case "importworksheet":
                 if (args.length != 2) throw new Exception("Invalid number of arguments.");
                 ImportDMWorkSheet importDMWorkSheet = new ImportDMWorkSheet();
                 importDMWorkSheet.importWorkSheet(args[1]);
-                break;
+                break;*/
+            default: System.out.println("Invalid Command.");
         }
     }
 

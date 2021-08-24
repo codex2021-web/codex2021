@@ -30,7 +30,7 @@ public class SpreadsheetSnippets {
         spreadsheet = service.spreadsheets().create(spreadsheet)
                 .setFields("spreadsheetId")
                 .execute();
-        System.out.println("Spreadsheet ID: " + spreadsheet.getSpreadsheetId());
+        //System.out.println("Spreadsheet ID: " + spreadsheet.getSpreadsheetId());
         // [END sheets_create]
         return spreadsheet.getSpreadsheetId();
     }

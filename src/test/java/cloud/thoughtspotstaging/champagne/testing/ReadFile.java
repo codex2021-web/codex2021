@@ -74,7 +74,7 @@ public class ReadFile {
 
                     flg1 = false;
                     flg=false;
-                    System.out.println();
+                    //System.out.println();
                     continue;
                 }
 

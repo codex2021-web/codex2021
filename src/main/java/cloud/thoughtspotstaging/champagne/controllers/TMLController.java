@@ -151,7 +151,7 @@ public final class TMLController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
                 + "/tspublic/v1/user/list");
-        System.out.println(queryBuilder.toString());
+        //System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
@@ -180,7 +180,7 @@ public final class TMLController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri).append("/tspublic/v1/metadata/tml/exportmodelsheet");
                 //+ "/metadata/edoc/").append("WORKSHEET").append("/").append(workSheetId);
-        System.out.println(queryBuilder.toString());
+        //System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
@@ -216,7 +216,7 @@ public final class TMLController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
                 + "/tspublic/v1/user");
-        System.out.println(queryBuilder.toString());
+        //System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
@@ -253,7 +253,7 @@ public final class TMLController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
                 + "/metadata/edoc/importEPack");
-        System.out.println(queryBuilder.toString());
+        //System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
@@ -281,7 +281,7 @@ public final class TMLController extends BaseController {
         //prepare query string for API call
         final StringBuilder queryBuilder = new StringBuilder(baseUri
                 + "/tspublic/v1/user/").append(userid);
-        System.out.println(queryBuilder.toString());
+        //System.out.println(queryBuilder.toString());
         //load all headers for the outgoing API request
         Headers headers = new Headers();
         headers.add("user-agent", BaseController.userAgent);
