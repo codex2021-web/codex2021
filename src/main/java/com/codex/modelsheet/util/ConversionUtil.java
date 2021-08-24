@@ -100,7 +100,7 @@ public class ConversionUtil {
                 attribute.setSpotIqPreference(attributeProto.getProperties().getSpotiqPreference());
                 attribute.setCalenderType(attributeProto.getProperties().getCalendar());
                 if(worksheetColumns.contains(attributeProto.getDbColumnName())){
-                    attribute.setWorksheetColumn("Y");
+                    attribute.setWorksheetColumnFlag("Y");
                 }
                 attributes.add(attribute);
             }
@@ -148,7 +148,7 @@ public class ConversionUtil {
             worksheetBuilder.getTablePathsList().add(tablePathBuilder.build());
         }
 
-        List<Attribute> worksheetAttributes = modelSheet.getAttributes().parallelStream().filter(attr -> "Y".equalsIgnoreCase(attr.getWorksheetColumn())).collect(Collectors.toList());
+        List<Attribute> worksheetAttributes = modelSheet.getAttributes().parallelStream().filter(attr -> "Y".equalsIgnoreCase(attr.getWorksheetColumnFlag())).collect(Collectors.toList());
         for(Attribute attribute : worksheetAttributes){
             EDoc.WorksheetEDocProto.WorksheetColumn.Builder worksheetColumnProto = EDoc.WorksheetEDocProto.WorksheetColumn.newBuilder();
             worksheetColumnProto.setName(attribute.getColumn());

@@ -120,13 +120,13 @@ public class TmlPojoToMsPojo {
                     attribute.setColumn(attributeProto.getName());
                     attribute.setDataType(attributeProto.getDbColumnProperties().getDataType());
                     if (worksheetColumns.contains(attributeProto.getDbColumnName())) {
-                        attribute.setWorksheetColumn("Y");
+                        attribute.setWorksheetColumnFlag("Y");
                         EDoc.WorksheetEDocProto.WorksheetColumn worksheetColumn = worksheetColumnHashMap.get(attributeProto.getDbColumnName());
 
                         //TODO column name datatype should be  from table's attribute as we have dependency on table paths
                         //attribute.setColumn(worksheetColumn.getName());
                         //attribute.setDataType(worksheetColumn.getDbColumnProperties().getDataType());
-
+                        attribute.setWorkSheetColumn(worksheetColumn.getName());
                         attribute.setDescription(worksheetColumn.getDescription());
                         attribute.setColumnType(worksheetColumn.getProperties().getColumnType());
                         attribute.setAdditive(String.valueOf(worksheetColumn.getProperties().getIsAdditive()));
@@ -145,6 +145,7 @@ public class TmlPojoToMsPojo {
                         attribute.setSpotIqPreference(worksheetColumn.getProperties().getSpotiqPreference());
                         attribute.setCalenderType(worksheetColumn.getProperties().getCalendar());
                     }else {
+                        attribute.setWorkSheetColumn(attributeProto.getDbColumnName());
                         attribute.setColumn(attributeProto.getDbColumnName());
                         attribute.setDescription(attributeProto.getDescription());
                         attribute.setDataType(attributeProto.getDbColumnProperties().getDataType());

@@ -79,11 +79,11 @@ public class MsPojoToTmlPojo {
                 }
             }
 
-            List<Attribute> worksheetAttributes = modelSheet.getAttributes().parallelStream().filter(attr -> "Y".equalsIgnoreCase(attr.getWorksheetColumn())).collect(Collectors.toList());
+            List<Attribute> worksheetAttributes = modelSheet.getAttributes().parallelStream().filter(attr -> "Y".equalsIgnoreCase(attr.getWorksheetColumnFlag())).collect(Collectors.toList());
             for (Attribute attribute : worksheetAttributes) {
                 EDoc.WorksheetEDocProto.WorksheetColumn.Builder worksheetColumnProto = EDoc.WorksheetEDocProto.WorksheetColumn.newBuilder();
-                if (contentCheck(attribute.getColumn())) {
-                    worksheetColumnProto.setName(attribute.getColumn());
+                if (contentCheck(attribute.getWorkSheetColumn())) {
+                    worksheetColumnProto.setName(attribute.getWorkSheetColumn());
                 }
                 if (contentCheck(attribute.getTable()) && contentCheck(attribute.getColumn())) {
                     worksheetColumnProto.setColumnId(attribute.getTable() + "::" + attribute.getColumn());
