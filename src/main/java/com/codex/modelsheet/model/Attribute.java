@@ -3,7 +3,7 @@ package com.codex.modelsheet.model;
 public class Attribute {
     private String table;
     private String column;
-    private String tableColumn;
+    private String workSheetColumn;
     private String description;
     private String dataType;
     private String columnType;
@@ -20,12 +20,12 @@ public class Attribute {
     private String attributeDimension;
     private String spotIqPreference;
     private String calenderType;
-    private String worksheetColumn;
+    private String worksheetColumnFlag;
 
     public Attribute(){
         this.table = "";
         this.column = "";
-        this.tableColumn = "";
+        this.workSheetColumn = "";
         this.description = "";
         this.dataType = "";
         this.columnType = "";
@@ -42,7 +42,7 @@ public class Attribute {
         this.attributeDimension = "";
         this.spotIqPreference = "";
         this.calenderType = "";
-        this.worksheetColumn = "";
+        this.worksheetColumnFlag = "";
     }
 
     public String getTable() {
@@ -57,13 +57,6 @@ public class Attribute {
         return column;
     }
 
-    public String getTableColumn() {
-        return tableColumn;
-    }
-
-    public void setTableColumn(String tableColumn) {
-        this.tableColumn = tableColumn;
-    }
 
     public void setColumn(String column) {
         this.column = column;
@@ -197,11 +190,19 @@ public class Attribute {
         this.calenderType = calenderType;
     }
 
-    public String getWorksheetColumn() {
-        return worksheetColumn;
+    public String getWorkSheetColumn() {
+        return workSheetColumn;
     }
 
-    public void setWorksheetColumn(String worksheetColumn) {
-        this.worksheetColumn = worksheetColumn;
+    public void setWorkSheetColumn(String workSheetColumn) {
+        this.workSheetColumn = workSheetColumn;
+    }
+
+    public String getWorksheetColumnFlag() {
+        return worksheetColumnFlag;
+    }
+
+    public void setWorksheetColumnFlag(String worksheetColumnFlag) {
+        this.worksheetColumnFlag = worksheetColumnFlag;
     }
 }
