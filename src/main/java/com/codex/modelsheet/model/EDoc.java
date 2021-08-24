@@ -3,7 +3,7 @@
 package com.codex.modelsheet.model;
 
 public final class EDoc {
-  private EDoc() {}
+  public EDoc() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -18458,7 +18458,7 @@ public final class EDoc {
     private ObjectEDocProto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ObjectEDocProto() {
+    public ObjectEDocProto() {
       guid_ = "";
       joins_ = java.util.Collections.emptyList();
       permissions_ = java.util.Collections.emptyList();
@@ -19210,7 +19210,7 @@ public final class EDoc {
       }
 
       // Construct using EDoc.ObjectEDocProto.newBuilder()
-      private Builder() {
+      public Builder() {
         maybeForceBuilderInitialization();
       }
 
