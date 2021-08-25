@@ -1,13 +1,42 @@
 package com.codex.modelsheet.controller;
 
 import com.codex.modelsheet.model.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CubePojoToMsPojo {
 
-    public ModelSheet convertToGSPOJO(Cube cube) {
+    public ModelSheet convertToGSPOJO(String cubeFileName) throws IOException {
+
+        String cubeData = new String(Files.readAllBytes(Paths.get(cubeFileName)), StandardCharsets.US_ASCII);
+        String cubelessContent =  cubeData.replace("cube(","").replace(");","").replace("`","\"");
+
+        String cubename = "";
+        Pattern p = Pattern.compile("\"([^\"]*)\"");
+        Matcher m = p.matcher(cubelessContent);
+        while (m.find()) {
+            cubename= m.group(1);
+            break;
+        }
+        System.out.println("Cubename :: "+cubename);
+
+        String dataContent = cubelessContent.replace("\""+cubename+"\",","");
+        System.out.println("DataContent :: " +dataContent);
+
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Cube cube = mapper.readValue(dataContent, Cube.class);
+        cube.setName(cubename.toUpperCase());
 
         ModelSheet modelSheet = new ModelSheet();
 

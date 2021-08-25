@@ -44,7 +44,7 @@ public class CubeToGS {
             cube.setName(cubename.toUpperCase());
             System.out.println(cube);
             CubePojoToMsPojo cubePojoToMsPojo = new CubePojoToMsPojo();
-            ModelSheet modelSheet = cubePojoToMsPojo.convertToGSPOJO(cube);
+            ModelSheet modelSheet = cubePojoToMsPojo.convertToGSPOJO(cubeFilePath);
             ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
             excelPojoToExcel.dataWritingInToExcel(modelSheet,"Cube "+cubename);
 

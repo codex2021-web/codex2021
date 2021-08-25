@@ -27,6 +27,13 @@ public class ModelSheetClient {
                 ts2gsheet(args);
                 break;
             /**
+             * ts2gsheet -w TestWorksheet -g ( worksheet to googlesheet)
+             */
+            case "cubejs2gsheet":
+                if (args.length != 4) throw new Exception("Invalid number of arguments.");
+                cubejs2gsheet(args);
+                break;
+            /**
              * gsheet2ts -g sheetname( from googlesheet to TS Cloud)
               */
             case "gsheet2ts":
@@ -38,10 +45,11 @@ public class ModelSheetClient {
                 }
 
                 break;
+
             /**
              * xport worksheet will create zip file with worksheet/table name
              */
-            case "exportworksheet":
+            case "ts2tml":
                 if (args.length != 4) throw new Exception("Invalid number of arguments.");
                 ExportDBWorkSheet exportDBWorkSheet = new ExportDBWorkSheet();
                 exportDBWorkSheet.exportWorkSheet(args[2], args[1].equals("-w") ? true : false, args[3]);
@@ -58,7 +66,7 @@ public class ModelSheetClient {
                 tmlPojoToTml.createTml(tableBuilder, args[2]);
                 break;
 
-            case "ms2tml":
+            case "gsheet2tml":
                 if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 ExcelToExcelPojo ee = new ExcelToExcelPojo();
                 ModelSheet modelSheet = ee.getModelSheet(args[1]);
@@ -68,7 +76,7 @@ public class ModelSheetClient {
                 pt.createTml(builder, args[2]);
                 break;
 
-            case "tml2ms":
+            case "tml2gsheet":
                 if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 TmlToTmlPojo tt = new TmlToTmlPojo();
                 EDoc.ObjectEDocProto.Builder finalbuilder = EDoc.ObjectEDocProto.newBuilder();
@@ -87,12 +95,12 @@ public class ModelSheetClient {
                 excelPojoToExcel.dataWritingInToExcel(mm,args[2]);
                 break;
 
-            case "ts2tml":
+            /*case "ts2tml":
                 if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 boolean objectType = args[1].equals("-w") ? true : false;
                 ExportDBWorkSheet ed = new ExportDBWorkSheet();
                 ed.exportWorkSheet(args[2], objectType, args[3]);
-                break;
+                break;*/
 
             case "tml2ts":
                 if (args.length < 2 || args.length > 3) throw new Exception("Invalid number of arguments.");
@@ -115,7 +123,7 @@ public class ModelSheetClient {
                 importTml.importWorkSheet(jsonTml);
                 break;
 
-            case "ms2ms":
+            case "gsheet2gsheet":
                 if (args.length != 3) throw new Exception("Invalid number of arguments.");
                 ExcelToExcelPojo ep = new ExcelToExcelPojo();
                 ModelSheet sheet = ep.getModelSheet(args[1]);
@@ -124,7 +132,7 @@ public class ModelSheetClient {
                 pe.dataWritingInToExcel(sheet, args[2]);
                 break;
 
-            case "modelsheet2pojo":
+            case "modelsheet2pojo"://TODO Not Req
                 if (args.length != 2) throw new Exception("Invalid number of arguments.");
                 ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
                 excelToExcelPojo.getModelSheet(args[1]);
@@ -148,15 +156,14 @@ public class ModelSheetClient {
             case "--help":
                 System.out.println("sh modelsheet.command ts2gsheet -w TestWorksheet -g googlesheet-name");
                 System.out.println("sh modelsheet.command ts2gsheet -t [TABLE1,TABLE2] -g googlesheet-name");
-                        System.out.println("sh modelsheet.command gsheet2ts -g googlesheet-id includedependents");
-                                System.out.println("sh modelsheet.command exportworksheet -w|-t ws|table outputZipFile");
-                                        System.out.println("sh modelsheet.command tml2tml inputZipFile outputZipFile");
-                                                System.out.println("sh modelsheet.command ms2ms inputSheetId outputSheetName");
-                                                        System.out.println("sh modelsheet.command modelsheet2pojo inputSheetId");
-                                                                System.out.println("sh modelsheet.command tml2ts inputZipFile includedependents");
-                                                                        System.out.println("sh modelsheet.command ms2tml googlesheet-id outputZipFile");
-                                                                                System.out.println("sh modelsheet.command tml2ms inputZipFile googlesheet-name");
-
+                System.out.println("sh modelsheet.command gsheet2ts -g googlesheet-id includedependents");
+                System.out.println("sh modelsheet.command cubejs2gsheet -c inputCubeJSFile googlesheet-name");
+                System.out.println("sh modelsheet.command tml2tml inputZipFile outputZipFile");
+                System.out.println("sh modelsheet.command tml2ts inputZipFile includedependents");
+                System.out.println("sh modelsheet.command gsheet2tml googlesheet-id outputZipFile");
+                System.out.println("sh modelsheet.command tml2gsheet inputZipFile googlesheet-name");
+                System.out.println("sh modelsheet.command ts2tml -w|-t ws|table outputZipFile");
+                System.out.println("sh modelsheet.command gsheet2gsheet inputSheetId outputSheetName");
                 break;
 
             /*case "importworksheet":
@@ -176,6 +183,7 @@ public class ModelSheetClient {
          */
         ExcelToExcelPojo excelToExcelPojo = new ExcelToExcelPojo();
         ModelSheet ms = excelToExcelPojo.getModelSheet(args[2]);
+
         System.out.println("Google Sheet de-serialization successful, TML serialization is in-progress.");
         /**
          * Converting modelsheet to tml object
@@ -196,7 +204,18 @@ public class ModelSheetClient {
         importTml.importWorkSheet(jsonTml);
         System.out.println("TML objects uploaded successfully into TS cluster.");
     }
+    private static void cubejs2gsheet(String[] args) throws Exception {
+        System.out.println("About to Converting CubeJS to Google Sheet");
+        /**
+         * CubeJS file to Modelsheet object
+         */
+        CubePojoToMsPojo cubePojoToMsPojo = new CubePojoToMsPojo();
+        ModelSheet ms = cubePojoToMsPojo.convertToGSPOJO(args[2]);
 
+        ExcelPojoToExcel excelPojoToExcel = new ExcelPojoToExcel();
+        excelPojoToExcel.dataWritingInToExcel(ms, args[3]);
+        System.out.println("TML objects uploaded successfully into TS cluster.");
+    }
     private static void ts2gsheet(String... args) throws Exception {
         boolean objectType = args[1].equals("-w") ? true : false;
         if (objectType) {
