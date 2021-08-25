@@ -46,7 +46,7 @@ public class TmlPojoToTml {
                     .setFilename(name + ".tml")
                     .setEdoc(tml)
                     .setType(ObjectType)
-                    .setAction(EdocCommon.ImportAction.E.CREATE).build();
+                    .setAction(EdocCommon.ImportAction.E.UPDATE_OR_CREATE).build();
         }
 
         String json = ProtoUtils.protoToJSON(request.build());
