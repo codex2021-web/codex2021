@@ -67,7 +67,9 @@ public class CubePojoToMsPojo {
         table.setTable(cube.getName());
         table.setJoinName(cube.getJoins().getOrganizations().getRelationship());
         table.setJoinsWith("ORGANIZATIONS");
-        table.setJoinCondition(cube.getJoins().getOrganizations().getSQL());
+        //${Users}.organization_id = ${Organizations}.id [PURCHASETRANSACTIONS::ITEMID] = [PRODUCT::PRODUCT_KEY]
+        //cube.getJoins().getOrganizations().getSQL().replace("[Users::organization_id] = [Organizations.id]");
+        table.setJoinCondition("[Users::organization_id] = [Organizations.id]");
         table.setJoinType("INNER");
         table.setJoinCardinality("One to One");
         tables.add(table);
