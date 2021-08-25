@@ -153,7 +153,7 @@ public class ModelSheetClient {
                                         System.out.println("sh modelsheet.command tml2tml inputZipFile outputZipFile");
                                                 System.out.println("sh modelsheet.command ms2ms inputSheetId outputSheetName");
                                                         System.out.println("sh modelsheet.command modelsheet2pojo inputSheetId");
-                                                                System.out.println("sh modelsheet.command tml2ts “/TPCH WS.worksheet.zip” includedependents");
+                                                                System.out.println("sh modelsheet.command tml2ts inputZipFile includedependents");
                                                                         System.out.println("sh modelsheet.command ms2tml googlesheet-id outputZipFile");
                                                                                 System.out.println("sh modelsheet.command tml2ms inputZipFile googlesheet-name");
 

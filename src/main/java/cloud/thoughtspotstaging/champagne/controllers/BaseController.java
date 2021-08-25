@@ -82,6 +82,8 @@ public abstract class BaseController {
         int responseCode = response.getStatusCode();
         if ((responseCode < 200) || (responseCode > 208)) { //[200,208] = HTTP OK
             throw new ApiException("HTTP Response Not OK", context);
+        }else if(response.toString().contains("\"status_code\": \"ERROR\"")){
+            throw new ApiException("HTTP Response Not OK", context);
         }
 
     }
