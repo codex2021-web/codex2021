@@ -66,7 +66,7 @@ public abstract class BaseController {
      * @return The shared instance of the http client 
      */
     public HttpClient getClientInstance() {
-
+        System.out.println("Hai");
         return httpClient;
     }
 
